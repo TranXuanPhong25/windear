@@ -16,8 +16,15 @@ export default function App() {
 
 
             <Route>
+               <Route path="*" element={<div>not found</div>} />
                <Route element={<Layout />} >
                   <Route path="/" element={<HomePage />} />
+                  <Route path="/shelves" element={<div>shelves</div>} />
+                  <Route path="/browse/*" element={<div>browse</div>} />
+
+                  <Route path="/user/notification" element={<div>noti</div>} />
+                  <Route path="/user/*" element={<div>user</div>} />
+
                </Route>
                <Route path="/login" element={<LoginPage />} />
                {/* <Route
@@ -29,7 +36,7 @@ export default function App() {
                   }
                /> */}
                <Route
-                  path="/dashboard"
+                  path="/admin/*"
                   element={
                      <RequireAuth needAdmin>
                         <AdminDashboard />

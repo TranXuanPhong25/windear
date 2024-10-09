@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { AuthStatus } from "@/components/auth/AuthStatus";
-import Header from "./Header";
+import NavigationBar from "./NavigationBar";
+
 
 export default function Layout() {
    return (
       <div>
-         <Header />
+         <NavigationBar />
          <AuthStatus />
          <Outlet />
       </div>
