@@ -12,10 +12,14 @@ import { Menu, Search, Bell, User } from "lucide-react"
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const user = {
    name: 'Tom Cook',
    email: 'tom@example.com'
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const userNavigation = [
    { name: 'Your Profile', href: '/user/profile' },
    { name: 'Settings', href: '/user/settings' },
