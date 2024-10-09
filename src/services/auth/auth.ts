@@ -5,6 +5,7 @@
 const fakeAuthProvider = {
 	isAuthenticated: false,
 	role: "user",
+	user:"",
 	signin(callback: VoidFunction) {
 		fakeAuthProvider.isAuthenticated = true;
 		setTimeout(callback, 100); // fake async
