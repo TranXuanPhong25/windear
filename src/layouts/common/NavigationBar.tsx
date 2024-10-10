@@ -60,7 +60,7 @@ export default function NavigationBar() {
                            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
                            alt="Windear Logo"
                         />
-                  <p className="ml-1 text-white">Windear</p>
+                  <span className="ml-1 text-white">Windear</span>
                         
                      </Link>
                   </div>
