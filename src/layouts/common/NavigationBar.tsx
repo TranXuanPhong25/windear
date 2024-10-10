@@ -60,8 +60,8 @@ export default function NavigationBar() {
                            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
                            alt="Windear Logo"
                         />
-                  <span className="ml-1 text-white">Windear</span>
-                        
+                        <span className="ml-1 text-white">Windear</span>
+
                      </Link>
                   </div>
                   <div className="hidden md:block">
@@ -102,7 +102,7 @@ export default function NavigationBar() {
                      </Button>
                   </Link>
                   <Sheet>
-                     <SheetTrigger className="flex items-center">
+                     <SheetTrigger className="flex items-center" asChild>
                         <Button variant="ghost" size="icon" className="hover:bg-gray-700">
                            <User className="h-5 w-5" color="#fff" />
                            <span className="sr-only">User menu</span>

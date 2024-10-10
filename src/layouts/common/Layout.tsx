@@ -5,11 +5,11 @@ import NavigationBar from "./NavigationBar";
 
 export default function Layout() {
    return (
-      <div>
+      <>
          <NavigationBar />
-         <AuthStatus />
          <Outlet />
-      </div>
+         <AuthStatus />
+      </>
    );
 }
 

@@ -1,7 +1,14 @@
-export default function HomePage(){
+import BookList from "@/components/home/BookList";
+import NewsBanner from "@/components/home/NewsBanner";
+
+export default function HomePage() {
    return (
-      <>
-      this is windear
-      </>
+      <main className=" max-w-[1200px] mx-auto">
+         <NewsBanner />
+         <BookList title="Recommendations"/>
+         <BookList title="Popular" />
+         <BookList title="New books"/>
+
+      </main>
    )
 }
