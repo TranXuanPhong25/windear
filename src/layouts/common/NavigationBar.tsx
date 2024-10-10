@@ -1,18 +1,26 @@
-import { useState } from "react"
 import {
    Accordion,
    AccordionContent,
    AccordionItem,
    AccordionTrigger,
 } from "@/components/ui/accordion"
+import {
+   Sheet,
+   SheetContent,
+   SheetDescription,
+   SheetHeader,
+   SheetTitle,
+   SheetTrigger
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label"
+
+import { useState } from "react"
 import clsx from "clsx";
 import { Menu, Search, Bell, User } from "lucide-react"
 
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-
 
 // const user = {
 //    name: 'Tom Cook',
@@ -46,12 +54,14 @@ export default function NavigationBar() {
             <div className="flex h-16 items-center justify-between">
                <div className="flex items-center">
                   <div className="flex-shrink-0">
-                     <Link to="/">
+                     <Link to="/" className="flex items-center">
                         <img
                            className="h-8 w-8"
                            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
                            alt="Windear Logo"
                         />
+                  <p className="ml-1 text-white">Windear</p>
+                        
                      </Link>
                   </div>
                   <div className="hidden md:block">
@@ -75,22 +85,25 @@ export default function NavigationBar() {
                   </div>
                </div>
 
-               <div className="ml-4 flex items-center md:ml-6 [&>*]:px-2">
+               <div className="ml-4 flex items-center md:ml-6 [&>*]:mx-1">
                   <div className="hidden md:block">
                      <div className="relative">
-                        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input type="search" placeholder="Search..." className="pl-8 w-[200px] lg:w-[300px]" />
+                        <Label htmlFor="search-in-nav">
+                           <Search className="absolute left-2 top-2.5 h-5 w-5 text-muted-foreground cursor-pointer" />
+                        </Label>
+                        <Input id='search-in-nav' type="search" placeholder="Search books" className="pl-8 w-[250px] lg:w-[350px]" />
+
                      </div>
                   </div>
-                  <Button variant="ghost" size="icon" className="hidden md:inline-flex  hover:bg-gray-700">
-                     <Link to="/notifications">
-                        <Bell className="h-5 w-5" color="#fff" />
-                     </Link>
-                     <span className="sr-only">Notifications</span>
-                  </Button>
+                  <Link to="/notifications">
+                     <Button variant="ghost" size="icon" className="hover:bg-gray-700">
+                        <Bell className="h-5 w-" color="#fff" />
+                        <span className="sr-only">Notifications</span>
+                     </Button>
+                  </Link>
                   <Sheet>
                      <SheetTrigger className="flex items-center">
-                        <Button variant="ghost" size="icon" className="hidden md:inline-flex hover:bg-gray-700">
+                        <Button variant="ghost" size="icon" className="hover:bg-gray-700">
                            <User className="h-5 w-5" color="#fff" />
                            <span className="sr-only">User menu</span>
                         </Button>
@@ -106,14 +119,13 @@ export default function NavigationBar() {
                         </SheetHeader>
                      </SheetContent>
                   </Sheet>
-               </div>
-
-               <div className="-mr-2 flex md:hidden">
-                  <Button variant="outline" size="icon" className="md:hidden" onClick={toggleMenu}>
+                  <Button variant="outline" size="icon" className="-mr-2 flex md:hidden" onClick={toggleMenu}>
                      <Menu className="h-6 w-6 " />
                      <span className="sr-only">Toggle menu</span>
                   </Button>
                </div>
+
+
             </div>
          </div>
          {/* Mobile menu, show/hide based on menu state. */}
