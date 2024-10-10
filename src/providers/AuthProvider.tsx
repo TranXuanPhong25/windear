@@ -1,7 +1,7 @@
 import {
    useState
 } from "react";
-import { fakeAuthProvider } from "../services/auth/auth";
+import { fakeAuthProvider } from "../services/auth/supabaseAuth";
 import { AuthContext } from "../contexts/AuthContext";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {

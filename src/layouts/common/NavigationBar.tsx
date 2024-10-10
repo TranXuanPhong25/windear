@@ -102,6 +102,7 @@ export default function NavigationBar() {
                      </Button>
                   </Link>
                   <Sheet>
+                     
                      <SheetTrigger className="flex items-center" asChild>
                         <Button variant="ghost" size="icon" className="hover:bg-gray-700">
                            <User className="h-5 w-5" color="#fff" />
@@ -119,6 +120,12 @@ export default function NavigationBar() {
                         </SheetHeader>
                      </SheetContent>
                   </Sheet>
+                  <Link to="/login" className="ml-3 relative">
+                     <Button >Sign in</Button>
+                  </Link>
+                  <div className="ml-3 relative">
+                     <Button variant="ghost">Sign out</Button>
+                  </div>
                   <Button variant="outline" size="icon" className="-mr-2 flex md:hidden" onClick={toggleMenu}>
                      <Menu className="h-6 w-6 " />
                      <span className="sr-only">Toggle menu</span>

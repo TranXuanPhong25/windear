@@ -1,3 +1,4 @@
+import { createClient } from "@supabase/supabase-js";
 
 /**
  * This represents some generic auth provider API, like Firebase.
@@ -15,5 +16,6 @@ const fakeAuthProvider = {
 		setTimeout(callback, 100);
 	},
 };
+const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
 
-export { fakeAuthProvider };
+export { fakeAuthProvider,supabase };
