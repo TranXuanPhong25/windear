@@ -21,9 +21,10 @@ export default function App() {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/shelves" element={<div>shelves</div>} />
                   <Route path="/browse/*" element={<div>browse</div>} />
-
-                  <Route path="/user/notification" element={<div>noti</div>} />
-                  <Route path="/user/*" element={<div>user</div>} />
+                  <Route path="/books/" element={<div>book</div>} /> 
+                  <Route path="/books/:id" element={<div>book with id</div>} />
+                  <Route path="/user/notifications" element={<div>noti</div>} />
+                  <Route path="/user/" element={<div>user</div>} />
 
                </Route>
                <Route path="/login" element={<LoginPage />} />
