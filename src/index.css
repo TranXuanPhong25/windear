@@ -18,3 +18,7 @@
     --radius: 0.5rem
   }
 }
+body{
+  @apply bg-gray-800;
+  
+}
