@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, Session } from '@supabase/supabase-js'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
 
 export default function LoginPage() {
-   const [session, setSession] = useState(null)
+   const [session, setSession] = useState<Session | null>(null)
 
    useEffect(() => {
       supabase.auth.getSession().then(({ data: { session } }) => {
@@ -27,9 +27,9 @@ export default function LoginPage() {
    }
    else {
       return (
-      <div>
-         Logged in!
-         <button onClick={() => supabase.auth.signOut()}>Sign out</button>
-      </div>)
+         <div>
+            Logged in!
+            <button onClick={() => supabase.auth.signOut()}>Sign out</button>
+         </div>)
    }
 }
