@@ -1,43 +1,35 @@
-import {
-   useNavigate,
-   useLocation
-} from "react-router-dom";
-import { useAuth } from "../../hooks/auth/useAuth";
-export function LoginPage() {
-   const navigate = useNavigate();
-   const location = useLocation();
-   const auth = useAuth();
+import { useState, useEffect } from 'react'
+import { createClient } from '@supabase/supabase-js'
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
 
-   const from = location.state?.from?.pathname || "/";
+const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
 
-   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-      event.preventDefault();
+export default function LoginPage() {
+   const [session, setSession] = useState(null)
 
-      const formData = new FormData(event.currentTarget);
-      const username = formData.get("username") as string;
+   useEffect(() => {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+         setSession(session)
+      })
 
-      auth.signin(username, () => {
-         // Send them back to the page they tried to visit when they were
-         // redirected to the login page. Use { replace: true } so we don't create
-         // another entry in the history stack for the login page.  This means that
-         // when they get to the protected page and click the back button, they
-         // won't end up back on the login page, which is also really nice for the
-         // user experience.
-         navigate(from, { replace: true });
-      });
+      const {
+         data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+         setSession(session)
+      })
+
+      return () => subscription.unsubscribe()
+   }, [])
+
+   if (!session) {
+      return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />)
    }
-
-   return (
+   else {
+      return (
       <div>
-         <p>You must log in to view the page at {from}</p>
-
-         <form onSubmit={handleSubmit}>
-            <label>
-               Username: <input name="username" type="text" />
-            </label>{" "}
-            <button type="submit">Login</button>
-         </form>
-      </div>
-   );
+         Logged in!
+         <button onClick={() => supabase.auth.signOut()}>Sign out</button>
+      </div>)
+   }
 }
-

@@ -5,7 +5,7 @@ import {
 
 import Layout from './layouts/common/Layout';
 import { AuthProvider } from './providers/AuthProvider';
-import { LoginPage } from './pages/auth/LoginPage';
+import LoginPage from './pages/auth/LoginPage';
 import { RequireAuth } from './components/auth/RequireAuth';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import HomePage from './pages/home/HomePage';
