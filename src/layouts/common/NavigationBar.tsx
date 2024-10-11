@@ -129,7 +129,6 @@ export default function NavigationBar() {
                               </DropdownMenuTrigger>
                               <DropdownMenuContent className="w-40 ">
                                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                 <DropdownMenuSeparator />
                                  {
                                     userNavigation.map((group, index) =>
                                     (
