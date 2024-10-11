@@ -4,17 +4,15 @@ import {
 } from 'react-router-dom';
 
 import Layout from './layouts/common/Layout';
-import { AuthProvider } from './providers/AuthProvider';
+import AuthProvider from './providers/auth/AuthProvider';
 import LoginPage from './pages/auth/LoginPage';
-import { RequireAuth } from './components/auth/RequireAuth';
+import RequireAuth from './components/auth/RequireAuth';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import HomePage from './pages/home/HomePage';
 export default function App() {
    return (
       <AuthProvider>
          <Routes>
-
-
             <Route>
                <Route path="*" element={<div>not found</div>} />
                <Route element={<Layout />} >
