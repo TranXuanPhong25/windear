@@ -23,7 +23,11 @@ export default function LoginPage() {
    }, [])
 
    if (!session) {
-      return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />)
+      return (
+         <div className='w-[300px] mx-auto'>
+            <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+         </div>
+      )
    }
    else {
       return (

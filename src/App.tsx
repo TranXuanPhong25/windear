@@ -9,6 +9,7 @@ import LoginPage from './pages/auth/LoginPage';
 import RequireAuth from './components/auth/RequireAuth';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import HomePage from './pages/home/HomePage';
+import LogoutPage from './pages/auth/LogoutPage';
 export default function App() {
    return (
       <AuthProvider>
@@ -23,9 +24,12 @@ export default function App() {
                   <Route path="/books/:id" element={<div>book with id</div>} />
                   <Route path="/user/notifications" element={<div>noti</div>} />
                   <Route path="/user/" element={<div>user</div>} />
+                  <Route path="/user/:id" element={<div>user with id</div>} />
+
 
                </Route>
                <Route path="/login" element={<LoginPage />} />
+               <Route path="/logout" element={<LogoutPage/>}/>
                {/* <Route
                   path="/*"
                   element={

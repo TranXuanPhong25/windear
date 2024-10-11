@@ -5,20 +5,29 @@ import {
    AccordionTrigger,
 } from "@/components/ui/accordion"
 import {
-   Sheet,
-   SheetContent,
-   SheetDescription,
-   SheetHeader,
-   SheetTitle,
-   SheetTrigger
-} from "@/components/ui/sheet";
+
+   LogOut,
+   User,
+   Menu, Search, Bell,
+   Settings
+} from "lucide-react"
+
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuGroup,
+   DropdownMenuItem,
+   DropdownMenuLabel,
+   DropdownMenuSeparator,
+   DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"
 
 import { useState } from "react"
 import clsx from "clsx";
-import { Menu, Search, Bell, User } from "lucide-react"
 
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/auth/useAuth";
@@ -28,11 +37,16 @@ import { useAuth } from "@/hooks/auth/useAuth";
 //    email: 'tom@example.com'
 // }
 
-// const userNavigation = [
-//    { name: 'Your Profile', href: '/user/profile' },
-//    { name: 'Settings', href: '/user/settings' },
-//    { name: 'Sign out', href: '/login?logout' },
-// ]
+const userNavigation = [
+   [
+
+      { name: 'Your Profile', href: '/user/profile', icon: User },
+      { name: 'Settings', href: '/user/settings', icon: Settings },
+   ],
+   [
+      { name: 'Sign out', href: '/logout', icon: LogOut },
+   ]
+]
 const navigation = [
    { name: 'Home', href: '/', current: true, children: null },
    { name: 'My Shelf', href: '/shelves', current: false, children: null },
@@ -94,48 +108,65 @@ export default function NavigationBar() {
                         <Label htmlFor="search-in-nav">
                            <Search className="absolute left-2 top-2.5 h-5 w-5 text-muted-foreground cursor-pointer" />
                         </Label>
-                        <Input id='search-in-nav' type="search" placeholder="Search books" className="pl-8 w-[250px] lg:w-[350px]" />
+                        <Input id='search-in-nav' type="search" placeholder="Search books" className="pl-8 w-[240px] lg:w-[350px]" />
 
                      </div>
                   </div>
-                  <Link to="/notifications">
+                  <Link to="/user/notifications">
                      <Button variant="ghost" size="icon" className="hover:bg-gray-700">
                         <Bell className="h-5 w-" color="#fff" />
                         <span className="sr-only">Notifications</span>
                      </Button>
                   </Link>
                   {
-                     auth.user?  (
-                        <Sheet>
+                     auth.user ? (
+                           <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                 <Button variant="ghost" size="icon" className="hover:bg-gray-700">
+                                    <User className="h-5 w-5" color="#fff" />
+                                    <span className="sr-only">User menu</span>
+                                 </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent className="w-40 ">
+                                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                 <DropdownMenuSeparator />
+                                 {
+                                    userNavigation.map((group, index) =>
+                                    (
+                                       <>
+                                          <DropdownMenuSeparator />
+                                          <DropdownMenuGroup key={index}>
+                                             {
+                                                group.map((item) => (
 
-                           <SheetTrigger className="flex items-center" asChild>
-                              <Button variant="ghost" size="icon" className="hover:bg-gray-700">
-                                 <User className="h-5 w-5" color="#fff" />
-                                 <span className="sr-only">User menu</span>
-                              </Button>
+                                                   <Link to={item.href} className="flex items-center" key={item.name}>
+                                                      <DropdownMenuItem className="w-full cursor-pointer">
+                                                         <item.icon className="mr-2 h-4 w-4" />
+                                                         <span>{item.name}</span>
+                                                      </DropdownMenuItem>
+                                                   </Link>
+                                                )
+                                                )
+                                             }
+                                          </DropdownMenuGroup>
+                                       </>
+                                    ))
+                                 }
 
-                           </SheetTrigger>
-                           <SheetContent className="w-[400px] sm:w-[540px]">
-                              <SheetHeader>
-                                 <SheetTitle>Are you absolutely sure?</SheetTitle>
-                                 <SheetDescription>
-                                    This action cannot be undone. This will permanently delete your account
-                                    and remove your data from our servers.
-                                 </SheetDescription>
-                              </SheetHeader>
-                           </SheetContent>
-                        </Sheet>
-                     ):
-                  (
-                     <>
-                        <Link to="/login" className="ml-3 relative">
-                           <Button >Sign in</Button>
-                        </Link>
-                        <div className="ml-3 relative">
-                           <Button variant="ghost">Sign out</Button>
-                        </div></>
-                  )
-               }
+                              </DropdownMenuContent>
+                           </DropdownMenu>
+                     ) :
+                        (
+                           <>
+                              <Link to="/login" className="ml-3 relative">
+                                 <Button >Sign in</Button>
+                              </Link>
+                              <div className="ml-3 relative">
+                                 <Button variant="ghost">Sign out</Button>
+                              </div>
+                           </>
+                        )
+                  }
 
                   <Button variant="outline" size="icon" className="-mr-2 flex md:hidden" onClick={toggleMenu}>
                      <Menu className="h-6 w-6 " />
