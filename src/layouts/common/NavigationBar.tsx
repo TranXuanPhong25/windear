@@ -63,7 +63,7 @@ const navigation = [
 export default function NavigationBar() {
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const auth = useAuth();
-   console.log(auth.user)
+   // console.log(auth.user)
    const toggleMenu = () => setIsOpen(!isOpen);
    return (
       <nav className="bg-gray-800">
@@ -132,14 +132,14 @@ export default function NavigationBar() {
                                  {
                                     userNavigation.map((group, index) =>
                                     (
-                                       <>
-                                          <DropdownMenuSeparator />
-                                          <DropdownMenuGroup key={index}>
+                                       <div key={"group"+index}>
+                                          <DropdownMenuSeparator key={"br"+index} />
+                                          <DropdownMenuGroup key={"dropdown-gr"+index}>
                                              {
                                                 group.map((item) => (
 
-                                                   <Link to={item.href} className="flex items-center" key={item.name}>
-                                                      <DropdownMenuItem className="w-full cursor-pointer">
+                                                   <Link to={item.href} className="flex items-center" key={"linkto"+item.name}>
+                                                      <DropdownMenuItem className="w-full cursor-pointer" >
                                                          <item.icon className="mr-2 h-4 w-4" />
                                                          <span>{item.name}</span>
                                                       </DropdownMenuItem>
@@ -148,7 +148,7 @@ export default function NavigationBar() {
                                                 )
                                              }
                                           </DropdownMenuGroup>
-                                       </>
+                                       </div>
                                     ))
                                  }
 
