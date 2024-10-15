@@ -108,7 +108,7 @@ export default function BookShow() {
       <div className="w-full text-white flex mt-8">
          {/* book header */}
 
-         <div className="w-[380px] flex flex-col items-center px-10">
+         <div className="w-[380px] flex flex-col items-center mr-10">
             <img className="max-w-[240px] rounded-md " src="https://upload.wikimedia.org/wikipedia/vi/e/eb/Dieu_ky_dieu_cua_tiem_tap_hoa_Namiya.jpg" alt="book cover" />
             <Popover>
                <PopoverTrigger className="w-full bg-white text-black rounded-md px-4 py-2 mt-4 mb-2 text-lg">
