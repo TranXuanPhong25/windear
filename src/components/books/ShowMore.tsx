@@ -20,7 +20,7 @@ export default function ExpandableParagraph({
    const displayText = isExpanded || !shouldTruncate ? text : `${text.slice(0, maxLength)}...`
 
    return (
-      <div className=" py-3 text-white rounded-md text-justify text-md">
+      <div className=" py-3 text-white rounded-md text-justify text-md max-w-[800px]">
          <p className={`${isExpanded ? '' : 'line-clamp-4'}`} >
             {displayText}
             {shouldTruncate && (
