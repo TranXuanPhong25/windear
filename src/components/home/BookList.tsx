@@ -35,7 +35,7 @@ export default function BookList({title}: {title: string}) {
                   </CarouselItem>
                ))}
             </CarouselContent>
-            <CarouselNext className="absolute top-1/2 -right-4 transform -translate-y-1/2  sm:inline-flex hidden" />
+            <CarouselNext className="absolute top-1/2 -right-4 transform -translate-y-1/2  sm:inline-flex hidden " />
             <CarouselPrevious className="absolute top-1/2 -left-4 transform -translate-y-1/2  sm:inline-flex hidden" />
          </Carousel>
          <Button className="absolute top-0 right-2 sm:right-8 bg-gray-800 rounded-full px-2 sm:rounded-md">

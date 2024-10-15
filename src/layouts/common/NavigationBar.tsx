@@ -66,8 +66,8 @@ export default function NavigationBar() {
    // console.log(auth.user)
    const toggleMenu = () => setIsOpen(!isOpen);
    return (
-      <nav className="bg-gray-800">
-         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <nav className="bg-gray-800 sticky top-0 z-[999] w-full px-4 sm:px-6 lg:px-8">
+         <div className="mx-auto max-w-7xl ">
             <div className="flex h-16 items-center justify-between">
                <div className="flex items-center">
                   <div className="flex-shrink-0">
@@ -91,7 +91,7 @@ export default function NavigationBar() {
                                  item.current
                                     ? 'bg-gray-900 text-white'
                                     : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                 'px-3 py-2 rounded-md text-sm font-medium '
+                                 'px-3 py-2 rounded-md text-md font-medium '
                               )}
                               aria-current={item.current ? 'page' : undefined}
                            >
