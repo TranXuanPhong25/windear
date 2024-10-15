@@ -74,10 +74,10 @@ export default function StarRating({ initialRating = 0, ratable = false, onChang
   }, [ratable])
 
   return (
-    <div className="relative w-fit ">
+    <div className="relative w-fit font-sans ">
       {
         ratable && (
-          <div className="flex justify-between mb-2 text-lg">
+          <div className="flex justify-between text-lg">
             <h3 className="">Your rating</h3>
             {
               rating != 0 && (
