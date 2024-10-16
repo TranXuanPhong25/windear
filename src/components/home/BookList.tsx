@@ -7,19 +7,27 @@ import {
    CarouselPrevious
 } from "@/components/ui/carousel"
 import { Button } from "@/components/ui/button"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight } from 'lucide-react';
 
-export default function BookList({title}: {title: string}) {
+interface BookListProps {
+   title:string,
+   brief?:boolean
+}
+export default function BookList({ title, brief = false }: BookListProps) {
    return (
       <section className="my-4 sm:my-20 relative w-full sm:px-8 ">
-         <header className="text-white text-2xl mb-4 ml-2">
-            {title}
-         </header>
-         
+         {title != "" &&
+            <header className="text-white text-2xl mb-4 ml-2">
+               {title}
+            </header>
+
+         }
+
          <Carousel
             className="w-full cursor-grab"
             opts={{
                align: "start",
+               dragFree: true
             }}
          >
             <CarouselContent className="md:gap-8 gap-auto">
@@ -35,13 +43,16 @@ export default function BookList({title}: {title: string}) {
                   </CarouselItem>
                ))}
             </CarouselContent>
-            <CarouselNext className="absolute top-1/2 -right-4 transform -translate-y-1/2  sm:inline-flex hidden " />
-            <CarouselPrevious className="absolute top-1/2 -left-4 transform -translate-y-1/2  sm:inline-flex hidden" />
+            <CarouselNext className="absolute top-1/2 -right-4 transform -translate-y-1/2  sm:inline-flex hidden text-black" />
+            <CarouselPrevious className="absolute top-1/2 -left-4 transform -translate-y-1/2  sm:inline-flex hidden text-black" />
          </Carousel>
-         <Button className="absolute top-0 right-2 sm:right-8 bg-gray-800 rounded-full px-2 sm:rounded-md">
-            <p className="sm:block hidden">See all</p>
-            <ChevronRight color="white"/>
-         </Button>
+         {
+            brief &&
+            <Button className="absolute top-0 right-2 sm:right-8 bg-gray-800 rounded-full px-2 sm:rounded-md">
+               <p className="sm:block hidden">See all</p>
+               <ChevronRight color="white" />
+            </Button>
+         }
       </section>
    )
 }
