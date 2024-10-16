@@ -5,9 +5,9 @@ export default function HomePage() {
    return (
       <main className=" max-w-[1200px] mx-auto">
          <NewsBanner />
-         <BookList title="Recommendations"/>
-         <BookList title="Popular" />
-         <BookList title="New books"/>
+         <BookList title="Recommendations" brief/>
+         <BookList title="Popular" brief/>
+         <BookList title="New books" brief/>
          <button onClick={async ()=> console.log((await supabase.auth.getUser()).data)}>get</button>
       </main>
    )

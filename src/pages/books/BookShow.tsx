@@ -5,10 +5,19 @@ import {
    PopoverContent,
    PopoverTrigger,
 } from "@/components/ui/popover"
+import {
+   Accordion,
+   AccordionContent,
+   AccordionItem,
+   AccordionTrigger,
+} from "@/components/ui/accordion"
 import { Close } from "@radix-ui/react-popover";
 import { BookCheckIcon, BookmarkIcon, BookOpenTextIcon } from "lucide-react";
 import ExpandableParagraph from "@/components/books/ShowMore";
 import { Link } from "react-router-dom";
+import GenreTag from "@/lib/GetTagIcon";
+import { createElement } from "react";
+import BookList from "@/components/home/BookList";
 
 const genreTags = [
    {
@@ -40,6 +49,15 @@ const genreTags = [
       "tag": "Science fiction"
    }
 ]
+const genreIconTags = [];
+genreTags.forEach(g => {
+   for (let i = 0; i < genreTags.length; i++) {
+      if (GenreTag[i].type == g.slug) {
+         genreIconTags.push(GenreTag[i])
+      }
+   }
+
+})
 const moodTags = [
    {
       "slug": "lighthearted",
@@ -108,7 +126,7 @@ export default function BookShow() {
       <div className="w-full text-white flex mt-8">
          {/* book header */}
 
-         <div className="w-[380px] flex flex-col items-center mr-10">
+         <div className="w-[300px] flex flex-col items-center mr-10">
             <img className="max-w-[240px] rounded-md " src="https://upload.wikimedia.org/wikipedia/vi/e/eb/Dieu_ky_dieu_cua_tiem_tap_hoa_Namiya.jpg" alt="book cover" />
             <Popover>
                <PopoverTrigger className="w-full bg-white text-black rounded-md px-4 py-2 mt-4 mb-2 text-lg">
@@ -118,6 +136,37 @@ export default function BookShow() {
                <PopoverContent className="p-0 pb-2 w-[250px]">
 
                   <h1 className="px-4 pt-3 pb-2 font-sans font-bold">Add to your reading list</h1>
+
+                  <Close className="absolute top-0 right-0 m-2 hover:bg-gray-300 rounded-full p-2 transition-colors" >
+                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                     </svg>
+                  </Close>
+                  <div className="flex flex-col">
+                     <Close className="flex text-lg w-full justify-start hover:bg-gray-200 py-2 px-4 transition-colors">
+                        <BookmarkIcon className="mr-2" />
+                        Want to read
+                     </Close>
+                     <Close className="flex text-lg w-full justify-start hover:bg-gray-200 py-2 px-4 transition-colors">
+                        <BookOpenTextIcon className="mr-2" />
+                        Currently Reading
+                     </Close>
+                     <Close className="flex text-lg w-full justify-start hover:bg-gray-200 py-2 px-4 transition-colors">
+                        <BookCheckIcon className="mr-2" />
+                        Read
+                     </Close>
+                     {/* TODO: Add more options */}
+                  </div>
+               </PopoverContent>
+            </Popover>
+            <Popover>
+               <PopoverTrigger className="w-full bg-white text-black rounded-md px-4 py-2  mb-2 text-lg">
+                  Get this book
+               </PopoverTrigger>
+
+               <PopoverContent className="p-0 pb-2 w-[250px]">
+
+                  <h1 className="px-4 pt-3 pb-2 font-sans font-bold">Available from </h1>
 
                   <Close className="absolute top-0 right-0 m-2 hover:bg-gray-300 rounded-full p-2 transition-colors" >
                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -153,21 +202,29 @@ export default function BookShow() {
                <span className="ml-3 font-sans text-gray-300" >69 ratings</span>
                <span className="ml-3 font-sans text-gray-300" >68 reviews</span>
             </div>
+
             <ExpandableParagraph
-               text="Cuộc sống không phải là một đường thẳng tắp, cũng không phải là một bản sao mờ nhạt của người khác. Nếu bạn khao khát những điều phi thường, những thành tựu vượt bậc, những trải nghiệm độc đáo mà bạn chưa từng có, thì bạn phải sẵn sàng bước ra khỏi vùng an toàn của mình. Bạn phải dám làm những điều bạn chưa bao giờ làm, dám nghĩ những điều bạn chưa bao giờ nghĩ, dám thử những điều bạn chưa bao giờ thử. Tự duy ngược chính là chiếc la bàn dẫn đường cho bạn trên con đường khám phá tiềm năng vô hạn của bản thân và đạt được những điều tưởng chừng không thể."
+               text="
+               When three delinquents hole up in an abandoned general store after their most recent robbery, to their great surprise, a letter drops through the mail slot in the store's shutter. This seemingly simple request for advice sets the trio on a journey of discovery as, over the course of a single night, they step into the role of the kindhearted former shopkeeper who devoted his waning years to offering thoughtful counsel to his correspondents. Through the lens of time, they share insight with those seeking guidance, and by morning, none of their lives will ever be the same. By acclaimed author Keigo Higashino, The Miracles of the Namiya General Store is a work that has touched the hearts of readers around the world.
+               "
             />
-            <div className="grid grid-cols-3 gap-5 ">
+
+            <div className="grid grid-cols-3 gap-5  max-w-[900px]">
                <div>
                   <h1 className="text-lg mb-2 font-semibold">
                      Genres
                   </h1>
                   <div className="flex flex-wrap gap-2">
                      {
-                        genreTags.map((item) => (
-                           <Link key={item.tag} to={"browse/tags/genre/" + item.slug} className="py-1 px-4 rounded-full bg-emerald-500">
-                              {item.tag}
-                           </Link>
-                        ))
+                        genreTags.map((item) => {
+                           const genreIcon = GenreTag.find(tag => tag.type === item.slug)?.icon;
+                           return (
+                              <Link key={item.tag} to={"/browse/tags/genre/" + item.slug} className="py-1 px-4 rounded-full bg-emerald-500 flex gap-2">
+                                 {genreIcon && createElement(genreIcon)}
+                                 {item.tag}
+                              </Link>
+                           );
+                        })
                      }
                   </div>
                </div>
@@ -178,7 +235,7 @@ export default function BookShow() {
                   <div className="flex flex-wrap gap-2">
                      {
                         moodTags.map((item) => (
-                           <Link key={item.tag} to={"browse/tags/mood/" + item.slug} className="py-1 px-4 rounded-full bg-sky-500 first-letter:uppercase">
+                           <Link key={item.tag} to={"/browse/tags/mood/" + item.slug} className="py-1 px-4 rounded-full bg-sky-500 first-letter:uppercase">
                               {item.tag}
                            </Link>
                         ))
@@ -192,7 +249,7 @@ export default function BookShow() {
                   <div className="flex flex-wrap gap-2">
                      {
                         contentWarningTags.map((item) => (
-                           <Link key={item.tag} to={"browse/tags/mood/" + item.slug} className="py-1 px-4 rounded-full bg-yellow-400 first-letter:uppercase text-black">
+                           <Link key={item.tag} to={"/browse/tags/mood/" + item.slug} className="py-1 px-4 rounded-full bg-yellow-400 first-letter:uppercase text-black">
                               {item.tag}
                            </Link>
                         ))
@@ -200,6 +257,63 @@ export default function BookShow() {
                   </div>
                </div>
             </div>
+            <div className="mt-3 text-gray-100">
+               <h3>First publish March 28, 2012</h3>
+               <h3>314 pages</h3>
+            </div>
+            <Accordion type="single" collapsible className=" " >
+               <AccordionItem value="item-1" className="border-b-0 w-full max-w-[900px] ">
+                  <AccordionTrigger className="flex justify-start w-fit">
+                     Book edition
+                  </AccordionTrigger>
+                  <AccordionContent >
+                     <div>
+                        <h1 className="text-lg mb-2">This edition</h1>
+                     </div>
+                     <div className="flex">
+                        <div >
+                           <div>
+                              Format
+                           </div>
+                           <div>
+                              Published
+                           </div>
+                           <div>
+                              ISBN
+                           </div>
+                           <div>
+                              ASIN
+                           </div>
+                           <div>
+                              Language
+                           </div>
+
+                        </div>
+                        <div className="ml-10">
+                           <div>
+                              314 pages, Hardcover
+                           </div>
+                           <div>
+                              March 28, 2012
+                           </div>
+                           <div>
+                              978-4-16-382040-2
+                           </div>
+                           <div>
+                              B007VZ1V9E
+                           </div>
+                           <div>
+                              English
+                           </div>
+
+                        </div>
+                     </div>
+                     <h3 className="text-lg my-2">More edition</h3>
+                     <BookList title="" className="sm:px-4 my-4" />
+                  </AccordionContent>
+
+               </AccordionItem>
+            </Accordion>
          </div>
 
       </div>
