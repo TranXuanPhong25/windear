@@ -30,8 +30,7 @@ import { useState } from "react"
 import clsx from "clsx";
 
 import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/auth/useAuth";
-
+import { useAuth0 } from "@auth0/auth0-react";
 // const user = {
 //    name: 'Tom Cook',
 //    email: 'tom@example.com'
@@ -62,8 +61,9 @@ const navigation = [
 
 export default function NavigationBar() {
    const [isOpen, setIsOpen] = useState<boolean>(false);
-   const auth = useAuth();
-   // console.log(auth.user)
+   // const auth = useAuth();
+   const auth = useAuth0();
+   console.log(auth)
    const toggleMenu = () => setIsOpen(!isOpen);
    return (
       <nav className="bg-gray-800 sticky top-0 z-[999] w-full px-4 sm:px-6 lg:px-8">
@@ -112,14 +112,16 @@ export default function NavigationBar() {
 
                      </div>
                   </div>
-                  <Link to="/user/notifications">
-                     <Button variant="ghost" size="icon" className="hover:bg-gray-700">
-                        <Bell className="h-5 w-" color="#fff" />
-                        <span className="sr-only">Notifications</span>
-                     </Button>
-                  </Link>
+
                   {
                      auth.user ? (
+                        <>
+                           <Link to="/user/notifications">
+                              <Button variant="ghost" size="icon" className="hover:bg-gray-700">
+                                 <Bell className="h-5 w-" color="#fff" />
+                                 <span className="sr-only">Notifications</span>
+                              </Button>
+                           </Link>
                            <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                  <Button variant="ghost" size="icon" className="hover:bg-gray-700">
@@ -132,13 +134,13 @@ export default function NavigationBar() {
                                  {
                                     userNavigation.map((group, index) =>
                                     (
-                                       <div key={"group"+index}>
-                                          <DropdownMenuSeparator key={"br"+index} />
-                                          <DropdownMenuGroup key={"dropdown-gr"+index}>
+                                       <div key={"group" + index}>
+                                          <DropdownMenuSeparator key={"br" + index} />
+                                          <DropdownMenuGroup key={"dropdown-gr" + index}>
                                              {
                                                 group.map((item) => (
 
-                                                   <Link to={item.href} className="flex items-center" key={"linkto"+item.name}>
+                                                   <Link to={item.href} className="flex items-center" key={"linkto" + item.name}>
                                                       <DropdownMenuItem className="w-full cursor-pointer" >
                                                          <item.icon className="mr-2 h-4 w-4" />
                                                          <span>{item.name}</span>
@@ -154,15 +156,14 @@ export default function NavigationBar() {
 
                               </DropdownMenuContent>
                            </DropdownMenu>
+                        </>
                      ) :
                         (
                            <>
-                              <Link to="/login" className="ml-3 relative">
-                                 <Button >Sign in</Button>
-                              </Link>
-                              <div className="ml-3 relative">
-                                 <Button variant="ghost">Sign out</Button>
-                              </div>
+                              {/* <Link to="/" className="ml-3 relative"> */}
+                              <Button onClick={() => auth.loginWithPopup()} className=" bg-white text-black hover:text-white ">Sign in</Button>
+                              {/* </Link> */}
+
                            </>
                         )
                   }
