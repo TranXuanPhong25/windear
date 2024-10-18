@@ -14,6 +14,8 @@ createRoot(document.getElementById("root")!).render(
 				clientId={import.meta.env.VITE_AUTH0_CLIENTID}
 				authorizationParams={{
 					redirect_uri: window.location.origin,
+					audience: `https://${import.meta.env.VITE_AUTH0_DOMAIN}/api/v2/`,
+					scope: "read:current_user update:current_user_metadata"
 				}}
 			>
 				<App />
