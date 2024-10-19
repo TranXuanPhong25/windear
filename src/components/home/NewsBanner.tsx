@@ -30,7 +30,12 @@ export default function NewsBanner() {
       // Fetch data from the API
       const fetchNews = async () => {
          try {
-            const response = await fetch(`${import.meta.env.VITE_BASE_API_URL}/news`); // Replace with your API endpoint
+            const response = await fetch(`${import.meta.env.VITE_BASE_API_URL}/news`,{
+               headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json",
+               }
+            }); // Replace with your API endpoint
             const data = await response.json();
             setNewsItems(data);
          } catch (error) {
