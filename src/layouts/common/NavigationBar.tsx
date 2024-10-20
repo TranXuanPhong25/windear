@@ -61,14 +61,14 @@ export default function NavigationBar() {
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSearchClick = () => {
-    setIsModalOpen(true);
-  };
+   const handleSearchClick = () => {
+      setIsModalOpen(true);
+   };
 
-  const handleCloseModal = () => {
-   
-   setIsModalOpen(false);
-  };
+   const handleCloseModal = () => {
+
+      setIsModalOpen(false);
+   };
 
    // const auth = useAuth();
    const auth = useAuth0();
@@ -112,9 +112,9 @@ export default function NavigationBar() {
 
                <div className="ml-4 flex items-center md:ml-6 [&>*]:mx-1">
                   <div className="hidden md:block">
-                     <div className="relative cursor-pointer border-white border-2 p-2 text-white flex items-center rounded-md" onClick={handleSearchClick}>
-                        
-                        
+                     <div
+                        onClick={handleSearchClick}
+                        className="opacity-90 hover:opacity-100 transition-opacity relative cursor-pointer border-white border-2 p-2 text-white flex items-center rounded-md ">
                         <Search className="h-5 w-5 text-muted-foreground cursor-pointer" />
                         <h3 className="ml-2 w-[200px]" >
                            Search books
@@ -182,7 +182,7 @@ export default function NavigationBar() {
                      <Menu className="h-6 w-6 " />
                      <span className="sr-only">Toggle menu</span>
                   </Button>
-                  
+
                </div>
 
 
@@ -247,7 +247,7 @@ export default function NavigationBar() {
 
             </Accordion>
          )}
-         <SearchModal    isOpen={isModalOpen} onClose={handleCloseModal} />
+         <SearchModal isOpen={isModalOpen} onClose={handleCloseModal} />
       </nav>
    )
 }
