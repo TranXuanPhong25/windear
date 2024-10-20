@@ -66,7 +66,8 @@ export default function NavigationBar() {
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+   
+   setIsModalOpen(false);
   };
 
    // const auth = useAuth();
@@ -246,7 +247,7 @@ export default function NavigationBar() {
 
             </Accordion>
          )}
-         <SearchModal   isOpen={isModalOpen} onClose={handleCloseModal} />
+         <SearchModal    isOpen={isModalOpen} onClose={handleCloseModal} />
       </nav>
    )
 }

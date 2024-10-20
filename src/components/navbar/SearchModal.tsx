@@ -1,39 +1,74 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { ArrowUpRight, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import anime from 'animejs';
+
 interface SearchModalProps {
+
    isOpen: boolean;
    onClose: () => void;
 }
 
 const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
    const modalRef = useRef<HTMLDivElement>(null);
-
+   const overlayRef = useRef<HTMLDivElement>(null);
+   const [isVisible, setIsVisible] = useState(false);
+ 
    useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-         if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            onClose();
-         }
-      };
-
-      if (isOpen) {
-         document.addEventListener('mousedown', handleClickOutside);
-      } else {
-         document.removeEventListener('mousedown', handleClickOutside);
-      }
-
-      return () => {
-         document.removeEventListener('mousedown', handleClickOutside);
-      };
+     const handleClickOutside = (event: MouseEvent) => {
+       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+         onClose();
+       }
+     };
+ 
+     if (isOpen) {
+       setIsVisible(true);
+       document.addEventListener('mousedown', handleClickOutside);
+       anime({
+         targets: modalRef.current,
+         opacity: [0, 1],
+         scale: [0.9, 1],
+         duration: 600,
+         easing: 'easeOutElastic(1, .5)',
+       });
+       anime({
+         targets: overlayRef.current,
+         opacity: [0, 1],
+         duration: 300,
+         easing: 'easeOutQuad',
+       });
+     } else {
+       anime({
+         targets: modalRef.current,
+         opacity: [1, 0],
+         scale: [1, 0.9],
+         duration: 200,
+         easing: 'easeOutQuad',
+         complete: () => {
+           setIsVisible(false);
+           document.removeEventListener('mousedown', handleClickOutside);
+         },
+       });
+       anime({
+         targets: overlayRef.current,
+         opacity: [1, 0],
+         duration: 200,
+         easing: 'easeOutQuad',
+       });
+     }
+ 
+     return () => {
+       document.removeEventListener('mousedown', handleClickOutside);
+     };
    }, [isOpen, onClose]);
-
-   if (!isOpen) return null;
-
+ 
+   if (!isOpen && !isVisible) return null;
+ 
    return (
-      <div className="fixed inset-0 z-50 flex justify-center bg-black bg-opacity-50">
+      <div ref={overlayRef} className="fixed inset-0 z-50 flex justify-center bg-black bg-opacity-50">
          <div ref={modalRef} className="bg-white rounded-2xl shadow-lg py-6 px-3 w-full max-w-2xl h-fit mt-6 ">
             <div className="flex justify-between items-center relative">
 

@@ -24,6 +24,7 @@
     "@supabase/supabase-js": "^2.45.4",
     "@types/canvas-confetti": "^1.6.4",
     "@vercel/speed-insights": "^1.0.12",
+    "animejs": "^3.2.2",
     "axios": "^1.7.7",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "@types/animejs": "^3.1.12",
     "@types/node": "^22.7.4",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
