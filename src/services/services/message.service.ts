@@ -1,7 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import { ApiResponse } from "@/models/api-response";
 import { callExternalApi } from "./external-api.service";
-import { jwtDecode } from "jwt-decode";
 const apiServerUrl = import.meta.env.VITE_BASE_API_URL;
 
 export const getPublicResource = async (): Promise<ApiResponse> => {
@@ -40,7 +39,6 @@ export const getProtectedResource = async (accessToken:string): Promise<ApiRespo
 };
 
 export const getAdminResource = async (accessToken:string): Promise<ApiResponse> => {
-  console.log(jwtDecode(accessToken))
   const config: AxiosRequestConfig = {
     url: `${apiServerUrl}/admin`,
     method: "GET",
