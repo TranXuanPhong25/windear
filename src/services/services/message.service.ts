@@ -38,24 +38,7 @@ export const getProtectedResource = async (accessToken:string): Promise<ApiRespo
     error,
   };
 };
-export const getProtectedResource2 = async (accessToken:string): Promise<ApiResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${apiServerUrl}/private-scoped`,
-    method: "GET",
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-      scope: "read:messages",
-    },
-  };
 
-  const { data, error } = (await callExternalApi({ config })) as ApiResponse;
-
-  return {
-    data,
-    error,
-  };
-}
 export const getAdminResource = async (accessToken:string): Promise<ApiResponse> => {
   console.log(jwtDecode(accessToken))
   const config: AxiosRequestConfig = {
