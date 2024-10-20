@@ -23,14 +23,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label"
-
 import { useState } from "react"
 import clsx from "clsx";
 
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import SearchModal from "@/components/navbar/SearchModal";
 // const user = {
 //    name: 'Tom Cook',
 //    email: 'tom@example.com'
@@ -61,6 +59,16 @@ const navigation = [
 
 export default function NavigationBar() {
    const [isOpen, setIsOpen] = useState<boolean>(false);
+   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleSearchClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
    // const auth = useAuth();
    const auth = useAuth0();
    const toggleMenu = () => setIsOpen(!isOpen);
@@ -103,11 +111,13 @@ export default function NavigationBar() {
 
                <div className="ml-4 flex items-center md:ml-6 [&>*]:mx-1">
                   <div className="hidden md:block">
-                     <div className="relative">
-                        <Label htmlFor="search-in-nav">
-                           <Search className="absolute left-2 top-2.5 h-5 w-5 text-muted-foreground cursor-pointer" />
-                        </Label>
-                        <Input id='search-in-nav' type="search" placeholder="Search books" className="pl-8 w-[240px] lg:w-[350px]" />
+                     <div className="relative cursor-pointer border-white border-2 p-2 text-white flex items-center rounded-md" onClick={handleSearchClick}>
+                        
+                        
+                        <Search className="h-5 w-5 text-muted-foreground cursor-pointer" />
+                        <h3 className="ml-2 w-[200px]" >
+                           Search books
+                        </h3>
 
                      </div>
                   </div>
@@ -171,6 +181,7 @@ export default function NavigationBar() {
                      <Menu className="h-6 w-6 " />
                      <span className="sr-only">Toggle menu</span>
                   </Button>
+                  
                </div>
 
 
@@ -235,6 +246,7 @@ export default function NavigationBar() {
 
             </Accordion>
          )}
+         <SearchModal   isOpen={isModalOpen} onClose={handleCloseModal} />
       </nav>
    )
 }
