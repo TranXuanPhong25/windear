@@ -1,6 +1,5 @@
 import BookList from "@/components/home/BookList";
 import NewsBanner from "@/components/home/NewsBanner";
-import { supabase } from "@/services/auth/supabaseAuth";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProtectedResource, getPublicResource, getAdminResource } from "@/services/services/message.service";
 
@@ -17,7 +16,6 @@ export default function HomePage() {
          <BookList title="Popular" brief />
          <BookList title="New books" brief />
          <div className="text-white space-x-3">
-            <button onClick={async () => console.log((await supabase.auth.getUser()).data)}>get</button>
             <button onClick={async () => console.log((await auth.getIdTokenClaims()))}>getAuth0user</button>
             <button onClick={async () => console.log(await getProtectedResource(await auth.getAccessTokenSilently()))}>getProtectedResource</button>
             <button onClick={async () => console.log((await getAdminResource(await auth.getAccessTokenSilently())).data)}>getAdminResource</button>
