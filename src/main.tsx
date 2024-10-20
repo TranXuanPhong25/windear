@@ -14,6 +14,7 @@ createRoot(document.getElementById("root")!).render(
 				clientId={import.meta.env.VITE_AUTH0_CLIENTID}
 				authorizationParams={{
 					redirect_uri: window.location.origin,
+					audience: `${import.meta.env.VITE_AUTH0_AUDIENCE}`
 				}}
 			>
 				<App />

@@ -63,7 +63,6 @@ export default function NavigationBar() {
    const [isOpen, setIsOpen] = useState<boolean>(false);
    // const auth = useAuth();
    const auth = useAuth0();
-   console.log(auth)
    const toggleMenu = () => setIsOpen(!isOpen);
    return (
       <nav className="bg-gray-800 sticky top-0 z-[999] w-full px-4 sm:px-6 lg:px-8">
