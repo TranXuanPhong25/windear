@@ -49,7 +49,7 @@ export default function BookList({ title, brief = false,className ="my-4 sm:my-2
          </Carousel>
          {
             brief &&
-            <Button className="absolute top-0 right-2 sm:right-8 bg-gray-800 rounded-full px-2 sm:rounded-md">
+            <Button className="absolute top-0 right-2 sm:right-8 bg-gray-800 rounded-full pl-4 pr-2 sm:rounded-md">
                <p className="sm:block hidden">See all</p>
                <ChevronRight color="white" />
             </Button>
