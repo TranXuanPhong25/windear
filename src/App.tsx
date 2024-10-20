@@ -10,6 +10,7 @@ import HomePage from './pages/home/HomePage';
 // import LogoutPage from './pages/auth/LogoutPage';
 import BookShow from './pages/books/BookShow';
 import NotFound from './pages/notfound/NotFound';
+import LogoutPage from './pages/auth/LogoutPage';
 export default function App() {
    return (
 
@@ -28,6 +29,7 @@ export default function App() {
 
 
             </Route>
+            <Route path="/logout" element={<LogoutPage/>} />
             {/* <Route
                   path="/*"
                   element={
