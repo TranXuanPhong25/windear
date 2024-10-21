@@ -125,7 +125,7 @@ export default function BookShow() {
          <div className="w-[300px] flex flex-col items-center mr-10">
             <img className="max-w-[240px] rounded-md " src="https://upload.wikimedia.org/wikipedia/vi/e/eb/Dieu_ky_dieu_cua_tiem_tap_hoa_Namiya.jpg" alt="book cover" />
             
-            <ShelfAction/>
+            <ShelfAction triggerWidth="w-full"/>
             <GetBook/>
             <StarRating initialRating={5} ratable onChange={() => { }} />
          </div>
