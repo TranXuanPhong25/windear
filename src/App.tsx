@@ -11,6 +11,7 @@ import HomePage from './pages/home/HomePage';
 import BookShow from './pages/books/BookShow';
 import NotFound from './pages/notfound/NotFound';
 import LogoutPage from './pages/auth/LogoutPage';
+import BookBrowse from './pages/browse/BookBrowse';
 export default function App() {
    return (
 
@@ -20,7 +21,7 @@ export default function App() {
             <Route element={<Layout />} >
                <Route path="/" element={<HomePage />} />
                <Route path="/shelves" element={<div>shelves</div>} />
-               <Route path="/browse/*" element={<div>browse</div>} />
+               <Route path="/browse/*" element={<BookBrowse/>} />
                <Route path="/books/" element={<div>book</div>} />
                <Route path="/books/:bookId" element={<BookShow />} />
                <Route path="/user/notifications" element={<div>noti</div>} />
