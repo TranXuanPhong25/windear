@@ -28,7 +28,7 @@ import clsx from "clsx";
 
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import SearchModal from "@/components/navbar/SearchModal";
+import SearchModal from "@/components/layout/user/navbar/SearchModal";
 // const user = {
 //    name: 'Tom Cook',
 //    email: 'tom@example.com'
@@ -48,11 +48,10 @@ const navigation = [
    { name: 'Home', href: '/', current: true, children: null },
    { name: 'My Shelf', href: '/shelves', current: false, children: null },
    {
-      name: 'Browse', href: '/', current: false, children: [
+      name: 'Browse', href: '/browse', current: false, children: [
          { name: 'Books', href: '/browse/books' },
          { name: 'Authors', href: '/browse/authors' },
          { name: 'Genres', href: '/browse/genres' }
-
       ]
    },
 ];
@@ -61,14 +60,14 @@ export default function NavigationBar() {
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSearchClick = () => {
-    setIsModalOpen(true);
-  };
+   const handleSearchClick = () => {
+      setIsModalOpen(true);
+   };
 
-  const handleCloseModal = () => {
-   
-   setIsModalOpen(false);
-  };
+   const handleCloseModal = () => {
+
+      setIsModalOpen(false);
+   };
 
    // const auth = useAuth();
    const auth = useAuth0();
@@ -89,6 +88,22 @@ export default function NavigationBar() {
 
                      </Link>
                   </div>
+
+               </div>
+
+               <div className="ml-4 flex items-center md:ml-6 [&>*]:mx-1">
+
+                  <div className="hidden md:block">
+                     <div
+                        onClick={handleSearchClick}
+                        className="opacity-90 hover:opacity-100 transition-opacity relative cursor-pointer border-white border-2 p-2 text-white flex items-center rounded-md ">
+                        <Search className="h-5 w-5 text-muted-foreground cursor-pointer" />
+                        <h3 className="ml-2 w-[200px]" >
+                           Search books
+                        </h3>
+
+                     </div>
+                  </div>
                   <div className="hidden md:block">
                      <div className="ml-5 flex items-baseline space-x-4">
                         {navigation.map((item) => (
@@ -108,21 +123,6 @@ export default function NavigationBar() {
                         ))}
                      </div>
                   </div>
-               </div>
-
-               <div className="ml-4 flex items-center md:ml-6 [&>*]:mx-1">
-                  <div className="hidden md:block">
-                     <div className="relative cursor-pointer border-white border-2 p-2 text-white flex items-center rounded-md" onClick={handleSearchClick}>
-                        
-                        
-                        <Search className="h-5 w-5 text-muted-foreground cursor-pointer" />
-                        <h3 className="ml-2 w-[200px]" >
-                           Search books
-                        </h3>
-
-                     </div>
-                  </div>
-
                   {
                      auth.user ? (
                         <>
@@ -182,7 +182,7 @@ export default function NavigationBar() {
                      <Menu className="h-6 w-6 " />
                      <span className="sr-only">Toggle menu</span>
                   </Button>
-                  
+
                </div>
 
 
@@ -247,7 +247,7 @@ export default function NavigationBar() {
 
             </Accordion>
          )}
-         <SearchModal    isOpen={isModalOpen} onClose={handleCloseModal} />
+         <SearchModal isOpen={isModalOpen} onClose={handleCloseModal} />
       </nav>
    )
 }
