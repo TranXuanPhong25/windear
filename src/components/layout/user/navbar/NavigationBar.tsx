@@ -29,6 +29,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import SearchModal from "@/components/layout/user/navbar/SearchModal";
+import NavigationMenuDemo from "./NavigationMenu";
 // const user = {
 //    name: 'Tom Cook',
 //    email: 'tom@example.com'
@@ -88,11 +89,9 @@ export default function NavigationBar() {
 
                      </Link>
                   </div>
-
                </div>
 
                <div className="ml-4 flex items-center md:ml-6 [&>*]:mx-1">
-
                   <div className="hidden md:block">
                      <div
                         onClick={handleSearchClick}
@@ -104,25 +103,8 @@ export default function NavigationBar() {
 
                      </div>
                   </div>
-                  <div className="hidden md:block">
-                     <div className="ml-5 flex items-baseline space-x-4">
-                        {navigation.map((item) => (
-                           <Link
-                              key={item.name}
-                              to={item.href}
-                              className={clsx(
-                                 item.current
-                                    ? 'bg-gray-900 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                 'px-3 py-2 rounded-md text-md font-medium '
-                              )}
-                              aria-current={item.current ? 'page' : undefined}
-                           >
-                              {item.name}
-                           </Link>
-                        ))}
-                     </div>
-                  </div>
+                  <NavigationMenuDemo/>
+                 
                   {
                      auth.user ? (
                         <>
