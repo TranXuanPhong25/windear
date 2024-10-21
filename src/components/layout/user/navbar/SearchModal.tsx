@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Button } from '../ui/button';
-import { Label } from '../ui/label';
+import { Button } from '../../../ui/button';
+import { Label } from '../../../ui/label';
 import { ArrowUpRight, Plus, Search, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';

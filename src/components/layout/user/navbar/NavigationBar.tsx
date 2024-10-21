@@ -28,7 +28,7 @@ import clsx from "clsx";
 
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import SearchModal from "@/components/navbar/SearchModal";
+import SearchModal from "@/components/layout/user/navbar/SearchModal";
 // const user = {
 //    name: 'Tom Cook',
 //    email: 'tom@example.com'
