@@ -6,26 +6,18 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import anime from 'animejs';
 import { ScrollArea } from "@/components/ui/scroll-area"
+import BookSearchInfo from '@/types/BookSearchInfo';
 interface SearchModalProps {
 
    isOpen: boolean;
    onClose: () => void;
 }
-interface BookInfo {
-   bookId: string;
-   title: string;
-   imageUrl: string;
-   avgRating: number;
-   author: {
-      name: string;
-   }
 
-}
 const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
    const modalRef = useRef<HTMLDivElement>(null);
    const overlayRef = useRef<HTMLDivElement>(null);
    const [isVisible, setIsVisible] = useState(false);
-   const [searchResults, setSearchResults] = useState<BookInfo[]>([]);
+   const [searchResults, setSearchResults] = useState<BookSearchInfo[]>([]);
    const [searchQuery, setSearchQuery] = useState('');
    // const [searching, setSearching] = useState(false);
 
@@ -96,8 +88,8 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
    if (!isOpen && !isVisible) return null;
 
    return (
-      <div ref={overlayRef} className="fixed inset-0 z-50 flex justify-center bg-black bg-opacity-50 ">
-         <div ref={modalRef} className="bg-white rounded-2xl shadow-lg  w-full max-w-2xl h-fit mt-6 ">
+      <div ref={overlayRef} className="fixed inset-0 z-50 flex justify-center bg-black bg-opacity-50 text-white ">
+         <div ref={modalRef} className="bg-gray-800 rounded-2xl shadow-lg  w-full max-w-2xl h-fit mt-6 ">
             <div className="flex justify-between items-center relative mx-3 mt-6">
 
                <Label htmlFor="search-in-nav">
@@ -113,7 +105,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                   id="search-in-nav"
                   autoFocus={true}
                   placeholder="Search for books..."
-                  className="w-full pl-10 pr-16 border-4 border-gray-300 rounded-lg py-3 text text-xl focus:outline-none focus:border-gray-700 bg-gray-300/30 focus:bg-gray-50 transition-colors"
+                  className="w-full pl-10 pr-16 border-4 rounded-lg py-3 text text-xl focus:outline-none border-gray-700 focus:border-gray-600  bg-transparent focus:bg-gray-900 transition-colors"
                />
                <Button onClick={onClose} variant="ghost" className="text-gray-500 hover:text-gray-700 text-md absolute right-2 h-0 px-3 py-4">
                   Esc
@@ -127,7 +119,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                   {
                      searchResults.length > 0 ? (
                         searchResults.map((result) => (
-                           <div key={result.bookId} className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-200 transition-colors duration-200 cursor-pointer overflow-hidden">
+                           <div key={result.bookId} className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 transition-colors duration-200 cursor-pointer overflow-hidden">
                               <div className='mr-4 min-w-20  '>
                                  <img src={result.imageUrl} alt={result.title} className=" w-full rounded-r-md" />
                               </div>
