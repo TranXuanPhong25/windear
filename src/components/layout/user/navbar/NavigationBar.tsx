@@ -12,15 +12,6 @@ import {
    Settings
 } from "lucide-react"
 
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuGroup,
-   DropdownMenuItem,
-   DropdownMenuLabel,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react"
@@ -30,6 +21,7 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import SearchModal from "@/components/layout/user/navbar/SearchModal";
 import NavigationMenuDemo from "./NavigationMenu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 // const user = {
 //    name: 'Tom Cook',
 //    email: 'tom@example.com'
@@ -103,12 +95,12 @@ export default function NavigationBar() {
 
                      </div>
                   </div>
-                  <NavigationMenuDemo/>
-                 
+                  <NavigationMenuDemo />
+
                   {
                      auth.user ? (
                         <>
-                           <Link to="/user/notifications">
+                           {/* <Link to="/user/notifications">
                               <Button variant="ghost" size="icon" className="hover:bg-gray-700">
                                  <Bell className="h-5 w-" color="#fff" />
                                  <span className="sr-only">Notifications</span>
@@ -147,7 +139,27 @@ export default function NavigationBar() {
                                  }
 
                               </DropdownMenuContent>
-                           </DropdownMenu>
+                           </DropdownMenu> */}
+                           <div className="group relative">
+                              <Avatar className="border-2 border-gray-200">
+                                 <AvatarImage src={auth.user.picture} />
+                                 <AvatarFallback></AvatarFallback>
+                              </Avatar>
+                              <div className=" absolute right-0 w-[200px] bg-red-300 hidden group-hover:block">
+                                 <div>
+                                   <div className="flex">
+                                   <Bell/>
+                                   Notification
+                                   </div>
+                                 </div>
+                                 <div>
+
+                                 </div>
+                                 <div>
+                                    Logout
+                                 </div>
+                              </div>
+                           </div>
                         </>
                      ) :
                         (
