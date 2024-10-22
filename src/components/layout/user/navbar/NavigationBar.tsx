@@ -68,7 +68,7 @@ export default function NavigationBar() {
    const auth = useAuth0();
    const toggleMenu = () => setIsOpen(!isOpen);
    return (
-      <nav className="bg-gray-800 sticky top-0 z-[999] w-full px-4 sm:px-6 lg:px-8">
+      <nav className="bg-gray-800 sticky top-0 z-[999] w-full px-4 sm:px-6 lg:px-8 py-1">
          <div className="mx-auto max-w-7xl ">
             <div className="flex h-16 items-center justify-between">
                <div className="flex items-center">
@@ -101,82 +101,41 @@ export default function NavigationBar() {
 
                   {
                      auth.user ? (
-                        <>
-                           {/* <Link to="/user/notifications">
-                              <Button variant="ghost" size="icon" className="hover:bg-gray-700">
-                                 <Bell className="h-5 w-" color="#fff" />
-                                 <span className="sr-only">Notifications</span>
-                              </Button>
-                           </Link>
-                           <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                 <Button variant="ghost" size="icon" className="hover:bg-gray-700">
-                                    <User className="h-5 w-5" color="#fff" />
-                                    <span className="sr-only">User menu</span>
-                                 </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent className="w-40 ">
-                                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                 {
-                                    userNavigation.map((group, index) =>
-                                    (
-                                       <div key={"group" + index}>
-                                          <DropdownMenuSeparator key={"br" + index} />
-                                          <DropdownMenuGroup key={"dropdown-gr" + index}>
-                                             {
-                                                group.map((item) => (
 
-                                                   <Link to={item.href} className="flex items-center" key={"linkto" + item.name}>
-                                                      <DropdownMenuItem className="w-full cursor-pointer" >
-                                                         <item.icon className="mr-2 h-4 w-4" />
-                                                         <span>{item.name}</span>
-                                                      </DropdownMenuItem>
-                                                   </Link>
-                                                )
-                                                )
-                                             }
-                                          </DropdownMenuGroup>
-                                       </div>
-                                    ))
-                                 }
+                        <div className="group relative px-2">
 
-                              </DropdownMenuContent>
-                           </DropdownMenu> */}
-
-                           <div className="group relative px-2">
-                              
-                                 <div className="border-4 border-gray-200 rounded-full hover:border-4 hover:border-white hover:[&>*]:contrast-75">
-                                 <Avatar className="cursor-pointer">
-                                    <AvatarImage src={auth.user.picture} />
-                                    <AvatarFallback></AvatarFallback>
-                                 </Avatar>
-                                 </div>
-                              
-                              {/*indicator*/}
-                              <div className="w-4 h-3 bg-gray-800 rounded-t-full z-10  border-2  border-gray-600 border-b-gray-800 absolute top-[38px] right-6 hidden group-hover:block" />
-
-                              <div className=" absolute right-0 w-[180px] bg-gray-800 hidden group-hover:block top-12 rounded-lg border-2 border-gray-600 text-white">
-                                 {
-                                    userNavigation.map((group, index) => (
-                                       <div key={"user-menu" + index}>
-                                          {index != 0 && <Separator className="bg-gray-600" />}
-                                          <div className="p-2">
-                                             {
-                                                group.map(item => (
-                                                   <Link to={item.href} className="flex hover:bg-purple-500 p-2 rounded-md items-center">
-                                                      <item.icon className="size-5 mr-2   " />
-                                                      <h1> {item.name}</h1>
-                                                   </Link>
-                                                ))
-                                             }
-                                          </div>
-                                       </div>
-                                    )
-                                    )
-                                 }
-                              </div>
+                           <div className="border-4 border-gray-200 rounded-full hover:border-4 hover:border-white hover:[&>*]:contrast-75">
+                              <Avatar className="cursor-pointer">
+                                 <AvatarImage src={auth.user.picture} />
+                                 <AvatarFallback></AvatarFallback>
+                              </Avatar>
                            </div>
-                        </>
+
+                           {/*indicator*/}
+                           <div className="w-4 h-3 bg-gray-800 rounded-t-full z-10  border-2  border-gray-600 border-b-gray-800 absolute top-[38px] right-6 hidden group-hover:block" />
+
+                           <div className=" absolute right-0 w-[180px] bg-gray-800 hidden group-hover:block top-12 rounded-lg border-2 border-gray-600 text-white">
+                              {
+                                 userNavigation.map((group, index) => (
+                                    <div key={"user-menu" + index}>
+                                       {index != 0 && <Separator className="bg-gray-600" />}
+                                       <div className="p-2">
+                                          {
+                                             group.map(item => (
+                                                <Link to={item.href} className="flex hover:bg-purple-500 p-2 rounded-md items-center">
+                                                   <item.icon className="size-5 mr-2   " />
+                                                   <h1> {item.name}</h1>
+                                                </Link>
+                                             ))
+                                          }
+                                       </div>
+                                    </div>
+                                 )
+                                 )
+                              }
+                           </div>
+                        </div>
+
                      ) :
                         (
                            <>
