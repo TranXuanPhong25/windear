@@ -12,15 +12,6 @@ import {
    Settings
 } from "lucide-react"
 
-import {
-   DropdownMenu,
-   DropdownMenuContent,
-   DropdownMenuGroup,
-   DropdownMenuItem,
-   DropdownMenuLabel,
-   DropdownMenuSeparator,
-   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react"
@@ -30,12 +21,15 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import SearchModal from "@/components/layout/user/navbar/SearchModal";
 import NavigationMenuDemo from "./NavigationMenu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 // const user = {
 //    name: 'Tom Cook',
 //    email: 'tom@example.com'
 // }
 
 const userNavigation = [
+   [{ name: "Notifications", href: "user/", icon: Bell }],
    [
 
       { name: 'Your Profile', href: '/user/profile', icon: User },
@@ -103,12 +97,12 @@ export default function NavigationBar() {
 
                      </div>
                   </div>
-                  <NavigationMenuDemo/>
-                 
+                  <NavigationMenuDemo />
+
                   {
                      auth.user ? (
                         <>
-                           <Link to="/user/notifications">
+                           {/* <Link to="/user/notifications">
                               <Button variant="ghost" size="icon" className="hover:bg-gray-700">
                                  <Bell className="h-5 w-" color="#fff" />
                                  <span className="sr-only">Notifications</span>
@@ -147,7 +141,41 @@ export default function NavigationBar() {
                                  }
 
                               </DropdownMenuContent>
-                           </DropdownMenu>
+                           </DropdownMenu> */}
+
+                           <div className="group relative px-2">
+                              
+                                 <div className="border-4 border-gray-200 rounded-full hover:border-4 hover:border-white hover:[&>*]:contrast-75">
+                                 <Avatar className="cursor-pointer">
+                                    <AvatarImage src={auth.user.picture} />
+                                    <AvatarFallback></AvatarFallback>
+                                 </Avatar>
+                                 </div>
+                              
+                              {/*indicator*/}
+                              <div className="w-4 h-3 bg-gray-800 rounded-t-full z-10  border-2  border-gray-600 border-b-gray-800 absolute top-[38px] right-6 hidden group-hover:block" />
+
+                              <div className=" absolute right-0 w-[180px] bg-gray-800 hidden group-hover:block top-12 rounded-lg border-2 border-gray-600 text-white">
+                                 {
+                                    userNavigation.map((group, index) => (
+                                       <div key={"user-menu" + index}>
+                                          {index != 0 && <Separator className="bg-gray-600" />}
+                                          <div className="p-2">
+                                             {
+                                                group.map(item => (
+                                                   <Link to={item.href} className="flex hover:bg-purple-500 p-2 rounded-md items-center">
+                                                      <item.icon className="size-5 mr-2   " />
+                                                      <h1> {item.name}</h1>
+                                                   </Link>
+                                                ))
+                                             }
+                                          </div>
+                                       </div>
+                                    )
+                                    )
+                                 }
+                              </div>
+                           </div>
                         </>
                      ) :
                         (

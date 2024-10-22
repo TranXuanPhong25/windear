@@ -20,7 +20,7 @@ const NavigationMenuDemo = () => {
             <Telescope className=" mr-1 size-5"/>
             Discover{" "}
             <ChevronDown
-              className="relative top-px  transition-transform duration-[150] ease-in group-data-[state=open]:-rotate-180"
+              className="relative top-px  transition-transform duration-200 ease-in group-data-[state=open]:-rotate-180"
               aria-hidden
             />
           </NavigationMenu.Trigger>
@@ -50,7 +50,7 @@ const NavigationMenuDemo = () => {
               <Compass className="mr-1 size-5"/>
             Browse{" "}
             <ChevronDown
-              className="relative top-px transition-transform duration-[150] ease-in group-data-[state=open]:-rotate-180"
+              className="relative top-px transition-transform duration-200 ease-in group-data-[state=open]:-rotate-180"
               aria-hidden
             />
           </NavigationMenu.Trigger>
