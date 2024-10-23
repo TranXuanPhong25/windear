@@ -127,7 +127,6 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                                  <h2 className='text-lg text-ellipsis'>{result.title}</h2>
                                  <p><span className='font-sans'>By</span> {result.authors}</p>
                                  <p className='flex items-center'>
-                                    
                                     {result.rating != null ? (
                                        <>
                                        <span className='font-sans'>Rating:</span>
@@ -139,8 +138,6 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                                        </>
                                     ):
                                     <span className='font-sans'>Not rated yet</span>
-                                   
-
                                     }
                                  </p>
                                  <Button className="bg-gray-800 rounded-full pl-4 pr-2 sm:rounded-md">

@@ -21,7 +21,7 @@ export default function BookBrowse() {
                console.log(response.data);
                setSearchResults(response.data);
             })
-      }else{
+      } else {
          setSearchResults([]);
       }
 
@@ -66,14 +66,20 @@ export default function BookBrowse() {
                               </div>
                               <div>
                                  <h2 className='text-xl text-ellipsis'>{result.title}</h2>
-                                 <p><span className='font-sans'>By</span> {result.author.name}</p>
+                                 <p><span className='font-sans'>By</span> {result.authors}</p>
                                  <p className='flex items-center'>
-                                    <span className='font-sans'>Rating:</span>
-                                    <span className='ml-2 mr-1'>
-                                       {result.avgRating}
-                                    </span>
+                                    {result.rating != null ? (
+                                       <>
+                                          <span className='font-sans'>Rating:</span>
+                                          <span className='ml-2 mr-1'>
+                                             {result.rating.toFixed(2)}
+                                          </span>
 
-                                    <Star className="h-4 w-4 text-yellow-500 inline-block" fill="rgb(234,179,8)" />
+                                          <Star className="h-4 w-4 text-yellow-500 inline-block" fill="rgb(234,179,8)" />
+                                       </>
+                                    ) :
+                                       <span className='font-sans'>Not rated yet</span>
+                                    }
                                  </p>
                                  <Button className="bg-gray-800 rounded-full pl-4 pr-2 sm:rounded-md">
                                     <Link to={`/books/${result.bookId}`} >
