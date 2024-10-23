@@ -24,7 +24,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
    useEffect(() => {
 
       if (searchQuery.length > 3) {
-         axios.get(`${import.meta.env.VITE_BASE_API_URL}/search?q=${searchQuery}`, {
+         axios.get(`${import.meta.env.VITE_BASE_API_URL}/external/books/search?title=${searchQuery}`, {
             headers: {
                'Content-Type': 'application/json',
             }
@@ -120,22 +120,31 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                      searchResults.length > 0 ? (
                         searchResults.map((result) => (
                            <div key={result.bookId} className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 transition-colors duration-200 cursor-pointer overflow-hidden">
-                              <div className='mr-4 min-w-20  '>
+                              <div className='mr-4 min-w-20 max-w-40 '>
                                  <img src={result.imageUrl} alt={result.title} className=" w-full rounded-r-md" />
                               </div>
                               <div>
                                  <h2 className='text-lg text-ellipsis'>{result.title}</h2>
-                                 <p><span className='font-sans'>By</span> {result.author.name}</p>
+                                 <p><span className='font-sans'>By</span> {result.authors}</p>
                                  <p className='flex items-center'>
-                                    <span className='font-sans'>Rating:</span>
-                                    <span className='ml-2 mr-1'>
-                                       {result.avgRating}
-                                    </span>
+                                    
+                                    {result.rating != null ? (
+                                       <>
+                                       <span className='font-sans'>Rating:</span>
+                                          <span className='ml-2 mr-1'>
+                                             {result.rating.toFixed(2)}
+                                          </span>
 
-                                    <Star className="h-4 w-4 text-yellow-500 inline-block" fill="rgb(234,179,8)" />
+                                          <Star className="h-4 w-4 text-yellow-500 inline-block" fill="rgb(234,179,8)" />
+                                       </>
+                                    ):
+                                    <span className='font-sans'>Not rated yet</span>
+                                   
+
+                                    }
                                  </p>
                                  <Button className="bg-gray-800 rounded-full pl-4 pr-2 sm:rounded-md">
-                                    <Link to={`/books/${result.bookId}`} onClick={onClose }>
+                                    <Link to={`/books/${result.bookId}`} onClick={onClose}>
                                        View
                                        <ArrowUpRight className="h-4 w-4 text-white inline-block" />
                                     </Link>
