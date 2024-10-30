@@ -18,8 +18,12 @@
     --radius: 0.5rem
   }
 }
-body{
+#root{
+  transition: background-color 0.2s ease-out, color 0.3s;
+}
+#root.dark{
   @apply bg-gray-800;
+  
   /* @apply dark:text-white;  
   @apply text-black; */
 }

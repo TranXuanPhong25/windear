@@ -16,8 +16,8 @@ import Shelves from './pages/shelves/Shelves';
 import HomePageLayout from './layouts/homepage/HomePageLayout';
 export default function App() {
    return (
-
       <Routes>
+         
          <Route>
             <Route path="*" element={<NotFound />} />
             <Route path="/" element={<HomePageLayout/>} >
