@@ -3,7 +3,7 @@ import NavigationBar from "@/components/layout/user/navbar/NavigationBar";
 import Footer from "@/components/layout/user/footer/Footer";
 
 
-export default function Layout() {
+export default function CommonLayout() {
    return (
       <>
          <NavigationBar />
