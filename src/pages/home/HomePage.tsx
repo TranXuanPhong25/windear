@@ -1,8 +1,8 @@
-import BookList from "@/components/home/BookList";
-import NewsBanner from "@/components/home/NewsBanner";
-import { useAuth0 } from "@auth0/auth0-react";
+// import BookList from "@/components/home/BookList";
+// import NewsBanner from "@/components/home/NewsBanner";
+// import { useAuth0 } from "@auth0/auth0-react";
 import { HeroParallax } from "@/components/ui/hero-parallax";
-import { getProtectedResource, getPublicResource, getAdminResource } from "@/services/services/message.service";
+// import { getProtectedResource, getPublicResource, getAdminResource } from "@/services/services/message.service";
 const products = [
    {
       title: "Moonbeam",
@@ -99,7 +99,6 @@ const products = [
    },
 ];
 export default function HomePage() {
-   const auth = useAuth0();
    return (
       <>
       <HeroParallax products={products} />;
