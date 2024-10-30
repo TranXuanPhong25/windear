@@ -14,8 +14,8 @@ import LogoutPage from './pages/auth/LogoutPage';
 import BookBrowse from './pages/browse/BookBrowse';
 export default function App() {
    return (
-
       <Routes>
+         
          <Route>
             <Route path="*" element={<NotFound />} />
             <Route element={<Layout />} >
