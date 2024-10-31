@@ -20,14 +20,26 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import SearchModal from "@/components/layout/user/navbar/SearchModal";
-import NavigationMenuDemo from "./NavigationMenu";
+import MyNavigationMenu from "./NavigationMenu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+
 // const user = {
 //    name: 'Tom Cook',
 //    email: 'tom@example.com'
 // }
-
+const useTheme = ()=>{
+   
+   const [theme, setCurrentTheme] = useState<string>(localStorage.getItem("theme") || "light");
+   const setTheme = (targetTheme: string) => {
+      setCurrentTheme(targetTheme);
+      localStorage.setItem("theme", targetTheme);
+   }
+   return {
+      theme,
+      setTheme
+   }
+}
 const userNavigation = [
    [{ name: "Notifications", href: "user/", icon: Bell }],
    [
@@ -54,7 +66,7 @@ const navigation = [
 export default function NavigationBar() {
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const [isModalOpen, setIsModalOpen] = useState(false);
-
+   const { theme, setTheme } = useTheme();
    const handleSearchClick = () => {
       setIsModalOpen(true);
    };
@@ -67,8 +79,16 @@ export default function NavigationBar() {
    // const auth = useAuth();
    const auth = useAuth0();
    const toggleMenu = () => setIsOpen(!isOpen);
+   const toggleTheme = () => {
+      const root = document.querySelector("#root");
+      setTheme(theme == "light" ? "dark" : "light");
+      root?.classList.add("theme-transition");
+      root?.classList.toggle("dark");
+      root?.classList.toggle("light");
+      
+   };
    return (
-      <nav className="bg-gray-800 sticky top-0 z-[999] w-full px-4 sm:px-6 lg:px-8 py-1">
+      <nav className="dark:bg-gray-800 bg-white sticky top-0 z-[999] w-full px-4 sm:px-6 lg:px-8 py-1">
          <div className="mx-auto max-w-7xl ">
             <div className="flex h-16 items-center justify-between">
                <div className="flex items-center">
@@ -79,7 +99,7 @@ export default function NavigationBar() {
                            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
                            alt="Windear Logo"
                         />
-                        <span className="ml-1 text-white">Windear</span>
+                        <span className="ml-1 dark:text-white">Windear</span>
 
                      </Link>
                   </div>
@@ -89,7 +109,7 @@ export default function NavigationBar() {
                   <div className="hidden md:block">
                      <div
                         onClick={handleSearchClick}
-                        className="opacity-90 hover:opacity-100 transition-opacity relative cursor-pointer border-white border-2 p-2 text-white flex items-center rounded-md ">
+                        className="opacity-90 hover:opacity-100 transition-opacity relative cursor-pointer dark:border-white border-2 p-2 dark:text-white flex items-center rounded-md ">
                         <Search className="h-5 w-5 text-muted-foreground cursor-pointer" />
                         <h3 className="ml-2 w-[200px]" >
                            Search books
@@ -97,8 +117,10 @@ export default function NavigationBar() {
 
                      </div>
                   </div>
-                  <NavigationMenuDemo />
-
+                  <MyNavigationMenu />
+                  <Button onClick={toggleTheme} className="dark:bg-gray-800  dark:text-white dark:hover:bg-gray-900 bg-white text-black hover:text-white hover:bg-gray-400" >
+                     O
+                  </Button>
                   {
                      auth.user ? (
 

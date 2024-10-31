@@ -13,13 +13,27 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
 }
+
 @layer base {
   :root {
     --radius: 0.5rem
   }
 }
 body{
+}
+#root{
+  
+  @apply min-h-screen;
+  /* transition: background-color 0.2s ease-out, color 0.3s; */
+}
+
+.theme-transition{
+  transition: background-color 0.2s ease-out, color 0.3s;
+}
+
+#root.dark{
   @apply bg-gray-800;
+  
   /* @apply dark:text-white;  
   @apply text-black; */
 }
