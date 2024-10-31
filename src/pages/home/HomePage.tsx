@@ -101,7 +101,7 @@ const products = [
 export default function HomePage() {
    return (
       <>
-      <HeroParallax products={products} />;
+      <HeroParallax products={products} />
       {/* <main className=" max-w-[1200px] mx-auto">
          
          <h1 className="text-5xl text-white my-10  ">Welcome to Windear library</h1>
