@@ -24,7 +24,6 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
 
    useEffect(() => {
       if (searchQuery.length > 3) {
-         
          axios.get(`${import.meta.env.VITE_BASE_API_URL}/external/books/search?title=${searchQuery}`, {
             headers: {
                'Content-Type': 'application/json',
