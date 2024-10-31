@@ -80,9 +80,11 @@ export default function NavigationBar() {
    const auth = useAuth0();
    const toggleMenu = () => setIsOpen(!isOpen);
    const toggleTheme = () => {
+      const root = document.querySelector("#root");
       setTheme(theme == "light" ? "dark" : "light");
-      document.querySelector("#root")?.classList.toggle("dark");
-      document.querySelector("#root")?.classList.toggle("light");
+      root?.classList.add("theme-transition");
+      root?.classList.toggle("dark");
+      root?.classList.toggle("light");
       
    };
    return (
