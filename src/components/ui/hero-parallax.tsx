@@ -45,11 +45,11 @@ export const HeroParallax = ({
     springConfig
   );
   const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [20, 0]),
+    useTransform(scrollYProgress, [0, 0.2], [25, 0]),
     springConfig
   );
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
+    useTransform(scrollYProgress, [0, 0.2], [-850, 500]),
     springConfig
   );
   return (
@@ -134,7 +134,7 @@ export const ProductCard = ({
         y: -20,
       }}
       key={product.title}
-      className="group/product h-[340px] w-[30rem] relative flex-shrink-0 rounded-2xl overflow-hidden"
+      className="group/product h-[340px] w-[30rem] relative flex-shrink-0 rounded-2xl overflow-hidden "
     >
       <Link
         to={product.link}
