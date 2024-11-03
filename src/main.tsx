@@ -19,7 +19,7 @@ createRoot(root!).render(
 				}}
 			>
 				<App />
-			</Auth0Provider>,
+			</Auth0Provider>
 		</BrowserRouter>
 		<SpeedInsights />
 	</StrictMode>

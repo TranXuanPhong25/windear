@@ -34,6 +34,8 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
             .then((response) => {
                console.log(response.data);
                setSearchResults(response.data);
+               searchResultRef.current?.classList.add("h-[60vh]")
+
             })
       }else if(searchQuery.length === 0){
          setSearchResults([]);
