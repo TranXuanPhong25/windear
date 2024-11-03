@@ -19,8 +19,7 @@
     --radius: 0.5rem
   }
 }
-body{
-}
+
 #root{
   /* @apply bg-purple-100; */
   @apply min-h-screen;
