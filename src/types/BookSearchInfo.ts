@@ -1,5 +1,5 @@
 export default interface BookSearchInfo {
-   bookId: string;
+   id: string;
    title: string;
    imageUrl?: string;
    rating: number;
