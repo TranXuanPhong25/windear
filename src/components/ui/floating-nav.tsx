@@ -17,22 +17,27 @@ export const FloatingNav = ({
   const { scrollYProgress } = useScroll();
 
   const [visible, setVisible] = useState(true);
-
+  const [borderClass, setBorderClass] = useState("");
   useMotionValueEvent(scrollYProgress, "change", (current) => {
     // Check if current is not undefined and is a number
+    
     if (typeof current === "number") {
       const direction = current! - scrollYProgress.getPrevious()!;
+      //*************h-6: 24px ***************
+      if(window.scrollY > 24){
+        setBorderClass("border-b-2 border-gray-400/30")
+      }else {
+        setBorderClass("")
+      }
+      if(scrollYProgress.getPrevious()==0){
+        setVisible(true);
+      }else if (direction < 0) {
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+      console.log(window.scrollY)
 
-        if(scrollYProgress.get() === 0){
-          setVisible(true);
-        }
-        else
-        if (direction < 0) {
-          setVisible(true);
-        } else {
-          setVisible(false);
-        }
-      
     }
   });
 
@@ -51,12 +56,12 @@ export const FloatingNav = ({
           duration: 0.2,
         }}
         className={cn(
-          "sticky top-0 inset-x-0 mx-auto  dark:bg-gray-800 bg-white  z-[5000]",
-          ""
+          "sticky top-0 inset-x-0 mx-auto  dark:bg-gray-800 bg-white  z-[5000] ",
+          borderClass
         )}
-      >
+        >
         {children}
-        
+
       </motion.div>
     </AnimatePresence>
   );

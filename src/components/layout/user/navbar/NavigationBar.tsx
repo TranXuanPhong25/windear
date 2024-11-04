@@ -91,7 +91,7 @@ export default function NavigationBar() {
    };
    return (
       <FloatingNav>
-         <nav className="dark:bg-gray-800 bg-white sticky top-0 z-[999] w-full px-4 sm:px-6 lg:px-8 py-1 border-b-2 border-gray-400/30">
+         <nav className="dark:bg-gray-800 bg-white sticky top-0 z-[999] w-full px-4 sm:px-6 lg:px-8 py-1 ">
             <div className="mx-auto max-w-7xl ">
                <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
