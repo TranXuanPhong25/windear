@@ -88,7 +88,7 @@ export default function StarRating({ initialRating = 0, ratable = false, onChang
         )
       }
 
-      <div className="flex items-center justify-center space-x-1">
+      <div className="flex items-center justify-center space-x-1 select-none">
         {[...Array(5)].map((_, index) => {
           const fillPercentage = Math.min(100, Math.max(0, ((hover != 0 ? hover : rating) - index) * 100))
           return (

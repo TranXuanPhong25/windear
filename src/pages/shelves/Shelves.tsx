@@ -3,6 +3,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@radix-ui/react-label";
 import { Star } from "lucide-react";
+import StarRating from '@/components/books/StarRating';
+import ShelfAction from '@/components/books/ShelfAction';
+import GetBook from '@/components/books/GetBook';
 
 export default function Shelves() {
    const userShelves = useMemo(() => [
@@ -11,12 +14,12 @@ export default function Shelves() {
          books: [
             {
                id: 1,
-               title: 'The Hobbit',
+               title: 'Harry Potter and the Philosopher\'s Stone',
                author: 'J.R.R. Tolkien',
                cover: 'https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg',
                rating: 4,
                status: 0,
-   
+
             },
             {
                id: 2,
@@ -24,9 +27,9 @@ export default function Shelves() {
                author: 'J.R.R. Tolkien',
                cover: 'https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg',
                rating: 4,
-   
+
                status: 1,
-   
+
             },
             {
                id: 2,
@@ -56,7 +59,7 @@ export default function Shelves() {
                cover: 'https://images-na.ssl-images-amazon.com/images/I/81eB+7+CkUL.jpg',
                rating: 4,
                status: 1,
-   
+
             },
             {
                id: 2,
@@ -127,7 +130,7 @@ export default function Shelves() {
       }, 0);
    }, [userShelves]);
    return (
-      <div className="flex dark:text-white pr-2">
+      <div className="flex dark:text-white pr-2 max-w-5xl mx-auto">
 
          <div className="w-[260px] mr-10">
             <Accordion type="multiple" defaultValue={["item-1"]} className=" " >
@@ -206,15 +209,33 @@ export default function Shelves() {
                      <div className="flex flex-wrap ml-6 mt-6">
                         {
                            shelf.books.map((book) => (
-                              <div key={book.id} className="flex w-full my-3  pb-4 border-b-2 dark:border-gray-300/20 border-gray-400/50">
-                                 <img src={book.cover} alt={book.title} width={150} className="object-fit w-[180px] h-[260px] rounded-r-xl" />
+                              <div key={book.id} className="flex w-full mt-10 mb-24  pb-4 border-b-2 dark:border-gray-300/20 border-gray-400/50 relative">
+                                 <img src={book.cover} alt={book.title} width={180} className="object-fit w-[230px] h-[340px] rounded-r-xl absolute -top-10 left-4 shadow-[0px_7px_20px_0px_rgba(10,10,10,0.4)] " />
 
-                                 <div className="ml-4">
-                                    <h3 className="text-3xl">{book.title}</h3>
-                                    <h4>by {book.author}</h4>
-                                    <div className="flex items-center ">
-                                       <Star className='fill-yellow-400 text-yellow-400 mr-1'/>
-                                       <h4 className="text-2xl">{book.rating}</h4>
+                                 <div className=" dark:bg-gray-900 w-full h-[240px] pl-[270px] pr-4 rounded-lg ">
+                                    <div className='flex flex-col justify-between h-full'>
+                                       <div>
+                                          <h3 className="text-3xl ">{book.title}</h3>
+
+                                          <h4><span className='text-gray-200'>by</span> {book.author} - 1999, 304 pages</h4>
+                                          {/* <h4 className='text-gray-200'>1999, 304 pages</h4> */}
+                                          <div className="flex items-center ">
+                                             <h4 className="text-lg">{book.rating}</h4>
+                                             <Star className='fill-yellow-400 text-transparent mr-1' />
+                                          </div>
+                                       </div>
+                                       <div className='flex justify-between'>
+                                         
+                                             <StarRating initialRating={0} ratable onChange={() => { }} />
+                                          <div>
+                                             <h4 >AddedDate: 10-10-2024</h4>
+                                             <ShelfAction customClass="mt-0 w-full " />
+                                             {/* <GetBook /> */}
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div>
+
                                     </div>
                                  </div>
 
