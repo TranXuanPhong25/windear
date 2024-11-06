@@ -5,7 +5,7 @@ export default function AuthenticationGuard({ component }: { component: Componen
   const Component = withAuthenticationRequired(component, {
     onRedirecting: () => (
       <div className="page-layout">
-        redirecr?
+        redirect?
       </div>
     ),
   });

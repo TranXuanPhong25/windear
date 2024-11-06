@@ -5,7 +5,7 @@ import { Label } from "@radix-ui/react-label";
 import { Star } from "lucide-react";
 import StarRating from '@/components/books/StarRating';
 import ShelfAction from '@/components/books/ShelfAction';
-import GetBook from '@/components/books/GetBook';
+// import GetBook from '@/components/books/GetBook';
 
 export default function Shelves() {
    const userShelves = useMemo(() => [

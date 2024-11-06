@@ -14,6 +14,7 @@ import LogoutPage from './pages/auth/LogoutPage';
 import BookBrowse from './pages/browse/BookBrowse';
 import Shelves from './pages/shelves/Shelves';
 import HomePageLayout from './layouts/homepage/HomePageLayout';
+import AdminLayout from './layouts/admin/AdminLayout';
 export default function App() {
    return (
       <Routes>
@@ -26,7 +27,7 @@ export default function App() {
             <Route element={<CommonLayout />} >
                <Route path="/shelves" element={<Shelves/>} />
                <Route path="/browse/*" element={<BookBrowse/>} />
-               <Route path="/books/" element={<div>book</div>} />
+               {/* <Route path="/books/" element={<div>book</div>} /> */}
                <Route path="/books/:bookId" element={<BookShow />} />
                <Route path="/user/notifications" element={<div>noti</div>} />
                <Route path="/user/" element={<div>user</div>} />
@@ -41,11 +42,14 @@ export default function App() {
                      </RequireAuth>
                   }
                /> */}
-            <Route
+            {/* <Route
                path="/admin/*"
                element={
                   <AuthenticationGuard component={AdminDashboard} />
-               } />
+               } /> */}
+            <Route path="/admin" element={<AdminLayout />} >
+               <Route path="*" element={<AdminDashboard/>} />
+            </Route>
          </Route>
 
       </Routes>
