@@ -1,4 +1,4 @@
-import { Calendar, ChevronDown, Home, Inbox, LogOut, Search, User } from "lucide-react"
+import { Book, ChevronDown, Gauge, LogOut, Users, Circle, UserRound } from "lucide-react"
 import clsx from 'clsx';
 
 import {
@@ -16,36 +16,51 @@ import {
    SidebarSeparator
 } from "@/components/ui/sidebar"
 import { useSidebar } from "@/contexts/sidebar/SidebarContext";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
+import { useState } from "react";
 // Menu items.
-const items = [
+const sidebarGroups = [
    {
-      title: "Home",
-      url: "#",
-      icon: Home,
+      name: "Dashboard",
+      items: [
+         {
+            title: "Analytics",
+            url: "analystics",
+            icon: Gauge
+         }
+      ]
    },
    {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
-   },
+      name: "Management",
+      items: [
+         {
+            title: "Users",
+            url: "users",
+            icon: Users
+         },
+         {
+            title: "Books",
+            url: "books",
+            icon: Book
+         }
+      ]
+   }
+];
+
+const userItems = [
    {
-      title: "Calendar",
-      url: "#",
-      icon: Calendar,
-   },
-   {
-      title: "Search",
-      url: "#",
-      icon: Search,
+      title: "Profile",
+      url: "profile",
+      icon: UserRound
    }
 ]
-
 export default function AdminSidebar() {
+   const location = useLocation();
+   const [activeButton, setActiveButton] = useState<string>(location.pathname.split("/").slice(-1)[0]);
    const { open } = useSidebar();
    return (
       <Sidebar collapsible="icon" >
@@ -57,52 +72,59 @@ export default function AdminSidebar() {
                      <img src="/react.svg" alt="icon" className=" w-full h-full" />
                   </div>
                </Link>
-               <h1 className="truncate text-xl font-semibold">
-                  Windear Library
+               <h1 className="truncate text-xl font-extrabold ">
+                  Windear
                </h1>
             </SidebarHeader>
             <SidebarContent>
-               <SidebarSeparator />
-               <SidebarGroup>
-                  <SidebarGroupLabel >
-                     Management
-                  </SidebarGroupLabel>
-                  <SidebarGroupContent >
-                     <SidebarMenu>
-                        {items.map((item) => (
-                           <Tooltip>
-                              <TooltipTrigger>
-                                 <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild  >
-                                       <a href={item.url}>
-                                          <item.icon />
-                                          <span >{item.title}</span>
-                                       </a>
-                                    </SidebarMenuButton>
-                                 </SidebarMenuItem>
-                              </TooltipTrigger>
-                              <TooltipContent className={clsx(open ? "hidden" : "block")}>
-                                 {item.title}
-                              </TooltipContent>
-                           </Tooltip>
-                        ))}
-                     </SidebarMenu>
-                  </SidebarGroupContent>
-                  <SidebarSeparator />
-               </SidebarGroup>
+               {
+                  sidebarGroups.map((group) => (
+                     <div key={group.name}>
+                        <SidebarSeparator />
+                        <SidebarGroup >
+                           <SidebarGroupLabel >
+                              {group.name}
+                           </SidebarGroupLabel>
+                           <SidebarGroupContent >
+                              <SidebarMenu>
+                                 {
+                                    group.items.map((item) => (
+                                       <Tooltip key={item.title}>
+                                          <TooltipTrigger>
+                                             <SidebarMenuItem >
+                                                <SidebarMenuButton asChild 
+                                                   isActive={activeButton===item.url} 
+                                                   onClick={()=>setActiveButton(item.url)}>
+                                                   <Link to={item.url}>
+                                                      <item.icon />
+                                                      <span>{item.title}</span>
+                                                   </Link>
+                                                </SidebarMenuButton>
+                                             </SidebarMenuItem>
+                                          </TooltipTrigger>
+                                          <TooltipContent className={clsx(open ? "hidden" : "block")}>
+                                             {item.title}
+                                          </TooltipContent>
+                                       </Tooltip>
+                                    ))
+                                 }
+                              </SidebarMenu>
+                           </SidebarGroupContent>
+                        </SidebarGroup>
+                     </div>
+                  ))
+               }
             </SidebarContent>
             <SidebarSeparator />
-            <SidebarSeparator />
             <SidebarFooter>
-
                <SidebarMenu>
                   <SidebarMenu>
 
                      <SidebarMenuItem >
                         <SidebarMenuButton asChild  >
                            <div>
-                              <ThemeSwitcher text="Change Theme"/>
-                              
+                              <ThemeSwitcher text="Change Theme" />
+
                            </div>
                         </SidebarMenuButton>
                      </SidebarMenuItem>
@@ -111,7 +133,7 @@ export default function AdminSidebar() {
 
                      <CollapsibleContent className="mb-1">
                         <SidebarMenu>
-                           {items.map((item) => (
+                           {userItems.map((item) => (
                               <SidebarMenuItem key={item.title}>
                                  <SidebarMenuButton asChild  >
                                     <a href={item.url}>
@@ -125,11 +147,11 @@ export default function AdminSidebar() {
                      </CollapsibleContent>
                      <CollapsibleTrigger className="w-full">
                         <SidebarMenuItem >
-                           <SidebarMenuButton asChild className="px-2 "  >
+                           <SidebarMenuButton asChild className="px-2"  >
                               <div >
                                  <Avatar className={clsx("cursor-pointer", open ? "size-7" : "size-6 mr-2")}>
                                     <AvatarImage src="/react.svg" />
-                                    <AvatarFallback><User /></AvatarFallback>
+                                    <AvatarFallback><Circle /></AvatarFallback>
                                  </Avatar>
                                  <div className="flex flex-col ">
                                     <span className="text-sm font-semibold">Admin</span>
@@ -140,14 +162,23 @@ export default function AdminSidebar() {
                            </SidebarMenuButton>
                         </SidebarMenuItem>
                      </CollapsibleTrigger>
-                     <SidebarMenuItem >
-                        <SidebarMenuButton asChild  >
-                           <a href={"#"}>
-                              <LogOut />
-                              <span>Log out</span>
-                           </a>
-                        </SidebarMenuButton>
-                     </SidebarMenuItem>
+                     <SidebarMenu>
+                        <Tooltip>
+                           <TooltipTrigger>
+                              <SidebarMenuItem >
+                                 <SidebarMenuButton asChild  >
+                                    <Link to="/logout">
+                                       <LogOut />
+                                       <span>Log out</span>
+                                    </Link>
+                                 </SidebarMenuButton>
+                              </SidebarMenuItem>
+                           </TooltipTrigger>
+                           <TooltipContent className={clsx(open ? "hidden" : "block")}>
+                              Log out
+                           </TooltipContent>
+                        </Tooltip>
+                     </SidebarMenu>
                   </Collapsible>
                </SidebarMenu>
             </SidebarFooter>
