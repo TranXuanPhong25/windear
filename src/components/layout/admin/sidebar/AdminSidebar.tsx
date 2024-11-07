@@ -1,4 +1,4 @@
-import { Box, Calendar, ChevronDown, Home, Inbox, LogOut, Search, Settings, User } from "lucide-react"
+import { Calendar, ChevronDown, Home, Inbox, LogOut, Search, User } from "lucide-react"
 import clsx from 'clsx';
 
 import {
@@ -13,13 +13,14 @@ import {
    SidebarMenuButton,
    SidebarMenuItem,
    SidebarRail,
-   SidebarSeparator,
-   useSidebar,
+   SidebarSeparator
 } from "@/components/ui/sidebar"
+import { useSidebar } from "@/contexts/sidebar/SidebarContext";
 import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
 // Menu items.
 const items = [
    {
@@ -47,8 +48,9 @@ const items = [
 export default function AdminSidebar() {
    const { open } = useSidebar();
    return (
-      <Sidebar collapsible="icon">
-         <SidebarContent>
+      <Sidebar collapsible="icon" >
+         <TooltipProvider>
+
             <SidebarHeader className="mt-2 flex flex-row items-center">
                <Link to="/" className="ml-1 ">
                   <div className="size-9 ">
@@ -59,77 +61,98 @@ export default function AdminSidebar() {
                   Windear Library
                </h1>
             </SidebarHeader>
-            <SidebarSeparator />
-            <SidebarGroup>
-               <SidebarGroupLabel >
-                  Management
-               </SidebarGroupLabel>
-               <SidebarGroupContent >
-                  <SidebarMenu>
-                     {items.map((item) => (
-                        <SidebarMenuItem key={item.title}>
-                           <SidebarMenuButton asChild  >
-                              <a href={item.url}>
-                                 <item.icon />
-                                 <span >{item.title}</span>
-                              </a>
-                           </SidebarMenuButton>
-                        </SidebarMenuItem>
-                     ))}
-                  </SidebarMenu>
-               </SidebarGroupContent>
+            <SidebarContent>
                <SidebarSeparator />
-            </SidebarGroup>
-         </SidebarContent>
-
-         <SidebarSeparator />
-         <SidebarFooter>
-            <SidebarMenu>
-
-               <Collapsible defaultOpen className="group/collapsible pb-0">
-
-                  <CollapsibleContent className="mb-1">
+               <SidebarGroup>
+                  <SidebarGroupLabel >
+                     Management
+                  </SidebarGroupLabel>
+                  <SidebarGroupContent >
                      <SidebarMenu>
                         {items.map((item) => (
-                           <SidebarMenuItem key={item.title}>
-                              <SidebarMenuButton asChild  >
-                                 <a href={item.url}>
-                                    <item.icon />
-                                    <span >{item.title}</span>
-                                 </a>
-                              </SidebarMenuButton>
-                           </SidebarMenuItem>
+                           <Tooltip>
+                              <TooltipTrigger>
+                                 <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton asChild  >
+                                       <a href={item.url}>
+                                          <item.icon />
+                                          <span >{item.title}</span>
+                                       </a>
+                                    </SidebarMenuButton>
+                                 </SidebarMenuItem>
+                              </TooltipTrigger>
+                              <TooltipContent className={clsx(open ? "hidden" : "block")}>
+                                 {item.title}
+                              </TooltipContent>
+                           </Tooltip>
                         ))}
                      </SidebarMenu>
-                  </CollapsibleContent>
-                  <CollapsibleTrigger className="w-full">
+                  </SidebarGroupContent>
+                  <SidebarSeparator />
+               </SidebarGroup>
+            </SidebarContent>
+            <SidebarSeparator />
+            <SidebarSeparator />
+            <SidebarFooter>
+
+               <SidebarMenu>
+                  <SidebarMenu>
+
                      <SidebarMenuItem >
-                        <SidebarMenuButton asChild className="px-1 "  >
-                           <div >
-                              <Avatar className={clsx("cursor-pointer",open?"size-7":"size-6 mr-2")}>
-                                 <AvatarImage src="/react.svg" />
-                                 <AvatarFallback><User /></AvatarFallback>
-                              </Avatar>
-                              <div className="flex flex-col ">
-                                 <span className="text-sm font-semibold">Admin</span>
-                                 <span className="text-xs">Windear</span>
-                              </div>
-                              <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                        <SidebarMenuButton asChild  >
+                           <div>
+                              <ThemeSwitcher text="Change Theme"/>
+                              
                            </div>
                         </SidebarMenuButton>
                      </SidebarMenuItem>
-                  </CollapsibleTrigger>
-                  <SidebarMenuItem >
-                     <SidebarMenuButton asChild  >
-                        <a href={"#"}>
-                           <LogOut />
-                           <span>Log out</span>
-                        </a>
-                     </SidebarMenuButton>
-                  </SidebarMenuItem>
-               </Collapsible>
-            </SidebarMenu>
-         </SidebarFooter>
+                  </SidebarMenu>
+                  <Collapsible className="group/collapsible pb-0">
+
+                     <CollapsibleContent className="mb-1">
+                        <SidebarMenu>
+                           {items.map((item) => (
+                              <SidebarMenuItem key={item.title}>
+                                 <SidebarMenuButton asChild  >
+                                    <a href={item.url}>
+                                       <item.icon />
+                                       <span >{item.title}</span>
+                                    </a>
+                                 </SidebarMenuButton>
+                              </SidebarMenuItem>
+                           ))}
+                        </SidebarMenu>
+                     </CollapsibleContent>
+                     <CollapsibleTrigger className="w-full">
+                        <SidebarMenuItem >
+                           <SidebarMenuButton asChild className="px-2 "  >
+                              <div >
+                                 <Avatar className={clsx("cursor-pointer", open ? "size-7" : "size-6 mr-2")}>
+                                    <AvatarImage src="/react.svg" />
+                                    <AvatarFallback><User /></AvatarFallback>
+                                 </Avatar>
+                                 <div className="flex flex-col ">
+                                    <span className="text-sm font-semibold">Admin</span>
+                                    <span className="text-xs">Windear</span>
+                                 </div>
+                                 <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                              </div>
+                           </SidebarMenuButton>
+                        </SidebarMenuItem>
+                     </CollapsibleTrigger>
+                     <SidebarMenuItem >
+                        <SidebarMenuButton asChild  >
+                           <a href={"#"}>
+                              <LogOut />
+                              <span>Log out</span>
+                           </a>
+                        </SidebarMenuButton>
+                     </SidebarMenuItem>
+                  </Collapsible>
+               </SidebarMenu>
+            </SidebarFooter>
+         </TooltipProvider>
+
          <SidebarRail />
 
       </Sidebar>
