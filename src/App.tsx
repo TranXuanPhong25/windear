@@ -4,8 +4,8 @@ import {
 } from 'react-router-dom';
 
 import CommonLayout from './layouts/common/CommonLayout';
-import AdminDashboard from './pages/admin/AdminDashboard';
 import AuthenticationGuard from './components/auth/AuthenticationGuard';
+
 import HomePage from './pages/home/HomePage';
 // import LogoutPage from './pages/auth/LogoutPage';
 import BookShow from './pages/books/BookShow';
@@ -15,6 +15,10 @@ import BookBrowse from './pages/browse/BookBrowse';
 import Shelves from './pages/shelves/Shelves';
 import HomePageLayout from './layouts/homepage/HomePageLayout';
 import AdminLayout from './layouts/admin/AdminLayout';
+import UsersManagement from './pages/admin/manage/UsersManagement';
+import BooksManagement from './pages/admin/manage/BooksManagement';
+import AdminHome from './pages/admin/AdminHome';
+import AnalysticDashboard from './pages/admin/dashboard/AnalysticDashboard';
 export default function App() {
    return (
       <Routes>
@@ -48,7 +52,10 @@ export default function App() {
                   <AuthenticationGuard component={AdminDashboard} />
                } /> */}
             <Route path="/admin" element={<AdminLayout />} >
-               <Route path="*" element={<AdminDashboard/>} />
+               <Route index element={<AdminHome/>} />
+               <Route path="management/users" element={<UsersManagement/>} />
+               <Route path="management/books" element={<BooksManagement/>} />
+               <Route path="dashboard/analystics" element={<AnalysticDashboard/>} />
             </Route>
          </Route>
 

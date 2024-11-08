@@ -56,7 +56,7 @@ export default function ThemeSwitcher({ text = "" }: { text?: string }) {
    return (
       <DropdownMenu>
          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" aria-label="Select theme" className="p-0  hover:text-sidebar-accent-foreground text-sidebar-foreground">
+            <Button variant="ghost" aria-label="Select theme" className="hover:text-sidebar-accent-foreground text-sidebar-foreground flex p-0 hover:!bg-transparent !rounded-[2px]" >
                {theme === 'light' && <Sun  className='size-5 group-data-[collapsible=icon]:size-6'/>}
                {theme === 'dark' && <Moon  className='size-5 group-data-[collapsible=icon]:size-6'/>}
                {theme === 'system' && <Monitor className='size-5 group-data-[collapsible=icon]:size-6' />}

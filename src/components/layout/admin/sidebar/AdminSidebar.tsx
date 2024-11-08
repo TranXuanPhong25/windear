@@ -12,8 +12,7 @@ import {
    SidebarMenu,
    SidebarMenuButton,
    SidebarMenuItem,
-   SidebarRail,
-   SidebarSeparator
+   SidebarRail
 } from "@/components/ui/sidebar"
 import { useSidebar } from "@/contexts/sidebar/SidebarContext";
 import { Link, useLocation } from "react-router-dom";
@@ -68,7 +67,7 @@ export default function AdminSidebar() {
       <Sidebar collapsible="icon" >
          <TooltipProvider>
 
-            <SidebarHeader className="mt-2 flex flex-row items-center">
+            <SidebarHeader className="mt-2 flex flex-row items-center mb-4">
                <Link to="/" className="ml-1 ">
                   <div className="size-9 ">
                      <img src="/react.svg" alt="icon" className=" w-full h-full" />
@@ -82,7 +81,6 @@ export default function AdminSidebar() {
                {
                   sidebarGroups.map((group) => (
                      <div key={group.name}>
-                        <SidebarSeparator />
                         <SidebarGroup >
                            <SidebarGroupLabel >
                               {group.name}
@@ -117,17 +115,15 @@ export default function AdminSidebar() {
                   ))
                }
             </SidebarContent>
-            <SidebarSeparator />
             <SidebarFooter>
                <SidebarMenu>
                   <SidebarMenu>
 
                      <SidebarMenuItem >
                         <SidebarMenuButton asChild  >
-                           <div>
-                              <ThemeSwitcher text="Change Theme" />
-
-                           </div>
+                              <div >
+                              <ThemeSwitcher text="Change Theme"/>
+                              </div>
                         </SidebarMenuButton>
                      </SidebarMenuItem>
                   </SidebarMenu>

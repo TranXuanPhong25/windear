@@ -10,7 +10,7 @@ export default function AdminLayout() {
     <SidebarProvider>
       <AdminSidebar />
 
-      <main className="p-4">
+      <main className=" pt-4 w-full bg-sidebar">
         <div className="flex items-center mb-4">
           <SidebarTrigger />
           <Breadcrumb className="ml-2">
@@ -29,7 +29,7 @@ export default function AdminLayout() {
                     <BreadcrumbSeparator key={index} />
                     <BreadcrumbItem key={"item" + index}>
                       <BreadcrumbLink asChild>
-                        <Link to={path.slice(1, index +2 ).join("/")}>
+                        <Link to={path.slice(1, index + 2).join("/")}>
                           {item}
                         </Link>
                       </BreadcrumbLink>
@@ -38,13 +38,6 @@ export default function AdminLayout() {
                 )
                 )
               }
-              {/* <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                  <Link to="admin">
-                
-                    Admin
-                  </Link>
-              </BreadcrumbItem> */}
               {
                 path.length !== 0 && (
                   <>
@@ -57,9 +50,10 @@ export default function AdminLayout() {
               }
             </BreadcrumbList>
           </Breadcrumb>
-
         </div>
-        <Outlet />
+        <div className="rounded-tl-[1.5rem] bg-gray-100 dark:bg-gray-800/60 w-full min-h-screen p-5">
+          <Outlet />
+        </div>
       </main>
     </SidebarProvider>
   )
