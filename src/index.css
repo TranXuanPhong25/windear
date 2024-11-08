@@ -47,6 +47,7 @@
 .theme-transition{
   transition: background-color 0.2s ease-out, color 0.3s;
 }
+
 html.dark #root{
   @apply bg-gray-800;
   
