@@ -1,3 +1,4 @@
+import AuthenticationRedirecting from "@/pages/auth/AuthenticationRedirecting";
 import { withAuthenticationRequired, useAuth0, User } from "@auth0/auth0-react";
 import { ComponentType } from "react";
 import { Navigate } from "react-router-dom";
@@ -17,9 +18,7 @@ const AdminGuard = ({ component }: { component: ComponentType }) => {
       () => WithClaimCheck(component, checkClaims, ".."),
       {
          onRedirecting: () => (
-            <div className="page-layout">
-               redirect?
-            </div>
+            <AuthenticationRedirecting />
          ),
       }
    );
