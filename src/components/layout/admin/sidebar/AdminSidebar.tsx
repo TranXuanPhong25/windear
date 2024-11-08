@@ -1,4 +1,4 @@
-import { Book, ChevronDown, Gauge, LogOut, Users, Circle, UserRound } from "lucide-react"
+import { ChevronDown, Gauge, LogOut, Users, Circle, UserRound, Activity, House, LibraryBig } from "lucide-react"
 import clsx from 'clsx';
 
 import {
@@ -30,6 +30,11 @@ const sidebarGroups = [
          {
             title: "Analytics",
             url: "analystics",
+            icon: Activity
+         },
+         {
+            title: "Logs",
+            url: "logs",
             icon: Gauge
          }
       ]
@@ -46,7 +51,7 @@ const sidebarGroups = [
          {
             title: "Books",
             url: "books",
-            icon: Book
+            icon: LibraryBig
          }
       ]
    }
@@ -62,12 +67,13 @@ const userItems = [
 export default function AdminSidebar() {
    const location = useLocation();
    const [activeButton, setActiveButton] = useState<string>(location.pathname.split("/").slice(-1)[0]);
+   console.log(activeButton);
    const { open } = useSidebar();
    return (
       <Sidebar collapsible="icon" >
          <TooltipProvider>
 
-            <SidebarHeader className="mt-2 flex flex-row items-center mb-4">
+            <SidebarHeader className="mt-3 flex flex-row items-center mb-4">
                <Link to="/" className="ml-1 ">
                   <div className="size-9 ">
                      <img src="/react.svg" alt="icon" className=" w-full h-full" />
@@ -78,6 +84,27 @@ export default function AdminSidebar() {
                </h1>
             </SidebarHeader>
             <SidebarContent>
+               <SidebarGroup>
+                  <SidebarMenu>
+                     <Tooltip >
+                        <TooltipTrigger>
+                           <SidebarMenuItem >
+                              <SidebarMenuButton asChild
+                                 isActive={activeButton === "admin"}
+                                 onClick={() => setActiveButton("admin")}>
+                                 <Link to="">
+                                    <House />
+                                    <span>Home</span>
+                                 </Link>
+                              </SidebarMenuButton>
+                           </SidebarMenuItem>
+                        </TooltipTrigger>
+                        <TooltipContent className={clsx(open ? "hidden" : "block")}>
+                           Home
+                        </TooltipContent>
+                     </Tooltip>
+                  </SidebarMenu>
+               </SidebarGroup>
                {
                   sidebarGroups.map((group) => (
                      <div key={group.name}>
@@ -92,9 +119,9 @@ export default function AdminSidebar() {
                                        <Tooltip key={item.title}>
                                           <TooltipTrigger>
                                              <SidebarMenuItem >
-                                                <SidebarMenuButton asChild 
-                                                   isActive={activeButton===item.url} 
-                                                   onClick={()=>setActiveButton(item.url)}>
+                                                <SidebarMenuButton asChild
+                                                   isActive={activeButton === item.url}
+                                                   onClick={() => setActiveButton(item.url)}>
                                                    <Link to={`${group.groupUrl}/${item.url}`}>
                                                       <item.icon />
                                                       <span>{item.title}</span>
@@ -121,9 +148,9 @@ export default function AdminSidebar() {
 
                      <SidebarMenuItem >
                         <SidebarMenuButton asChild  >
-                              <div >
-                              <ThemeSwitcher text="Change Theme"/>
-                              </div>
+                           <div >
+                              <ThemeSwitcher text="Change Theme" />
+                           </div>
                         </SidebarMenuButton>
                      </SidebarMenuItem>
                   </SidebarMenu>

@@ -10,8 +10,8 @@ export default function AdminLayout() {
     <SidebarProvider>
       <AdminSidebar />
 
-      <main className=" pt-4 w-full bg-sidebar">
-        <div className="flex items-center mb-4">
+      <main className=" pt-6 w-full bg-sidebar">
+        <div className=" pl-4 md:pl-0 flex items-center mb-5">
           <SidebarTrigger />
           <Breadcrumb className="ml-2">
             <BreadcrumbList>
@@ -51,7 +51,7 @@ export default function AdminLayout() {
             </BreadcrumbList>
           </Breadcrumb>
         </div>
-        <div className="rounded-tl-[1.5rem] bg-gray-100 dark:bg-gray-800/60 w-full min-h-screen p-5">
+        <div className="rounded-t-[1.5rem] md:rounded-tr-none bg-gray-100 dark:bg-gray-800/60 w-full min-h-screen p-5">
           <Outlet />
         </div>
       </main>

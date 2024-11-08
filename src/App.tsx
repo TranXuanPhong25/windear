@@ -19,6 +19,7 @@ import UsersManagement from './pages/admin/manage/UsersManagement';
 import BooksManagement from './pages/admin/manage/BooksManagement';
 import AdminHome from './pages/admin/AdminHome';
 import AnalysticDashboard from './pages/admin/dashboard/AnalysticDashboard';
+import LogsDashboard from './pages/admin/dashboard/LogsDashboard';
 export default function App() {
    return (
       <Routes>
@@ -56,6 +57,8 @@ export default function App() {
                <Route path="management/users" element={<UsersManagement/>} />
                <Route path="management/books" element={<BooksManagement/>} />
                <Route path="dashboard/analystics" element={<AnalysticDashboard/>} />
+               <Route path="dashboard/logs" element={<LogsDashboard/>} />
+
             </Route>
          </Route>
 
