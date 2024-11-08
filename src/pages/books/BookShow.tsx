@@ -15,7 +15,6 @@ import BookList from "@/components/home/BookList";
 import ShelfAction from "@/components/books/ShelfAction";
 import GetBook from "@/components/books/GetBook";
 import { useQuery } from "@tanstack/react-query";
-import { X } from 'lucide-react';
 const genreTags = [
    {
       "slug": "fiction",
@@ -143,7 +142,7 @@ export default function BookShow() {
                {isLoading ? <Skeleton className="w-[240px] h-80 rounded-md " />
                   : <img className="max-w-[240px]rounded-md " src={book?.imageUrl} alt="book cover" />}
 
-               <ShelfAction triggerWidth="w-full" />
+               <ShelfAction customClass="w-full" />
                <GetBook />
                <StarRating initialRating={5} ratable onChange={() => { }} />
             </div>
@@ -168,9 +167,9 @@ export default function BookShow() {
 
                }
 
-               {/* <ExpandableParagraph
-                  text={book?.description}
-               /> */}
+               <ExpandableParagraph
+                  text={"adkfhakdjshfjkadshfjkahfkhadwjkfhadklsjfhadjklsfhjkashfjkladshfklj"}
+               />
 
                <div className="grid grid-cols-3 gap-5  max-w-[900px]">
                   <div>

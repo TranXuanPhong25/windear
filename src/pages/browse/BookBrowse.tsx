@@ -60,7 +60,7 @@ export default function BookBrowse() {
                   {
                      searchResults.length > 0 ? (
                         searchResults.map((result) => (
-                           <div key={result.bookId} className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 transition-colors duration-200 cursor-pointer overflow-hidden">
+                           <div key={result.id} className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 transition-colors duration-200 cursor-pointer overflow-hidden">
                               <div className='mr-4 min-w-20  '>
                                  <img src={result.imageUrl} alt={result.title} className=" w-full rounded-r-md" />
                               </div>
@@ -82,7 +82,7 @@ export default function BookBrowse() {
                                     }
                                  </p>
                                  <Button className="bg-gray-800 rounded-full pl-4 pr-2 sm:rounded-md">
-                                    <Link to={`/books/${result.bookId}`} >
+                                    <Link to={`/books/${result.id}`} >
                                        View
                                        <ArrowUpRight className="h-4 w-4 text-white inline-block" />
                                     </Link>
