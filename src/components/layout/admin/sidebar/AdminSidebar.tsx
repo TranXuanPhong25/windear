@@ -26,6 +26,7 @@ import { useState } from "react";
 const sidebarGroups = [
    {
       name: "Dashboard",
+      groupUrl: "dashboard",
       items: [
          {
             title: "Analytics",
@@ -36,6 +37,7 @@ const sidebarGroups = [
    },
    {
       name: "Management",
+      groupUrl: "management",
       items: [
          {
             title: "Users",
@@ -95,7 +97,7 @@ export default function AdminSidebar() {
                                                 <SidebarMenuButton asChild 
                                                    isActive={activeButton===item.url} 
                                                    onClick={()=>setActiveButton(item.url)}>
-                                                   <Link to={item.url}>
+                                                   <Link to={`${group.groupUrl}/${item.url}`}>
                                                       <item.icon />
                                                       <span>{item.title}</span>
                                                    </Link>

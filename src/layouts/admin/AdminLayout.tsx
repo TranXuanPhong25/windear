@@ -5,7 +5,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 
 export default function AdminLayout() {
   const location = useLocation();
-  const path = location.pathname.split("/").slice(2, -1);
+  const path = location.pathname.split("/").slice(1, -1);
   return (
     <SidebarProvider>
       <AdminSidebar />
@@ -29,7 +29,7 @@ export default function AdminLayout() {
                     <BreadcrumbSeparator key={index} />
                     <BreadcrumbItem key={"item" + index}>
                       <BreadcrumbLink asChild>
-                        <Link to={path.slice(0, index + 1).join("/")}>
+                        <Link to={path.slice(1, index +2 ).join("/")}>
                           {item}
                         </Link>
                       </BreadcrumbLink>
