@@ -148,7 +148,7 @@ export default function AdminSidebar() {
                      <SidebarMenuItem >
                         <SidebarMenuButton asChild  >
                            <div >
-                              <ThemeSwitcher text="Change Theme" />
+                              <ThemeSwitcher text="Change Theme" sidebar/>
                            </div>
                         </SidebarMenuButton>
                      </SidebarMenuItem>

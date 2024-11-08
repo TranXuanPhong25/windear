@@ -58,7 +58,6 @@ export default function App() {
                <Route path="management/books" element={<BooksManagement/>} />
                <Route path="dashboard/analystics" element={<AnalysticDashboard/>} />
                <Route path="dashboard/logs" element={<LogsDashboard/>} />
-
             </Route>
          </Route>
 

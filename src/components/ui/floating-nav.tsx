@@ -36,7 +36,6 @@ export const FloatingNav = ({
       } else {
         setVisible(false);
       }
-      console.log(window.scrollY)
 
     }
   });

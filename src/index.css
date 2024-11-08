@@ -40,7 +40,6 @@
 
 #root{
   /* @apply bg-purple-100; */
-  
   @apply min-h-screen;
   /* transition: background-color 0.2s ease-out, color 0.3s; */
 }
@@ -48,8 +47,7 @@
 .theme-transition{
   transition: background-color 0.2s ease-out, color 0.3s;
 }
-
-#root.dark{
+html.dark #root{
   @apply bg-gray-800;
   
   /* @apply dark:text-white;  

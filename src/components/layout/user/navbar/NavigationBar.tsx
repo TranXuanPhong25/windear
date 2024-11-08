@@ -24,23 +24,13 @@ import MyNavigationMenu from "./NavigationMenu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { FloatingNav } from "@/components/ui/floating-nav";
+import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
 
 // const user = {
 //    name: 'Tom Cook',
 //    email: 'tom@example.com'
 // }
-const useTheme = () => {
 
-   const [theme, setCurrentTheme] = useState<string>(localStorage.getItem("theme") || "light");
-   const setTheme = (targetTheme: string) => {
-      setCurrentTheme(targetTheme);
-      localStorage.setItem("theme", targetTheme);
-   }
-   return {
-      theme,
-      setTheme
-   }
-}
 const userNavigation = [
    [{ name: "Notifications", href: "user/", icon: Bell }],
    [
@@ -67,7 +57,6 @@ const navigation = [
 export default function NavigationBar() {
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const [isModalOpen, setIsModalOpen] = useState(false);
-   const { theme, setTheme } = useTheme();
    const handleSearchClick = () => {
       setIsModalOpen(true);
    };
@@ -76,19 +65,9 @@ export default function NavigationBar() {
 
       setIsModalOpen(false);
    };
-
-   // const auth = useAuth();
    const auth = useAuth0();
    const toggleMenu = () => setIsOpen(!isOpen);
-   const toggleTheme = () => {
 
-      const root = document.querySelector("#root");
-      setTheme(theme == "light" ? "dark" : "light");
-      root?.classList.add("theme-transition");
-      root?.classList.toggle("dark");
-      root?.classList.toggle("light");
-
-   };
    return (
       <FloatingNav>
          <nav className="dark:bg-gray-800 bg-white sticky top-0 z-[999] w-full px-4 sm:px-6 lg:px-8 py-1 ">
@@ -121,9 +100,7 @@ export default function NavigationBar() {
                         </div>
                      </div>
                      <MyNavigationMenu />
-                     <Button onClick={toggleTheme} className="dark:bg-gray-800  dark:text-white dark:hover:bg-gray-900 bg-white text-black hover:text-white hover:bg-gray-400" >
-                        O
-                     </Button>
+                     <ThemeSwitcher />
                      {
                         auth.user ? (
 
@@ -165,7 +142,7 @@ export default function NavigationBar() {
                            (
                               <>
                                  {/* <Link to="/" className="ml-3 relative"> */}
-                                 <Button onClick={() => auth.loginWithPopup()} className=" bg-white text-black hover:text-white ">Sign in</Button>
+                                 <Button onClick={() => auth.loginWithPopup()} className=" bg-white text-black hover:text-white  ">Sign in</Button>
                                  {/* </Link> */}
 
                               </>

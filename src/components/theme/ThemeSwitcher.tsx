@@ -8,10 +8,13 @@ import {
    DropdownMenuItem,
    DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import clsx from 'clsx'
 
 type Theme = 'light' | 'dark' | 'system'
-
-export default function ThemeSwitcher({ text = "" }: { text?: string }) {
+// const root = document.querySelector("#root");
+const html = window.document.documentElement
+const root = html.querySelector("#root");
+export default function ThemeSwitcher({ text = "" , sidebar = false}: { text?: string, sidebar?: boolean }) {
    const [theme, setTheme] = useState<Theme>('system')
    const [mounted, setMounted] = useState(false)
 
@@ -28,20 +31,23 @@ export default function ThemeSwitcher({ text = "" }: { text?: string }) {
 
    useEffect(() => {
       if (mounted) {
+         root?.classList.add('theme-transition')
          localStorage.setItem('theme', theme)
          applyTheme(theme)
       }
    }, [theme, mounted])
 
    const applyTheme = (newTheme: Theme) => {
-      const root = window.document.documentElement
-      root.classList.remove('light', 'dark')
-
+      root?.classList.remove('light', 'dark')
+      html.classList.remove('light', 'dark')
+      
       if (newTheme === 'system') {
          const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-         root.classList.add(systemTheme)
+         html?.classList.add(systemTheme)
+         root?.classList.add(systemTheme)
       } else {
-         root.classList.add(newTheme)
+         html?.classList.add(newTheme)
+         root?.classList.add(newTheme)
       }
    }
 
@@ -56,26 +62,26 @@ export default function ThemeSwitcher({ text = "" }: { text?: string }) {
    return (
       <DropdownMenu>
          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" aria-label="Select theme" className="hover:text-sidebar-accent-foreground text-sidebar-foreground flex p-0 hover:!bg-transparent !rounded-[2px]" >
+            <Button variant="ghost" aria-label="Select theme" className={clsx("hover:text-sidebar-accent-foreground text-sidebar-foreground flex  hover:!bg-transparent !rounded-[2px] ",sidebar?"p-0":"px-[10px] !mr-2")} >
                {theme === 'light' && <Sun  className='size-5 group-data-[collapsible=icon]:size-6'/>}
                {theme === 'dark' && <Moon  className='size-5 group-data-[collapsible=icon]:size-6'/>}
                {theme === 'system' && <Monitor className='size-5 group-data-[collapsible=icon]:size-6' />}
-               <span className='ml-2 font-normal group-data-[collapsible=icon]:hidden '>
+               <span className={`ont-normal group-data-[collapsible=icon]:hidden ${text&&"ml-2"}`}>
                   {text}
                </span>
             </Button>
          </DropdownMenuTrigger>
-         <DropdownMenuContent align="end" >
-            <DropdownMenuItem onClick={() => handleThemeChange('light')}>
-               <Sun className="mr-2  h-4 w-4" />
+         <DropdownMenuContent align="center" className={clsx(sidebar&&"bg-sidebar",`dark:bg-gray-800 z-[9999999]`)} >
+            <DropdownMenuItem onClick={() => handleThemeChange('light')} className={clsx(sidebar?"hover:!bg-sidebar-accent":"dark:hover:!bg-purple-400")}>
+               <Sun className="mr-2  h-4 w-4 " />
                <span>Light</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleThemeChange('dark')}>
-               <Moon className="mr-2 h-4 w-4" />
+            <DropdownMenuItem onClick={() => handleThemeChange('dark')} className={clsx(sidebar?"hover:!bg-sidebar-accent":"dark:hover:!bg-purple-400")}>
+               <Moon className="mr-2 h-4 w-4 " />
                <span>Dark</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleThemeChange('system')}>
-               <Monitor className="mr-2 h-4 w-4" />
+            <DropdownMenuItem onClick={() => handleThemeChange('system')} className={clsx(sidebar?"hover:!bg-sidebar-accent":"dark:hover:!bg-purple-400")}>
+               <Monitor className="mr-2 h-4 w-4 " />
                <span>System</span>
             </DropdownMenuItem>
          </DropdownMenuContent>
