@@ -16,12 +16,17 @@ export default function AdminLayout() {
           <Breadcrumb className="ml-2">
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink asChild>
+                {path.length !== 0 ?
+                  <BreadcrumbLink asChild>
 
-                  <Link to="">
+                    <Link to="">
+                      Home
+                    </Link>
+                  </BreadcrumbLink> :
+                  <BreadcrumbPage>
                     Home
-                  </Link>
-                </BreadcrumbLink>
+                  </BreadcrumbPage>
+                }
               </BreadcrumbItem>
               {
                 location.pathname.split("/").slice(2, -1).map((item, index) => (
