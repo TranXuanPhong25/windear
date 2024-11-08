@@ -13,13 +13,44 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
 }
+
 @layer base {
   :root {
-    --radius: 0.5rem
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%
+  }
+  .dark {
+    --sidebar-background: 215 14% 34%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 20% 24%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 215 3.7% 45.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%
   }
 }
-body{
+
+#root{
+  /* @apply bg-purple-100; */
+  @apply min-h-screen;
+  /* transition: background-color 0.2s ease-out, color 0.3s; */
+}
+
+.theme-transition{
+  transition: background-color 0.2s ease-out, color 0.3s;
+}
+
+html.dark #root{
   @apply bg-gray-800;
+  
   /* @apply dark:text-white;  
   @apply text-black; */
 }

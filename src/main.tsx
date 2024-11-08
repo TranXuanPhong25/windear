@@ -12,7 +12,9 @@ import {
  
 const queryClient = new QueryClient()
 
-createRoot(document.getElementById("root")!).render(
+const root = document.getElementById("root") 
+root?.classList.add(localStorage.getItem("theme") || "light")
+createRoot(root!).render(
 	<StrictMode>
 		<BrowserRouter>
 			<Auth0Provider

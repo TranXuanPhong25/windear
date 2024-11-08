@@ -6,10 +6,10 @@ import {
 import { Close } from "@radix-ui/react-popover";
 import { BookCheckIcon, BookmarkIcon, BookOpenTextIcon } from "lucide-react";
 
-export default function ShelfAction({triggerWidth="w-full"}:{triggerWidth?:string}) {
+export default function ShelfAction({customClass="w-full"}:{customClass?:string}) {
    return (
       <Popover>
-         <PopoverTrigger className={"bg-white text-black rounded-md px-4 py-2 mt-4 mb-2 text-lg "+triggerWidth}>
+         <PopoverTrigger className={"bg-white text-black rounded-md px-4 py-2 mt-4 mb-2 text-lg "+customClass}>
             Want to read
          </PopoverTrigger>
 

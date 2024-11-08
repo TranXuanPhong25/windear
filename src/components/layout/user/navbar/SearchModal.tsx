@@ -19,11 +19,13 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
    const [isVisible, setIsVisible] = useState(false);
    const [searchResults, setSearchResults] = useState<BookSearchInfo[]>([]);
    const [searchQuery, setSearchQuery] = useState('');
+   const searchResultRef = useRef<HTMLDivElement>(null);
    // const [searching, setSearching] = useState(false);
 
    useEffect(() => {
-
       if (searchQuery.length > 3) {
+         searchResultRef.current?.classList.add("h-[60vh]")
+
          axios.get(`${import.meta.env.VITE_BASE_API_URL}/external/books/search?title=${searchQuery}`, {
             headers: {
                'Content-Type': 'application/json',
@@ -32,7 +34,13 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
             .then((response) => {
                console.log(response.data);
                setSearchResults(response.data);
+               searchResultRef.current?.classList.add("h-[60vh]")
+
             })
+      }else if(searchQuery.length === 0){
+         setSearchResults([]);
+         searchResultRef.current?.classList.remove("h-[60vh]")
+
       }
 
    }, [searchQuery]);
@@ -88,9 +96,9 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
    if (!isOpen && !isVisible) return null;
 
    return (
-      <div ref={overlayRef} className="fixed inset-0 z-50 flex justify-center bg-black bg-opacity-50 text-white ">
-         <div ref={modalRef} className="bg-gray-800 rounded-2xl shadow-lg  w-full max-w-2xl h-fit mt-6 ">
-            <div className="flex justify-between items-center relative mx-3 mt-6">
+      <div ref={overlayRef} className="fixed inset-0 z-50 flex justify-center  bg-opacity-80 bg-black dark:text-white ">
+         <div ref={modalRef} className="dark:bg-gray-800/90 rounded-2xl shadow-lg  w-full max-w-2xl h-fit mt-10 bg-gray-100/80 backdrop-blur-md border-gray-300 border-2">
+            <div className="flex justify-between items-center relative mx-4 mt-6">
 
                <Label htmlFor="search-in-nav">
                   <Search className="absolute left-3 top-5  h-5 w-5 text-muted-foreground cursor-pointer" />
@@ -105,7 +113,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                   id="search-in-nav"
                   autoFocus={true}
                   placeholder="Search for books..."
-                  className="w-full pl-10 pr-16 border-4 rounded-lg py-3 text text-xl focus:outline-none border-gray-700 focus:border-gray-600  bg-transparent focus:bg-gray-900 transition-colors"
+                  className="w-full pl-10 pr-16 border-4 rounded-lg py-3 text text-xl focus:outline-none border-gray-400 focus:border-gray-500 dark:focus:border-gray-300  dark:focus:bg-gray-900 bg-gray-300 focus:bg-gray-200  dark:bg-transparent transition-colors"
                />
                <Button onClick={onClose} variant="ghost" className="text-gray-500 hover:text-gray-700 text-md absolute right-2 h-0 px-3 py-4">
                   Esc
@@ -115,11 +123,12 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
             <div className='relative mt-6'>
 
 
-               <ScrollArea className="w-full h-[60vh] border-gray-400/40 border-t-2">
+               <ScrollArea ref={searchResultRef} className="w-full max-h-[60vh] border-gray-400/40 border-t-2">
                   {
                      searchResults.length > 0 ? (
                         searchResults.map((result) => (
                            <div key={result.id} className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 transition-colors duration-200 cursor-pointer overflow-hidden">
+
                               <div className='mr-4 min-w-20 max-w-40 '>
                                  <img src={result.imageUrl} alt={result.title} className=" w-full rounded-r-md" />
                               </div>
@@ -151,7 +160,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                            </div>
                         ))
                      ) : (
-                        <div className="p-4">
+                        <div className="p-5">
                            <h3 className="text-lg">No results found</h3>
                         </div>
                      )
