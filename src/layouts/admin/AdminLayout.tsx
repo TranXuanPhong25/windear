@@ -18,7 +18,6 @@ export default function AdminLayout() {
               <BreadcrumbItem>
                 {path.length !== 0 ?
                   <BreadcrumbLink asChild>
-
                     <Link to="">
                       Home
                     </Link>

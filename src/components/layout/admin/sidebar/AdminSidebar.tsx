@@ -67,7 +67,6 @@ const userItems = [
 export default function AdminSidebar() {
    const location = useLocation();
    const [activeButton, setActiveButton] = useState<string>(location.pathname.split("/").slice(-1)[0]);
-   console.log(activeButton);
    const { open } = useSidebar();
    return (
       <Sidebar collapsible="icon" >
