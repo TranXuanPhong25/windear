@@ -5,6 +5,13 @@ import { BrowserRouter } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
 import App from "./App";
 import "./index.css";
+import {
+   QueryClient,
+   QueryClientProvider,
+} from '@tanstack/react-query'
+ 
+const queryClient = new QueryClient()
+
 const root = document.getElementById("root") 
 root?.classList.add(localStorage.getItem("theme") || "light")
 createRoot(root!).render(
@@ -18,8 +25,10 @@ createRoot(root!).render(
 					audience: `${import.meta.env.VITE_AUTH0_AUDIENCE}`
 				}}
 			>
+				<QueryClientProvider client={queryClient}>
 				<App />
-			</Auth0Provider>
+				</QueryClientProvider>
+			</Auth0Provider>,
 		</BrowserRouter>
 		<SpeedInsights />
 	</StrictMode>
