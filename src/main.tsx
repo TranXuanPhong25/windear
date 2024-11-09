@@ -6,14 +6,14 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import App from "./App";
 import "./index.css";
 import {
-   QueryClient,
-   QueryClientProvider,
+	QueryClient,
+	QueryClientProvider,
 } from '@tanstack/react-query'
 import { Toaster } from "./components/ui/toaster";
- 
+
 const queryClient = new QueryClient()
 
-const root = document.getElementById("root") 
+const root = document.getElementById("root")
 root?.classList.add(localStorage.getItem("theme") || "light")
 createRoot(root!).render(
 	<StrictMode>
@@ -27,8 +27,8 @@ createRoot(root!).render(
 				}}
 			>
 				<QueryClientProvider client={queryClient}>
-				<App />
-				<Toaster />
+					<App />
+					<Toaster />
 				</QueryClientProvider>
 			</Auth0Provider>
 		</BrowserRouter>

@@ -1,17 +1,14 @@
+import { Link } from "react-router-dom";
 
 export default function Footer(){
    return (
-      <footer className="bg-gray-800 text-white py-4">
+      <footer className="dark:bg-gray-700 text-white py-4">
          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-center items-center">
                <div>
-                  <h3 className="text-lg">Windear Library</h3>
-                  <p className="text-sm">All rights reserved &copy; 2024</p>
-               </div>
-               <div>
-                  <a href="/" className="text-white hover:text-gray-400 mx-2">Home</a>
-                  <a href="/about" className="text-white hover:text-gray-400 mx-2">About</a>
-                  <a href="/contact" className="text-white hover:text-gray-400 mx-2">Contact</a>
+                  <Link to="/" className="text-white hover:text-gray-400 mx-2">Home</Link>
+                  <Link to="/privacy-policy" className="text-white hover:text-gray-400 mx-2">Privacy policy</Link>
+                  <Link to="/terms-of-service" className="text-white hover:text-gray-400 mx-2">Terms of service</Link>
                </div>
             </div>
          </div>
