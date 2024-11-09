@@ -7,7 +7,6 @@ import {
 import {
 
    LogOut,
-   User,
    Menu, Search, Bell,
    Settings
 } from "lucide-react"
@@ -34,9 +33,7 @@ import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
 const userNavigation = [
    [{ name: "Notifications", href: "user/", icon: Bell }],
    [
-
-      { name: 'Your Profile', href: '/user/profile', icon: User },
-      { name: 'Settings', href: '/user/settings', icon: Settings },
+      { name: 'Settings', href: '/settings', icon: Settings },
    ],
    [
       { name: 'Sign out', href: '/logout', icon: LogOut },

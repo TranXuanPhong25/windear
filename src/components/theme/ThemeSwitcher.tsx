@@ -72,15 +72,15 @@ export default function ThemeSwitcher({ text = "" , sidebar = false}: { text?: s
             </Button>
          </DropdownMenuTrigger>
          <DropdownMenuContent align="center" className={clsx(sidebar&&"bg-sidebar",`dark:bg-gray-800 z-[9999999]`)} >
-            <DropdownMenuItem onClick={() => handleThemeChange('light')} className={clsx(sidebar?"hover:!bg-sidebar-accent":"dark:hover:!bg-purple-400")}>
+            <DropdownMenuItem onClick={() => handleThemeChange('light')} className={clsx(sidebar?"hover:!bg-sidebar-accent":"dark:hover:!bg-purple-500")}>
                <Sun className="mr-2  h-4 w-4 " />
                <span>Light</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleThemeChange('dark')} className={clsx(sidebar?"hover:!bg-sidebar-accent":"dark:hover:!bg-purple-400")}>
+            <DropdownMenuItem onClick={() => handleThemeChange('dark')} className={clsx(sidebar?"hover:!bg-sidebar-accent":"dark:hover:!bg-purple-500")}>
                <Moon className="mr-2 h-4 w-4 " />
                <span>Dark</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleThemeChange('system')} className={clsx(sidebar?"hover:!bg-sidebar-accent":"dark:hover:!bg-purple-400")}>
+            <DropdownMenuItem onClick={() => handleThemeChange('system')} className={clsx(sidebar?"hover:!bg-sidebar-accent":"dark:hover:!bg-purple-500")}>
                <Monitor className="mr-2 h-4 w-4 " />
                <span>System</span>
             </DropdownMenuItem>
