@@ -1,4 +1,4 @@
-import { ChevronDown, Gauge, LogOut, Users, Circle, UserRound, Activity, House, LibraryBig } from "lucide-react"
+import { ChevronDown, LogOut, Users, Circle, UserRound, Activity, House, LibraryBig, List } from "lucide-react"
 import clsx from 'clsx';
 
 import {
@@ -35,7 +35,7 @@ const sidebarGroups = [
          {
             title: "Logs",
             url: "logs",
-            icon: Gauge
+            icon: List
          }
       ]
    },
