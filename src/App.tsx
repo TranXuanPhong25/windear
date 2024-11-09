@@ -32,14 +32,14 @@ export default function App() {
                <Route index element={<HomePage />} />
             </Route>
             <Route element={<CommonLayout />} >
-               <Route path="/shelves" element={<Shelves />} />
                <Route path="/browse/*" element={<BookBrowse />} />
                {/* <Route path="/books/" element={<div>book</div>} /> */}
                <Route path="/books/:bookId" element={<BookShow />} />
                <Route path="/author" element={<div>user</div>} />
             </Route>
             <Route element={<AuthenticationGuard component={CommonLayout} />}>
-               <Route path="settings" element={<AccountSettings />} />
+               <Route path="/shelves" element={<Shelves />} />
+               <Route path="/settings" element={<AccountSettings />} />
             </Route>
 
             <Route path="/logout" element={<LogoutPage />} />

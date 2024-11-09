@@ -8,7 +8,8 @@ import {
 
    LogOut,
    Menu, Search, Bell,
-   Settings
+   Settings,
+   LibraryBig
 } from "lucide-react"
 
 
@@ -31,8 +32,11 @@ import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
 // }
 
 const userNavigation = [
-   [{ name: "Notifications", href: "user/", icon: Bell }],
    [
+      { name: "Notifications", href: "user/", icon: Bell }
+   ],
+   [
+      { name: 'My shelves', href: '/shelves', icon: LibraryBig },
       { name: 'Settings', href: '/settings', icon: Settings },
    ],
    [
