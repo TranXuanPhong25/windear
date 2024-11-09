@@ -20,8 +20,8 @@ import BooksManagement from './pages/admin/manage/BooksManagement';
 import AdminHome from './pages/admin/AdminHome';
 import AnalysticDashboard from './pages/admin/dashboard/AnalysticDashboard';
 import LogsDashboard from './pages/admin/dashboard/LogsDashboard';
-import UserLayout from './layouts/user/UserLayout';
 import AdminGuard from './components/auth/AdminGuard';
+import AccountSettings from './pages/user/AccountSettings';
 export default function App() {
    return (
       <Routes>
@@ -37,30 +37,12 @@ export default function App() {
                {/* <Route path="/books/" element={<div>book</div>} /> */}
                <Route path="/books/:bookId" element={<BookShow />} />
                <Route path="/author" element={<div>user</div>} />
-
             </Route>
-
             <Route element={<AuthenticationGuard component={CommonLayout} />}>
-               <Route element={<UserLayout />}>
-                  <Route path="/user/profile" element={<div>user with id</div>} />
-                  <Route path="/user/settings" element={<div>settings</div>} />
-                  <Route path="/user/notifications" element={<div>noti</div>} />
-               </Route>
+               <Route path="settings" element={<AccountSettings />} />
             </Route>
+
             <Route path="/logout" element={<LogoutPage />} />
-            {/* <Route
-                     path="/*"
-                     element={
-                        <RequireAuth needAdmin={false}>
-                           <h3>Protected</h3>
-                        </RequireAuth>
-                     }
-                  /> */}
-            {/* <Route
-                  path="/admin/*"
-                  element={
-                     <AuthenticationGuard component={AdminDashboard} />
-                  } /> */}
             <Route path="/admin" element={<AdminGuard component={AdminLayout} />} >
                <Route index element={<AdminHome />} />
                <Route path="management/users" element={<UsersManagement />} />
@@ -69,7 +51,7 @@ export default function App() {
                <Route path="dashboard/logs" element={<LogsDashboard />} />
             </Route>
          </Route>
-
+         
       </Routes>
    );
 }

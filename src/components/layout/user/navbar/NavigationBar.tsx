@@ -124,7 +124,7 @@ export default function NavigationBar() {
                                           <div className="p-2">
                                              {
                                                 group.map(item => (
-                                                   <Link to={item.href} className="flex hover:bg-purple-500 p-2 rounded-md items-center">
+                                                   <Link  to={item.href} key={"usernav"+item.href} className="flex hover:bg-purple-500 p-2 rounded-md items-center" >
                                                       <item.icon className="size-5 mr-2   " />
                                                       <h1> {item.name}</h1>
                                                    </Link>
@@ -140,12 +140,7 @@ export default function NavigationBar() {
 
                         ) :
                            (
-                              <>
-                                 {/* <Link to="/" className="ml-3 relative"> */}
                                  <Button onClick={() => auth.loginWithPopup()} className=" bg-white text-black hover:text-white  ">Sign in</Button>
-                                 {/* </Link> */}
-
-                              </>
                            )
                      }
 
@@ -168,7 +163,7 @@ export default function NavigationBar() {
                   {
                      navigation.map((item) => (
                         item.children ? (
-                           <AccordionItem key={item.name} value={item.name}>
+                           <AccordionItem key={"parent-"+item.name} value={item.name}>
                               <AccordionTrigger className={clsx(
                                  item.current
                                     ? 'bg-gray-900 text-white'
