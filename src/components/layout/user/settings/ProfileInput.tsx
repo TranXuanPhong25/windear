@@ -23,8 +23,11 @@ import axios from "axios"
 import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "@/components/ui/skeleton"
 const FormSchema = z.object({
-   username: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
+   username: z.string().min(4, {
+      message: "Username must be at least 4 characters.",
+   })
+   .max(15,{
+      message: "Username must not be longer than 15 characters"
    }),
    location: z.string().optional(),
    bio: z
@@ -33,7 +36,7 @@ const FormSchema = z.object({
          message: "Bio must be at least 10 characters.",
       })
       .max(160, {
-         message: "Bio must not be longer than 30 characters.",
+         message: "Bio must not be longer than 160 characters.",
       }),
    pronouns: z.string().optional(),
 })
@@ -44,7 +47,7 @@ function ProfileInput() {
    const form = useForm<z.infer<typeof FormSchema>>({
       resolver: zodResolver(FormSchema),
       defaultValues: {
-         username: user?.nickname,
+         username: "",
          location: "",
          bio: "",
          pronouns: "",
@@ -58,12 +61,13 @@ function ProfileInput() {
          const accessToken = await getAccessTokenSilently({
             authorizationParams: {
                audience: `https://${domain}/api/v2/`,
-               scope: "read:current_user ",
+               scope: "read:users read:current_user_metadata read:current_user read:current_idp_tokens ",
                prompt: "none",
             },
          });
+            console.log(accessToken)
          const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
-         const { user_metadata } = await axios(userDetailsByIdUrl, {
+         const data = await axios(userDetailsByIdUrl, {
             headers: {
                Authorization: `Bearer ${accessToken}`,
             },
@@ -71,19 +75,21 @@ function ProfileInput() {
             .catch((error) => {
                console.error(error);
             })
-         if (user_metadata) {
+         console.log(data)
+         if (data) {
             form.reset({
-               username: user?.nickname || "",
-               location: user_metadata?.location || "",
-               bio: user_metadata?.bio || "",
-               pronouns: user_metadata?.pronouns || "",
+               username:data?.username||"",
+               location: data?.user_metadata?.location || "",
+               bio: data?.user_metadata?.bio || "",
+               pronouns: data?.user_metadata?.pronouns || "",
             });
          }
 
-         return user_metadata;
+         return data;
       },
-      enabled: !!user?.sub,
+      // enabled: !!user?.sub,
    });
+   console.log(error)
    if (error) return <div>Something went wrong</div>
 
    function onSubmit(submitData: z.infer<typeof FormSchema>) {
@@ -109,8 +115,8 @@ function ProfileInput() {
                   },
                   data:
                   {
+                     "username": submitData.username,
                      "user_metadata": {
-                        "username": submitData.username,
                         "location": submitData.location,
                         "bio": submitData.bio,
                         "pronouns": submitData.pronouns,

@@ -1,4 +1,5 @@
-import ProfileSettings from "@/components/user/UserSettings";
+import PasswordChange from "@/components/user/PasswordChange";
+import ProfileSettings from "@/components/user/ProfileSettings";
 import { KeyRound, Trash2, User } from "lucide-react";
 import { Link } from "react-router-dom";
 const userSettings = [
@@ -42,7 +43,7 @@ function AccountSettings() {
          <div className="w-full space-y-14">
             
             <ProfileSettings />
-
+            <PasswordChange/>
          </div>
       </main>
    );

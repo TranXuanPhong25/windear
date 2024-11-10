@@ -12,6 +12,7 @@ function ProfileSettings() {
 
             <div className="w-full mr-12 ">
                <ProfileInput />
+
             </div>
             <div className="w-48 mr-24 text-center">
                <h1>Profile picture</h1>
