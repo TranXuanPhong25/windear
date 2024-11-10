@@ -42,7 +42,7 @@ function ChangePasswordForm (){
       toast({
          title: "Password changed",
          description: "Your password has been changed successfully."+ submitData.password,
-         className: "!bg-green-500 mt-4",
+         className: "!bg-green-500 mb-4",
       })
    }
    return (

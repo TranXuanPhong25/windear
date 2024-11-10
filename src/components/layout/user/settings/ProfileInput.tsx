@@ -128,11 +128,12 @@ function ProfileInput() {
          } catch (e: unknown) {
             
             console.error(e);
+            const error = e as { status?: number };
             toast(
                {
                   title: "Error",
-                  description: e.status === 429 ? "Too many requests. Please try again later." : "An error occurred. Please try again later.",
-                  className: "!bg-red-500",
+                  description: error.status === 429 ? "Too many requests. Please try again later." : "An error occurred. Please try again later.",
+                  className: "!bg-red-500 mb-4",
                }
             )
             return;
