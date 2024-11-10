@@ -125,13 +125,13 @@ function ProfileInput() {
                }
             ).then(response => response.data);
             
-         } catch (e) {
+         } catch (e: {status:number, message:string}) {
             
             console.error(e);
             toast(
                {
                   title: "Error",
-                  description: e.status===429 ? "Too many requests. Please try again later." : "An error occurred. Please try again later.",
+                  description: e.status === 429 ? "Too many requests. Please try again later." : "An error occurred. Please try again later.",
                   className: "!bg-red-500",
                }
             )
