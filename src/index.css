@@ -12,7 +12,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+html{
+  scroll-behavior: smooth;
+}
 @layer base {
   :root {
     --radius: 0.5rem;

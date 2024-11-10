@@ -5,7 +5,7 @@ import { Separator } from "../ui/separator";
 function ProfileSettings() {
    const {user} = useAuth0();
    return (
-      <section id="user-profile ">
+      <section id="user-profile" className="pt-20 -mt-20" >
          <h1 className="text-3xl">Profile Settings</h1>
          <Separator className="w-full  dark:bg-gray-500 mb-6 mt-2" />
          <div className="flex">

@@ -37,7 +37,9 @@ const FormSchema = z.object({
       })
       .max(160, {
          message: "Bio must not be longer than 160 characters.",
-      }),
+      })
+      .optional()
+      ,
    pronouns: z.string().optional(),
 })
 
@@ -104,24 +106,27 @@ function ProfileInput() {
                   prompt: "none",
                },
             });
-            const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
+            // const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
+            const userDetailsByIdUrl = `${import.meta.env.VITE_BASE_API_URL}/auth0/users/profile/${user?.sub}`;
 
             await axios.request(
                {
-                  method: 'patch',
+                  method: 'put',
                   url: userDetailsByIdUrl,
                   headers: {
                      Authorization: `Bearer ${accessToken}`,
                   },
-                  data:
-                  {
-                     "username": submitData.username,
-                     "user_metadata": {
-                        "location": submitData.location,
-                        "bio": submitData.bio,
-                        "pronouns": submitData.pronouns,
+                  data: JSON.stringify(
+                     {
+                        "username": submitData.username,
+                        "user_metadata": {
+                           "location": submitData.location,
+                           "bio": submitData.bio,
+                           "pronouns": submitData.pronouns,
+                        }
                      }
-                  }
+                  )
+
                }
             ).then(response => response.data);
             
