@@ -1,12 +1,7 @@
+import Contribution from "./Contributions";
+
 export default interface BookSearchInfo {
-   contributions: [
-      {
-         author:{
-            id: string;
-            name: string;
-         };
-      }
-   ];
+   contributions: Contribution[];
    image: {
       url: string;
    };

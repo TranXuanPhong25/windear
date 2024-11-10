@@ -9,109 +9,15 @@ import {
 } from "@/components/ui/accordion"
 import ExpandableParagraph from "@/components/books/ShowMore";
 import { Link } from "react-router-dom";
-import GenreTag from "@/lib/GetTagIcon";
-import { createElement } from "react";
 import BookList from "@/components/home/BookList";
 import ShelfAction from "@/components/books/ShelfAction";
 import GetBook from "@/components/books/GetBook";
 import { useQuery } from "@tanstack/react-query";
-const genreTags = [
-   {
-      "slug": "fiction",
-      "tag_category": {
-         "category": "Genre"
-      },
-      "tag": "Fiction"
-   }
-   , {
-      "slug": "fantasy",
-      "tag_category": {
-         "category": "Genre"
-      },
-      "tag": "Fantasy"
-   },
-   {
-      "slug": "young-adult",
-      "tag_category": {
-         "category": "Genre"
-      },
-      "tag": "Young Adult"
-   },
-   {
-      "slug": "science-fiction",
-      "tag_category": {
-         "category": "Genre"
-      },
-      "tag": "Science fiction"
-   }
-]
-const genreIconTags = [];
-genreTags.forEach(g => {
-   for (let i = 0; i < genreTags.length; i++) {
-      if (GenreTag[i].type == g.slug) {
-         genreIconTags.push(GenreTag[i])
-      }
-   }
+import Tag from "@/types/Tags";
+import extractTags from "@/lib/ExtractTags";
+import Contribution from '../../types/Contributions';
 
-})
-const moodTags = [
-   {
-      "slug": "lighthearted",
-      "tag_category": {
-         "category": "Mood"
-      },
-      "tag": "lighthearted"
-   },
 
-   {
-      "slug": "hopeful",
-      "tag_category": {
-         "category": "Mood"
-      },
-      "tag": "hopeful"
-   }
-   ,
-   {
-      "slug": "emotional",
-      "tag_category": {
-         "category": "Mood"
-      },
-      "tag": "emotional"
-   },
-   {
-      "slug": "reflective",
-      "tag_category": {
-         "category": "Mood"
-      },
-      "tag": "reflective"
-   },
-   {
-      "slug": "mysterious",
-      "tag_category": {
-         "category": "Mood"
-      },
-      "tag": "mysterious"
-   }
-]
-
-const contentWarningTags = [
-   {
-      "slug": "death",
-      "tag": "death"
-   },
-   {
-      "slug": "suicide-attempt",
-      "tag": "Suicide attempt"
-   },
-   {
-      "slug": "child-abuse",
-      "tag": "child abuse"
-   },
-   {
-      "slug": "fire-fire-injury",
-      "tag": "Fire/Fire injury"
-   }
-]
 const fetchBook = async (bookId: string | undefined) => {
    const response = await fetch(`${import.meta.env.VITE_BASE_API_URL}/external/books/${bookId}`);
    if (!response.ok) {
@@ -133,13 +39,19 @@ export default function BookShow() {
       return <h1>Invalid book ID</h1>
    }
    const book = data ? data.data.books[0] : {};
-   book.ratings_count= book.ratings_count ||0;
+   book.ratings_count = book.ratings_count || 0;
+
+
+
+   const genres: Tag[] = book.taggings? extractTags(book.taggings, "Genre"):[];
+   const moodTags: Tag[] = book.taggings? extractTags(book.taggings, "Mood"):[];
+   const contentWarningTags: Tag[] = book.taggings? extractTags(book.taggings, "Content Warning"):[];
    return (
       <>
          <div className="w-full text-white flex mt-8">
             {/* book header */}
 
-            <div className="w-[300px] flex flex-col items-center mr-10">
+            <div className="w-[300px] flex flex-col items-center mr-10 sticky h-fit top-24">
                {isLoading ? <Skeleton className="w-[240px] h-80 rounded-md " />
                   : <img className="w-[240px] rounded-md " src={book?.image.url} alt="book cover" />}
 
@@ -155,70 +67,91 @@ export default function BookShow() {
                }
                {
                   isLoading ? <Skeleton className="text-lg mb-3 w-64"  >&nbsp;</Skeleton> :
-                     <h2 className="text-lg mb-3">By {book?.contributions.map(con=>con.author.name).join(", ")}</h2>
+                     <h2 className="text-lg mb-3">By {book?.contributions.map((con :Contribution)=> con.author.name).join(", ")}</h2>
                }
                {
                   isLoading ? <Skeleton className="flex items-center size-8 w-96 mb-2" /> :
                      <div className="flex items-center mb-2">
                         <StarRating initialRating={book.rating} onChange={() => { }} />
                         <span className="ml-3 text-2xl">{Number(book.rating).toFixed(2)}</span>
-                        <span className="ml-3 font-sans text-gray-300" >{book.ratings_count} rating{book.ratings_count>=2&&"s"}</span>
+                        <span className="ml-3 font-sans text-gray-300" >{book.ratings_count} rating{book.ratings_count >= 2 && "s"}</span>
                         <span className="ml-3 font-sans text-gray-300" >68 reviews</span>
                      </div>
 
                }
 
                <ExpandableParagraph
-                  text={book.description||"No description about this book"}
+                  text={book.description || "No description about this book"}
                />
 
                <div className="grid grid-cols-3 gap-5  max-w-[900px]">
-                  <div>
-                     <h1 className="text-lg mb-2 font-semibold">
-                        Genres
-                     </h1>
-                     <div className="flex flex-wrap gap-2">
-                        {
-                           genreTags.map((item) => {
-                              const genreIcon = GenreTag.find(tag => tag.type === item.slug)?.icon;
-                              return (
-                                 <Link key={item.tag} to={"/browse/tags/genre/" + item.slug} className="py-1 px-4 rounded-full bg-emerald-500 flex gap-2">
-                                    {genreIcon && createElement(genreIcon)}
-                                    {item.tag}
-                                 </Link>
-                              );
-                           })
-                        }
-                     </div>
-                  </div>
-                  <div>
-                     <h1 className="text-lg mb-2 font-semibold">
-                        Mood
-                     </h1>
-                     <div className="flex flex-wrap gap-2">
-                        {
-                           moodTags.map((item) => (
-                              <Link key={item.tag} to={"/browse/tags/mood/" + item.slug} className="py-1 px-4 rounded-full bg-sky-500 first-letter:uppercase">
-                                 {item.tag}
-                              </Link>
-                           ))
-                        }
-                     </div>
-                  </div>
-                  <div>
-                     <h1 className="text-lg mb-2 font-semibold">
-                        Content-warning
-                     </h1>
-                     <div className="flex flex-wrap gap-2">
-                        {
-                           contentWarningTags.map((item) => (
-                              <Link key={item.tag} to={"/browse/tags/mood/" + item.slug} className="py-1 px-4 rounded-full bg-yellow-400 first-letter:uppercase text-black">
-                                 {item.tag}
-                              </Link>
-                           ))
-                        }
-                     </div>
-                  </div>
+                  {
+                     genres.length > 0 ?
+                        (
+                           <div>
+                              <h1 className="text-lg mb-2 font-semibold">
+                                 Genres
+                              </h1>
+                              <div className="flex flex-wrap gap-2">
+                                 {
+                                    genres && genres.map((item) => {
+                                       return (
+                                          <Link key={item.slug} to={"/browse/tags/genre/" + item.slug} className="py-1 px-4 rounded-full bg-emerald-500 flex gap-2">
+                                             {item.tag}
+                                          </Link>
+                                       );
+                                    })
+                                 }
+                              </div>
+                           </div>
+                        )
+                        :
+                        (
+                           <div>
+                              <h1 className="text-lg mb-2 font-semibold">
+                                 Genres not setted yet
+                              </h1>
+                           </div>
+                        )
+                  }
+                  {
+                     moodTags.length > 0 &&
+                     (
+                        <div>
+                           <h1 className="text-lg mb-2 font-semibold">
+                              Mood
+                           </h1>
+                           <div className="flex flex-wrap gap-2">
+                              {
+                                 moodTags && moodTags.map((item) => (
+                                    <Link key={item.tag} to={"/browse/tags/mood/" + item.slug} className="py-1 px-4 rounded-full bg-blue-500 first-letter:uppercase">
+                                       {item.tag}
+                                    </Link>
+                                 ))
+                              }
+                           </div>
+                        </div>
+                     )
+                  }
+                  {
+                     contentWarningTags.length > 0 &&
+                     (
+                        <div>
+                           <h1 className="text-lg mb-2 font-semibold">
+                              Content-warning
+                           </h1>
+                           <div className="flex flex-wrap gap-2">
+                              {
+                                 contentWarningTags.map((item) => (
+                                    <Link key={item.tag} to={"/browse/tags/content-warning/" + item.slug} className="py-1 px-4 rounded-full bg-red-500 first-letter:uppercase">
+                                       {item.tag}
+                                    </Link>
+                                 ))
+                              }
+                           </div>
+                        </div>
+                     )
+                  }
                </div>
                <div className="mt-3 text-gray-100">
                   <h3>First publish March 28, 2012</h3>

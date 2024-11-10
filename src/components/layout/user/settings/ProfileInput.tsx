@@ -19,7 +19,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Link } from "react-router-dom"
 import { useAuth0 } from "@auth0/auth0-react"
-import { useQuery } from "@tanstack/react-query"
 import { useState, useEffect } from "react"
 const FormSchema = z.object({
    username: z.string().min(2, {
@@ -57,17 +56,18 @@ function ProfileInput() {
 
    useEffect(() => {
       const getUserMetadata = async () => {
-        const domain = "dev-b40n0f8vsep578ew.jp.auth0.com";
+        const domain = `${import.meta.env.VITE_AUTH0_DOMAIN}`;
     
         try {
-          const accessToken = await getAccessTokenSilently({
-            authorizationParams: {
-              audience: `https://${domain}/api/v2/`,
-              scope: "read:current_user",
-            },
-          });
-    
-          const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+           const accessToken = await getAccessTokenSilently({
+              authorizationParams: {
+                 audience: `https://${domain}/api/v2/`,
+                 scope: "read:users",
+                 prompt: "none",
+               },
+            });
+            console.log(accessToken);
+          const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
     
           const metadataResponse = await fetch(userDetailsByIdUrl, {
             headers: {
@@ -76,10 +76,10 @@ function ProfileInput() {
           });
     
           const { user_metadata } = await metadataResponse.json();
-    
+          console.log(user_metadata);
           setUserMetadata(user_metadata);
         } catch (e) {
-          console.log(e.message);
+          console.error(e);
         }
       };
     
