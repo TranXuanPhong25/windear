@@ -18,8 +18,10 @@ import { toast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Link } from "react-router-dom"
-import { useAuth0 } from "@auth0/auth0-react"
-import { useState, useEffect } from "react"
+import { useAuth0 } from '@auth0/auth0-react';
+import axios from "axios"
+import { useQuery } from "@tanstack/react-query"
+import { Skeleton } from "@/components/ui/skeleton"
 const FormSchema = z.object({
    username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
@@ -39,58 +41,6 @@ const FormSchema = z.object({
 
 function ProfileInput() {
    const { user, getAccessTokenSilently } = useAuth0();
-   // const getUserMetadata_ = async (userId: string | undefined) => {
-   //    const accessToken = await getAccessTokenSilently({
-   //       authorizationParams: {
-   //          audience: `https://${import.meta.env.VITE_AUTH0_DOMAIN}/api/v2/`,
-   //          scope: "read:current_user",
-   //       },
-   //    });
-      
-   //    console.log(accessToken)
-   //    const user_metadata = await getUserMetadata(userId, accessToken);
-   //    console.log(user_metadata);
-   //    return user_metadata;
-   // }
-   const [userMetadata, setUserMetadata] = useState(null);
-
-   useEffect(() => {
-      const getUserMetadata = async () => {
-        const domain = `${import.meta.env.VITE_AUTH0_DOMAIN}`;
-    
-        try {
-           const accessToken = await getAccessTokenSilently({
-              authorizationParams: {
-                 audience: `https://${domain}/api/v2/`,
-                 scope: "read:current_user",
-                 prompt: "none",
-               },
-            });
-            console.log(accessToken);
-          const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
-    
-          const metadataResponse = await fetch(userDetailsByIdUrl, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-    
-          const { user_metadata } = await metadataResponse.json();
-          console.log(user_metadata);
-          setUserMetadata(user_metadata);
-        } catch (e) {
-          console.error(e);
-        }
-      };
-    
-      getUserMetadata();
-   }, [getAccessTokenSilently, user?.sub]);
-   console.log(userMetadata);
-   // const { isLoading, error, data } = useQuery({
-   //    queryKey: ["userMetadata", user?.sub],
-   //    queryFn: () => getUserMetadata_(user?.sub)
-   // });
-   // console.log(error);
    const form = useForm<z.infer<typeof FormSchema>>({
       resolver: zodResolver(FormSchema),
       defaultValues: {
@@ -100,38 +50,124 @@ function ProfileInput() {
          pronouns: "",
       },
    })
+   const { isLoading, error } = useQuery({
+      queryKey: ['user', user?.sub],
+      queryFn: async () => {
+         const domain = `${import.meta.env.VITE_AUTH0_DOMAIN}`;
 
-   function onSubmit(data: z.infer<typeof FormSchema>) {
-      toast({
-         title: "You submitted the following values:",
-         description: (
-            <pre className="mt-2 w-[340px] rounded-md  dark:bg-gray-800/90 bg-gray-600 p-4">
-               <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-            </pre>
-         ),
-         className: "mb-4  dark:bg-gray-700 ",
-      })
+         const accessToken = await getAccessTokenSilently({
+            authorizationParams: {
+               audience: `https://${domain}/api/v2/`,
+               scope: "read:current_user ",
+               prompt: "none",
+            },
+         });
+         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
+         const { user_metadata } = await axios(userDetailsByIdUrl, {
+            headers: {
+               Authorization: `Bearer ${accessToken}`,
+            },
+         }).then(response => response.data)
+            .catch((error) => {
+               console.error(error);
+            })
+         if (user_metadata) {
+            form.reset({
+               username: user?.nickname || "",
+               location: user_metadata?.location || "",
+               bio: user_metadata?.bio || "",
+               pronouns: user_metadata?.pronouns || "",
+            });
+         }
+
+         return user_metadata;
+      },
+      enabled: !!user?.sub,
+   });
+   if (error) return <div>Something went wrong</div>
+
+   function onSubmit(submitData: z.infer<typeof FormSchema>) {
+      const updateUserMetadata = async () => {
+         const domain = `${import.meta.env.VITE_AUTH0_DOMAIN}`;
+
+         try {
+            const accessToken = await getAccessTokenSilently({
+               authorizationParams: {
+                  audience: `https://${domain}/api/v2/`,
+                  scope: "read:current_user update:users, update:users_app_metadata, update:current_user_metadata ",
+                  prompt: "none",
+               },
+            });
+            const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
+
+            await axios.request(
+               {
+                  method: 'patch',
+                  url: userDetailsByIdUrl,
+                  headers: {
+                     Authorization: `Bearer ${accessToken}`,
+                  },
+                  data:
+                  {
+                     "user_metadata": {
+                        "username": submitData.username,
+                        "location": submitData.location,
+                        "bio": submitData.bio,
+                        "pronouns": submitData.pronouns,
+                     }
+                  }
+               }
+            ).then(response => response.data);
+            
+         } catch (e) {
+            
+            console.error(e);
+            toast(
+               {
+                  title: "Error",
+                  description: e.status===429 ? "Too many requests. Please try again later." : "An error occurred. Please try again later.",
+                  className: "!bg-red-500",
+               }
+            )
+            return;
+         }
+         toast({
+            title: "Success",
+            description: "Your profile has been updated.",
+            className: "mb-4  dark:bg-green-600  ",
+         })
+      };
+      updateUserMetadata();
+      
    }
-
+   
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className="w-[90%] space-y-6">
-            <FormField
-               control={form.control}
-               name="username"
-               render={({ field }) => (
-                  <FormItem>
-                     <FormLabel>Username</FormLabel>
-                     <FormControl>
-                        <Input  {...field} />
-                     </FormControl>
-                     <FormDescription>
-                        This is your public display name.
-                     </FormDescription>
-                     <FormMessage />
-                  </FormItem>
-               )}
-            />
+            {
+
+               <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                     <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                           {
+                              isLoading ?
+                                 <Skeleton className="h-10" />
+                                 :
+                                 <Input  {...field} />
+                           }
+                        </FormControl>
+                        <FormDescription>
+                           This is your public display name.
+                        </FormDescription>
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
+            }
 
             <FormField
                control={form.control}
@@ -140,10 +176,15 @@ function ProfileInput() {
                   <FormItem>
                      <FormLabel>Bio</FormLabel>
                      <FormControl>
-                        <Textarea
-                           placeholder="Tell us a little bit about yourself"
-                           {...field}
-                        />
+                        {
+                           isLoading ?
+                              <Skeleton className="h-[100px]" />
+                              :
+                              <Textarea
+                                 placeholder="Tell us a little bit about yourself"
+                                 {...field}
+                              />
+                        }
                      </FormControl>
                      <FormDescription>
                         You can <span>@mention</span> other users and organizations.
@@ -161,10 +202,16 @@ function ProfileInput() {
                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                            <SelectTrigger>
-                              <SelectValue placeholder="Don't specify" />
+                              {
+                                 isLoading ?
+                                    <Skeleton className="h-10" />
+                                    :
+                                    <SelectValue placeholder="Don't specify" />
+                              }
                            </SelectTrigger>
                         </FormControl>
                         <SelectContent>
+                           <SelectItem value="Don't specify">Don't specify</SelectItem>
                            <SelectItem value="she/her">she/her</SelectItem>
                            <SelectItem value="he/his">he/his</SelectItem>
                            <SelectItem value="they/their">they/their</SelectItem>
@@ -181,7 +228,12 @@ function ProfileInput() {
                   <FormItem>
                      <FormLabel>Location</FormLabel>
                      <FormControl>
-                        <Input  {...field} />
+                        {
+                           isLoading ?
+                              <Skeleton className="h-10" />
+                              :
+                              <Input {...field} />
+                        }
                      </FormControl>
                      <FormMessage />
                   </FormItem>
