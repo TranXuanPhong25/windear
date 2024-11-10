@@ -125,7 +125,7 @@ function ProfileInput() {
                }
             ).then(response => response.data);
             
-         } catch (e: {status:number, message:string}) {
+         } catch (e: unknown) {
             
             console.error(e);
             toast(
