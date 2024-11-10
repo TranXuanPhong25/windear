@@ -32,8 +32,8 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
             }
          })
             .then((response) => {
-               console.log(response.data);
-               setSearchResults(response.data);
+               console.log(response.data.data.books);
+               setSearchResults(response.data.data.books);
                searchResultRef.current?.classList.add("h-[60vh]")
 
             })
@@ -129,12 +129,12 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                         searchResults.map((result) => (
                            <div key={result.id} className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 transition-colors duration-200 cursor-pointer overflow-hidden">
 
-                              <div className='mr-4 min-w-20 max-w-40 '>
-                                 <img src={result.imageUrl} alt={result.title} className=" w-full rounded-r-md" />
+                              <div className='mr-4 min-w-40 '>
+                                 <img src={result.image?.url||"/book-cover-unavailable-placeholder.jpg"} alt={result.title} className=" w-40 rounded-r-lg" />
                               </div>
                               <div>
-                                 <h2 className='text-lg text-ellipsis'>{result.title}</h2>
-                                 <p><span className='font-sans'>By</span> {result.authors}</p>
+                                 <h2 className='text-2xl text-ellipsis'>{result.title}</h2>
+                                 <p><span className='font-sans'>By</span> {result?.contributions.map(con=>con.author.name).join(", ")||"unknown"}</p>
                                  <p className='flex items-center'>
                                     {result.rating != null ? (
                                        <>

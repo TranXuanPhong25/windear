@@ -132,7 +132,8 @@ export default function BookShow() {
    if (NONDIGIT_REGEX.test(bookId || '')) {
       return <h1>Invalid book ID</h1>
    }
-   const book = data ? data[0] : {};
+   const book = data ? data.data.books[0] : {};
+   book.ratings_count= book.ratings_count ||0;
    return (
       <>
          <div className="w-full text-white flex mt-8">
@@ -140,7 +141,7 @@ export default function BookShow() {
 
             <div className="w-[300px] flex flex-col items-center mr-10">
                {isLoading ? <Skeleton className="w-[240px] h-80 rounded-md " />
-                  : <img className="max-w-[240px]rounded-md " src={book?.imageUrl} alt="book cover" />}
+                  : <img className="w-[240px] rounded-md " src={book?.image.url} alt="book cover" />}
 
                <ShelfAction customClass="w-full" />
                <GetBook />
@@ -154,21 +155,21 @@ export default function BookShow() {
                }
                {
                   isLoading ? <Skeleton className="text-lg mb-3 w-64"  >&nbsp;</Skeleton> :
-                     <h2 className="text-lg mb-3">by {book.authors}</h2>
+                     <h2 className="text-lg mb-3">By {book?.contributions.map(con=>con.author.name).join(", ")}</h2>
                }
                {
                   isLoading ? <Skeleton className="flex items-center size-8 w-96 mb-2" /> :
                      <div className="flex items-center mb-2">
                         <StarRating initialRating={book.rating} onChange={() => { }} />
                         <span className="ml-3 text-2xl">{Number(book.rating).toFixed(2)}</span>
-                        <span className="ml-3 font-sans text-gray-300" >69 ratings</span>
+                        <span className="ml-3 font-sans text-gray-300" >{book.ratings_count} rating{book.ratings_count>=2&&"s"}</span>
                         <span className="ml-3 font-sans text-gray-300" >68 reviews</span>
                      </div>
 
                }
 
                <ExpandableParagraph
-                  text={"adkfhakdjshfjkadshfjkahfkhadwjkfhadklsjfhadjklsfhjkashfjkladshfklj"}
+                  text={book.description||"No description about this book"}
                />
 
                <div className="grid grid-cols-3 gap-5  max-w-[900px]">

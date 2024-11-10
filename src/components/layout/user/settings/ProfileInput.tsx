@@ -18,7 +18,9 @@ import { toast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Link } from "react-router-dom"
-
+import { useAuth0 } from "@auth0/auth0-react"
+import { useQuery } from "@tanstack/react-query"
+import { useState, useEffect } from "react"
 const FormSchema = z.object({
    username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
@@ -35,11 +37,64 @@ const FormSchema = z.object({
    pronouns: z.string().optional(),
 })
 
+
 function ProfileInput() {
+   const { user, getAccessTokenSilently } = useAuth0();
+   // const getUserMetadata_ = async (userId: string | undefined) => {
+   //    const accessToken = await getAccessTokenSilently({
+   //       authorizationParams: {
+   //          audience: `https://${import.meta.env.VITE_AUTH0_DOMAIN}/api/v2/`,
+   //          scope: "read:current_user",
+   //       },
+   //    });
+      
+   //    console.log(accessToken)
+   //    const user_metadata = await getUserMetadata(userId, accessToken);
+   //    console.log(user_metadata);
+   //    return user_metadata;
+   // }
+   const [userMetadata, setUserMetadata] = useState(null);
+
+   useEffect(() => {
+      const getUserMetadata = async () => {
+        const domain = "dev-b40n0f8vsep578ew.jp.auth0.com";
+    
+        try {
+          const accessToken = await getAccessTokenSilently({
+            authorizationParams: {
+              audience: `https://${domain}/api/v2/`,
+              scope: "read:current_user",
+            },
+          });
+    
+          const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+    
+          const metadataResponse = await fetch(userDetailsByIdUrl, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+    
+          const { user_metadata } = await metadataResponse.json();
+    
+          setUserMetadata(user_metadata);
+        } catch (e) {
+          console.log(e.message);
+        }
+      };
+    
+      getUserMetadata();
+   }, [getAccessTokenSilently, user?.sub]);
+   console.log(userMetadata);
+   // const { isLoading, error, data } = useQuery({
+   //    queryKey: ["userMetadata", user?.sub],
+   //    queryFn: () => getUserMetadata_(user?.sub)
+   // });
+   // console.log(error);
    const form = useForm<z.infer<typeof FormSchema>>({
       resolver: zodResolver(FormSchema),
       defaultValues: {
-         username: "abc",
+         username: user?.nickname,
          location: "",
          bio: "",
          pronouns: "",
@@ -75,7 +130,6 @@ function ProfileInput() {
                      </FormDescription>
                      <FormMessage />
                   </FormItem>
-
                )}
             />
 
@@ -88,7 +142,6 @@ function ProfileInput() {
                      <FormControl>
                         <Textarea
                            placeholder="Tell us a little bit about yourself"
-
                            {...field}
                         />
                      </FormControl>
