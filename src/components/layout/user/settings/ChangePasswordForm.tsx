@@ -20,14 +20,14 @@ const FormSchema = z.object({
    ,
    confirmPassword: z.string().min(8, {
       message: "Confirm Password must be at least 8 characters.",
-   }).superRefine(({ password, confirmPassword }, context) => {
-      if (confirmPassword !== password) {
-         context.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Passwords do not match.",
-         });
-      }
    })
+}).superRefine(({ password, confirmPassword }, context) => {
+   if (confirmPassword !== password) {
+      context.addIssue({
+         code: z.ZodIssueCode.custom,
+         message: "Passwords do not match.",
+      });
+   }
 })
 
 function ChangePasswordForm (){
