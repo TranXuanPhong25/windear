@@ -62,7 +62,7 @@ function ProfileInput() {
            const accessToken = await getAccessTokenSilently({
               authorizationParams: {
                  audience: `https://${domain}/api/v2/`,
-                 scope: "read:users",
+                 scope: "read:current_user",
                  prompt: "none",
                },
             });
