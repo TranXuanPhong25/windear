@@ -28,7 +28,8 @@ const FormSchema = z.object({
    })
    .max(15,{
       message: "Username must not be longer than 15 characters"
-   }),
+   })
+   ,
    location: z.string().optional(),
    bio: z
       .string()
@@ -55,7 +56,7 @@ function ProfileInput() {
          pronouns: "",
       },
    })
-   const { isLoading, error } = useQuery({
+   const { isLoading, data,error } = useQuery({
       queryKey: ['user', user?.sub],
       queryFn: async () => {
          const domain = `${import.meta.env.VITE_AUTH0_DOMAIN}`;
@@ -67,9 +68,9 @@ function ProfileInput() {
                prompt: "none",
             },
          });
-            console.log(accessToken)
+            // console.log(accessToken)
          const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
-         const data = await axios(userDetailsByIdUrl, {
+         const responseData = await axios(userDetailsByIdUrl, {
             headers: {
                Authorization: `Bearer ${accessToken}`,
             },
@@ -77,46 +78,37 @@ function ProfileInput() {
             .catch((error) => {
                console.error(error);
             })
-         console.log(data)
-         if (data) {
+         // console.log(data) 
+         if (responseData) {
             form.reset({
-               username:data?.username||"",
-               location: data?.user_metadata?.location || "",
-               bio: data?.user_metadata?.bio || "",
-               pronouns: data?.user_metadata?.pronouns || "",
+               username:responseData?.username||"",
+               location: responseData?.user_metadata?.location || "",
+               bio: responseData?.user_metadata?.bio || "",
+               pronouns: responseData?.user_metadata?.pronouns || "",
             });
          }
 
-         return data;
+         return responseData;
       },
       // enabled: !!user?.sub,
    });
-   console.log(error)
    if (error) return <div>Something went wrong</div>
 
    function onSubmit(submitData: z.infer<typeof FormSchema>) {
       const updateUserMetadata = async () => {
-         const domain = `${import.meta.env.VITE_AUTH0_DOMAIN}`;
 
          try {
-            const accessToken = await getAccessTokenSilently({
-               authorizationParams: {
-                  audience: `https://${domain}/api/v2/`,
-                  scope: "read:current_user update:users, update:users_app_metadata, update:current_user_metadata ",
-                  prompt: "none",
-               },
-            });
-            // const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
-            const userDetailsByIdUrl = `${import.meta.env.VITE_BASE_API_URL}/auth0/users/profile/${user?.sub}`;
+            const accessToken = await getAccessTokenSilently();
+            const userDetailsByIdUrl = `${import.meta.env.VITE_BASE_API_URL}/auth0/user/profile/${user?.sub}`;
 
             await axios.request(
                {
-                  method: 'put',
+                  method: 'PUT',
                   url: userDetailsByIdUrl,
                   headers: {
                      Authorization: `Bearer ${accessToken}`,
                   },
-                  data: JSON.stringify(
+                  data:
                      {
                         "username": submitData.username,
                         "user_metadata": {
@@ -125,7 +117,7 @@ function ProfileInput() {
                            "pronouns": submitData.pronouns,
                         }
                      }
-                  )
+                  
 
                }
             ).then(response => response.data);
@@ -169,11 +161,11 @@ function ProfileInput() {
                               isLoading ?
                                  <Skeleton className="h-10" />
                                  :
-                                 <Input  {...field} />
+                                 <Input disabled={data&&data?.identity?.provider=='auth0'?false:true}  {...field} />
                            }
                         </FormControl>
                         <FormDescription>
-                           This is your public display name.
+                        {data&&data?.indentity?.provider=='auth0'?"This is your public display name":"User login via social media, username can't be  "}
                         </FormDescription>
                         <FormMessage />
                      </FormItem>

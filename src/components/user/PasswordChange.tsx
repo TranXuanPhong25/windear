@@ -1,5 +1,5 @@
 import { Separator } from "../ui/separator";
-import ChangePasswordForm from '../layout/user/settings/ChangePasswordForm';
+import ChangePasswordForm from './settings/ChangePasswordForm';
 
 function PasswordChange() {
    return (

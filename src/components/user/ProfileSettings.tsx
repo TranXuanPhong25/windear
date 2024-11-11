@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import ProfileInput from "../layout/user/settings/ProfileInput";
+import ProfileInput from "./settings/ProfileInput";
 import { Separator } from "../ui/separator";
 
 function ProfileSettings() {

@@ -12,6 +12,7 @@ const browseNavigation = [
   { name: "Genres", href: "/browse/genres", description: "Browse by genres", icon: Dna },
 ];
 const MyNavigationMenu = () => {
+  console.log('my navigation menu');
   return (
     <NavigationMenu.Root className="relative z-10 flex justify-center items-center ">
       <NavigationMenu.List className="center m-0 flex list-none rounded-md p-1 gap-2  ">
