@@ -1,4 +1,4 @@
-import { ChevronDown, LogOut, Users, Circle, UserRound, Activity, House, LibraryBig, List } from "lucide-react"
+import { ChevronDown, LogOut,  Circle, Activity, House, LibraryBig, List, UserRoundCog } from "lucide-react"
 import clsx from 'clsx';
 
 import {
@@ -21,6 +21,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
 import { useState } from "react";
+import Users from "@/components/icons/fontawesome/Users";
 // Menu items.
 const sidebarGroups = [
    {
@@ -59,9 +60,9 @@ const sidebarGroups = [
 
 const userItems = [
    {
-      title: "Profile",
-      url: "profile",
-      icon: UserRound
+      title: "Account settings",
+      url: "settings",
+      icon: UserRoundCog
    }
 ]
 export default function AdminSidebar() {
@@ -69,6 +70,7 @@ export default function AdminSidebar() {
    const [activeButton, setActiveButton] = useState<string>(location.pathname.split("/").slice(-1)[0]);
    const { open } = useSidebar();
    return (
+      
       <Sidebar collapsible="icon" >
          <TooltipProvider>
 
