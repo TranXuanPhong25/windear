@@ -23,6 +23,7 @@ import axios from "axios"
 import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "@/components/ui/skeleton"
 const FormSchema = z.object({
+   email: z.string().email(),
    username: z.string().min(4, {
       message: "Username must be at least 4 characters.",
    })
@@ -50,6 +51,7 @@ function ProfileInput() {
    const form = useForm<z.infer<typeof FormSchema>>({
       resolver: zodResolver(FormSchema),
       defaultValues: {
+         email: "",
          username: "",
          location: "",
          bio: "",
@@ -81,6 +83,7 @@ function ProfileInput() {
          // console.log(data) 
          if (responseData) {
             form.reset({
+               email:responseData?.email||"",
                username:responseData?.username||"",
                location: responseData?.user_metadata?.location || "",
                bio: responseData?.user_metadata?.bio || "",
@@ -148,7 +151,7 @@ function ProfileInput() {
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className="w-[90%] space-y-6">
-            {
+            
 
                <FormField
                   control={form.control}
@@ -165,13 +168,33 @@ function ProfileInput() {
                            }
                         </FormControl>
                         <FormDescription>
-                        {data&&data?.indentity?.provider=='auth0'?"This is your public display name":"User login via social media, username can't be  "}
+                        {data&&data?.indentity?.provider=='auth0'?"This is used for login via username":"User login via social media, username is not avaiable  "}
                         </FormDescription>
                         <FormMessage />
                      </FormItem>
                   )}
                />
-            }
+            <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                     <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                           {
+                              isLoading ?
+                                 <Skeleton className="h-10" />
+                                 :
+                                 <Input type="email" disabled={data&&data?.identity?.provider=='auth0'?false:true}  {...field} />
+                           }
+                        </FormControl>
+                        <FormDescription>
+                        {data&&data?.indentity?.provider=='auth0'?"This is used for login via email":"You login via social media, email can not be changed"}
+                        </FormDescription>
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
 
             <FormField
                control={form.control}
@@ -182,7 +205,7 @@ function ProfileInput() {
                      <FormControl>
                         {
                            isLoading ?
-                              <Skeleton className="h-[100px]" />
+                              <Skeleton className="h-[90px]" />
                               :
                               <Textarea
                                  placeholder="Tell us a little bit about yourself"
@@ -190,9 +213,9 @@ function ProfileInput() {
                               />
                         }
                      </FormControl>
-                     <FormDescription>
+                     {/* <FormDescription>
                         You can <span>@mention</span> other users and organizations.
-                     </FormDescription>
+                     </FormDescription> */}
                      <FormMessage />
                   </FormItem>
                )}
