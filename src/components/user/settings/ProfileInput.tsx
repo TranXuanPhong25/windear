@@ -34,9 +34,6 @@ const FormSchema = z.object({
    location: z.string().optional(),
    bio: z
       .string()
-      .min(10, {
-         message: "Bio must be at least 10 characters.",
-      })
       .max(160, {
          message: "Bio must not be longer than 160 characters.",
       })
@@ -141,7 +138,7 @@ function ProfileInput() {
          toast({
             title: "Success",
             description: "Your profile has been updated.",
-            className: "mb-4  dark:bg-green-600  ",
+            className: "mb-4  bg-green-400 dark:bg-green-600  ",
          })
       };
       updateUserMetadata();
