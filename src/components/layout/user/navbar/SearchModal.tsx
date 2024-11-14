@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Button } from '../../../ui/button';
 import { Label } from '../../../ui/label';
-import { ArrowUpRight, Plus, Search, Star } from 'lucide-react';
+import { ArrowUpRight, /*Plus,*/ Search, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import anime from 'animejs';
@@ -55,6 +55,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
       if (isOpen) {
          setIsVisible(true);
          document.addEventListener('mousedown', handleClickOutside);
+         document.body.style.overflow='hidden';
          anime({
             targets: modalRef.current,
             opacity: [0, 1],
@@ -69,6 +70,8 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
             easing: 'easeOutQuad',
          });
       } else {
+         document.body.style.overflow='unset';
+
          anime({
             targets: modalRef.current,
             opacity: [1, 0],
@@ -166,7 +169,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                      )
                   }
                </ScrollArea>
-               <div className='flex justify-between p-4 items-center'>
+               {/* <div className='flex justify-between p-4 items-center'>
                   <Button className="bg-gray-400 hover:bg-white text-white hover:text-black border-2 hover:border-gray-600/30 transition-colors h-0 px-2 py-3 rounded-sm">
                      <Link to="/browse" className='flex items-center'>
                         <Plus className="h-4 w-4 text-black mr-2" />
@@ -181,7 +184,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                         <ArrowUpRight className="h-4 w-4 text-white inline-block" />
                      </Link>
                   </Button>
-               </div>
+               </div> */}
             </div>
          </div>
       </div>
