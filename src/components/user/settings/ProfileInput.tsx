@@ -24,12 +24,14 @@ import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "@/components/ui/skeleton"
 const FormSchema = z.object({
    email: z.string().email(),
-   username: z.string().min(4, {
-      message: "Username must be at least 4 characters.",
-   })
-   .max(15,{
-      message: "Username must not be longer than 15 characters"
-   })
+   username: z.string()
+      .min(4, {
+         message: "Username must be at least 4 characters.",
+      })
+      .max(15, {
+         message: "Username must not be longer than 15 characters"
+      })
+      .optional()
    ,
    location: z.string().optional(),
    bio: z
@@ -38,7 +40,7 @@ const FormSchema = z.object({
          message: "Bio must not be longer than 160 characters.",
       })
       .optional()
-      ,
+   ,
    pronouns: z.string().optional(),
 })
 
@@ -52,10 +54,10 @@ function ProfileInput() {
          username: "",
          location: "",
          bio: "",
-         pronouns: "",
+         pronouns: "Don't specify",
       },
    })
-   const { isLoading, data,error } = useQuery({
+   const { isLoading, data, error } = useQuery({
       queryKey: ['user', user?.sub],
       queryFn: async () => {
          const domain = `${import.meta.env.VITE_AUTH0_DOMAIN}`;
@@ -67,7 +69,7 @@ function ProfileInput() {
                prompt: "none",
             },
          });
-            // console.log(accessToken)
+         // console.log(accessToken)
          const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user?.sub}`;
          const responseData = await axios(userDetailsByIdUrl, {
             headers: {
@@ -80,27 +82,39 @@ function ProfileInput() {
          // console.log(data) 
          if (responseData) {
             form.reset({
-               email:responseData?.email||"",
-               username:responseData?.username||"",
+               email: responseData?.email || "",
+               username: responseData?.username || responseData?.identities[0].provider,
                location: responseData?.user_metadata?.location || "",
                bio: responseData?.user_metadata?.bio || "",
-               pronouns: responseData?.user_metadata?.pronouns || "",
+               pronouns: responseData?.user_metadata?.pronouns || "Don't specify",
             });
          }
+         console.log(responseData?.user_metadata?.pronouns);
 
          return responseData;
       },
       // enabled: !!user?.sub,
    });
    if (error) return <div>Something went wrong</div>
-
+   console.log(data?.username);
    function onSubmit(submitData: z.infer<typeof FormSchema>) {
       const updateUserMetadata = async () => {
 
          try {
             const accessToken = await getAccessTokenSilently();
             const userDetailsByIdUrl = `${import.meta.env.VITE_BASE_API_URL}/auth0/user/profile/${user?.sub}`;
-
+            const userMetadata = {
+               "location": submitData.location,
+               "bio": submitData.bio,
+               "pronouns": submitData.pronouns,
+            }
+            const requestBody = data?.username !== undefined ? {
+               "username": submitData.username,
+               "user_metadata": userMetadata
+            } : {
+               "user_metadata": userMetadata
+            }
+            console.log(requestBody);
             await axios.request(
                {
                   method: 'PUT',
@@ -108,22 +122,13 @@ function ProfileInput() {
                   headers: {
                      Authorization: `Bearer ${accessToken}`,
                   },
-                  data:
-                     {
-                        "username": submitData.username,
-                        "user_metadata": {
-                           "location": submitData.location,
-                           "bio": submitData.bio,
-                           "pronouns": submitData.pronouns,
-                        }
-                     }
-                  
-
+                  data: requestBody
                }
             ).then(response => response.data);
-            
+
+
          } catch (e: unknown) {
-            
+
             console.error(e);
             const error = e as { status?: number };
             toast(
@@ -142,56 +147,57 @@ function ProfileInput() {
          })
       };
       updateUserMetadata();
-      
+
    }
-   
+
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className="w-[90%] space-y-6">
-            
 
-               <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Username</FormLabel>
-                        <FormControl>
-                           {
-                              isLoading ?
-                                 <Skeleton className="h-10" />
-                                 :
-                                 <Input disabled={data&&data?.identity?.provider=='auth0'?false:true}  {...field} />
-                           }
-                        </FormControl>
-                        <FormDescription>
-                        {data&&data?.indentity?.provider=='auth0'?"This is used for login via username":"User login via social media, username is not avaiable  "}
-                        </FormDescription>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
+
             <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                           {
-                              isLoading ?
-                                 <Skeleton className="h-10" />
-                                 :
-                                 <Input type="email" disabled={data&&data?.identity?.provider=='auth0'?false:true}  {...field} />
-                           }
-                        </FormControl>
-                        <FormDescription>
-                        {data&&data?.indentity?.provider=='auth0'?"This is used for login via email":"You login via social media, email can not be changed"}
-                        </FormDescription>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
+               control={form.control}
+               name="username"
+               render={({ field }) => (
+                  <FormItem>
+                     <FormLabel>Username</FormLabel>
+                     <FormControl>
+                        {
+                           isLoading ?
+                              <Skeleton className="h-10" />
+                              :
+                              <Input disabled={data && data?.identities[0]?.provider == 'auth0' ? false : true}  {...field} />
+                        }
+                     </FormControl>
+                     <FormDescription>
+                        {data && data?.indentity?.provider == 'auth0' ? "This is used for login via username" : "User login via social media, username is not avaiable  "}
+                     </FormDescription>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
+            <FormField
+               control={form.control}
+               name="email"
+               render={({ field }) => (
+                  <FormItem>
+                     <FormLabel>Email</FormLabel>
+                     <FormControl>
+                        {
+                           isLoading ?
+                              <Skeleton className="h-10" />
+                              :
+                              <Input type="email" disabled={data && data?.identities[0]?.provider == 'auth0' ? false : true}  {...field} />
+                        }
+                     </FormControl>
+                     <FormDescription>
+
+                        {data && data?.indentity?.provider == 'auth0' ? "This is used for login via email" : "You login via social media, email can not be changed"}
+                     </FormDescription>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
 
             <FormField
                control={form.control}
@@ -230,7 +236,9 @@ function ProfileInput() {
                                  isLoading ?
                                     <Skeleton className="h-10" />
                                     :
-                                    <SelectValue placeholder="Don't specify" />
+                                    <SelectValue >
+                                       {field.value}
+                                    </SelectValue>
                               }
                            </SelectTrigger>
                         </FormControl>

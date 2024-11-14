@@ -38,7 +38,32 @@ html{
     --sidebar-ring: 217.2 91.2% 59.8%
   }
 }
+ @layer components {
+  .inputDarkModeOverride {
+    &:-webkit-autofill {
+      box-shadow: 0 0 0 30px #435267e6 inset;
+      color:#fff!important;
 
+    }
+
+    &:-webkit-autofill:hover {
+      box-shadow: 0 0 0 30px #435267e6 inset;
+      color:#fff!important;
+
+    }
+
+    &:-webkit-autofill:focus {
+      box-shadow: 0 0 0 30px #435267e6 inset;
+      color:#fff!important;
+
+    }
+
+    &:-webkit-autofill:active {
+      box-shadow: 0 0 0 30px #435267e6 inset;
+      color:#fff!important;
+    }
+  }
+}
 #root{
   @apply min-h-screen;
 }
