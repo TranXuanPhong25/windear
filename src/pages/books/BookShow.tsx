@@ -7,15 +7,12 @@ import {
    AccordionItem,
    AccordionTrigger,
 } from "@/components/ui/accordion"
-import ExpandableParagraph from "@/components/books/ShowMore";
-import { Link } from "react-router-dom";
+import ExpandableParagraph from "@/components/books/ExpandableParagraph";
 import BookList from "@/components/home/BookList";
 import ShelfAction from "@/components/books/ShelfAction";
 import GetBook from "@/components/books/GetBook";
 import { useQuery } from "@tanstack/react-query";
-import Tag from "@/types/Tags";
-import extractTags from "@/lib/ExtractTags";
-import Contribution from '../../types/Contributions';
+import Book from "@/types/Book";
 
 
 const fetchBook = async (bookId: string | undefined) => {
@@ -38,23 +35,20 @@ export default function BookShow() {
    if (NONDIGIT_REGEX.test(bookId || '')) {
       return <h1>Invalid book ID</h1>
    }
-   const book = data ? data.data.books[0] : {};
-   book.ratings_count = book.ratings_count || 0;
+   const book: Book = data ? data?.data.getBookByLegacyId : {};
 
-
-
-   const genres: Tag[] = book.taggings? extractTags(book.taggings, "Genre"):[];
-   const moodTags: Tag[] = book.taggings? extractTags(book.taggings, "Mood"):[];
-   const contentWarningTags: Tag[] = book.taggings? extractTags(book.taggings, "Content Warning"):[];
+   console.log(book)
+   // const genres: Tag[] = book.taggings? extractTags(book.taggings, "Genre"):[];
+   // const moodTags: Tag[] = book.taggings? extractTags(book.taggings, "Mood"):[];
+   // const contentWarningTags: Tag[] = book.taggings? extractTags(book.taggings, "Content Warning"):[];
    return (
       <>
-         <div className="w-full text-white flex mt-8">
+         <div className="w-full dark:text-white flex mt-8">
             {/* book header */}
 
             <div className="w-[300px] flex flex-col items-center mr-10 sticky h-fit top-24">
                {isLoading ? <Skeleton className="w-[240px] h-80 rounded-md " />
-                  : <img className="w-[240px] rounded-md " src={book?.image.url} alt="book cover" />}
-
+                  : <img className="w-[240px] rounded-md " src={book?.imageUrl} alt="book cover" />}
                <ShelfAction customClass="w-full" />
                <GetBook />
                <StarRating initialRating={5} ratable onChange={() => { }} />
@@ -67,25 +61,44 @@ export default function BookShow() {
                }
                {
                   isLoading ? <Skeleton className="text-lg mb-3 w-64"  >&nbsp;</Skeleton> :
-                     <h2 className="text-lg mb-3">By {book?.contributions.map((con :Contribution)=> con.author.name).join(", ")}</h2>
+                     <div className="text-lg mb-3 flex ">By &nbsp;
+                        <h2>
+                           {
+                              book.primaryContributorEdge && book.primaryContributorEdge.node.name
+                           }
+                        </h2>
+                        &nbsp;
+                        <h2>
+                           {
+                              book.secondaryContributorEdges&&book.secondaryContributorEdges.length>0 && ", " + book.secondaryContributorEdges.map((contributor) => `${contributor.node.name} (${contributor.role})` ).join(", ")
+                           }
+                        </h2>
+                     </div>
                }
                {
                   isLoading ? <Skeleton className="flex items-center size-8 w-96 mb-2" /> :
                      <div className="flex items-center mb-2">
-                        <StarRating initialRating={book.rating} onChange={() => { }} />
-                        <span className="ml-3 text-2xl">{Number(book.rating).toFixed(2)}</span>
-                        <span className="ml-3 font-sans text-gray-300" >{book.ratings_count} rating{book.ratings_count >= 2 && "s"}</span>
-                        <span className="ml-3 font-sans text-gray-300" >68 reviews</span>
+                        <StarRating initialRating={book.stats.averageRating} onChange={() => { }} />
+                        <span className="ml-3 text-2xl">{Number(book.stats.averageRating).toFixed(2)}</span>
+                        <span className="ml-3 font-sans text-gray-300" >
+                           {book.stats.ratingsCount} rating{book.stats.ratingsCount >= 2 && "s"}
+                           </span>
+                        <span className="ml-3 font-sans text-gray-300" >
+                           {book.work.reviews.totalCount} review{book.work.reviews.totalCount >= 2 && "s"}
+                        </span>
                      </div>
 
                }
 
-               <ExpandableParagraph
-                  text={book.description || "No description about this book"}
+               {
+                  isLoading? <Skeleton className="w-full h-32" /> :
+                  <ExpandableParagraph
+                  text={book.description}
                />
+               }
 
                <div className="grid grid-cols-3 gap-5  max-w-[900px]">
-                  {
+                  {/* {
                      genres.length > 0 ?
                         (
                            <div>
@@ -151,7 +164,7 @@ export default function BookShow() {
                            </div>
                         </div>
                      )
-                  }
+                  } */}
                </div>
                <div className="mt-3 text-gray-100">
                   <h3>First publish March 28, 2012</h3>

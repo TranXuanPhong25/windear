@@ -1,13 +1,20 @@
-import Contribution from "./Contributions";
-
 export default interface BookSearchInfo {
-   contributions: Contribution[];
-   image: {
-      url: string;
+   node:
+   {
+      legacyId: number;
+      imageUrl: string;
+      title: string;
+      primaryContributorEdge:
+      {
+
+         node:
+         {
+            name: string;
+         };
+      };
+      stats:
+      {
+         averageRating: number;
+      };
    };
-   id: string;
-   title: string;
-   imageUrl?: string;
-   rating: number;
-   authors: string;
 }

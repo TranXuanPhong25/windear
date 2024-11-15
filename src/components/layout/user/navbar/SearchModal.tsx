@@ -7,6 +7,7 @@ import anime from 'animejs';
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useBookSearch } from '@/hooks/useBookSearch';
 import clsx from 'clsx';
+import BookSearchInfo from '@/types/BookSearchInfo';
 interface SearchModalProps {
 
    isOpen: boolean;
@@ -19,7 +20,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
    const [isVisible, setIsVisible] = useState(false);
    const [searchQuery, setSearchQuery] = useState('');
    const { data, isLoading } = useBookSearch(searchQuery);
-   const searchResults = data;
+   const searchResults = data?.data?.getSearchSuggestions.edges;
    // const [searching, setSearching] = useState(false);
 
    useEffect(() => {
@@ -111,21 +112,21 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                      <ScrollArea className={clsx("w-full max-h-[50vh] border-gray-400/40 border-t-2",searchResults&&searchResults.length&&"h-[50vh]")}>
                      {
                         searchResults && searchResults.length > 0 ? (
-                           searchResults.map((result: { bookId: string; imageUrl: string; title: string; author: { name: string }; avgRating: number | null }) => (
-                                 <div key={result.bookId} className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 transition-colors duration-200 cursor-pointer overflow-hidden">
-                                    <div className='mr-4 min-w-28 w-28 '>
-                                       <img src={result.imageUrl || "/book-cover-unavailable-placeholder.jpg"} alt={result.title} className=" w-28 rounded-r-lg" />
+                           searchResults.map((result: BookSearchInfo) => (
+                                 <div key={result.node.legacyId} className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 transition-colors duration-200 cursor-pointer overflow-hidden">
+                                    <div className='mr-4 min-w-36 w-36 '>
+                                       <img src={result.node.imageUrl || "/book-cover-unavailable-placeholder.jpg"} alt={result.node.title} className=" w-36 rounded-r-lg" />
                                     </div>
                                     <div className='flex flex-col justify-between'>
                                        <div>
-                                       <h2 className='text-xl text-ellipsis'>{result.title}</h2>
-                                       <p><span className='font-sans'>By</span> {result?.author.name || "unknown"}</p>
+                                       <h2 className='text-2xl text-ellipsis'>{result.node.title}</h2>
+                                       <p><span className='font-sans'>By</span> {result.node?.primaryContributorEdge.node.name || "unknown"}</p>
                                        <p className='flex items-center'>
-                                          {result.avgRating != null ? (
+                                          {result.node.stats.averageRating != null ? (
                                              <>
                                                 <span className='font-sans'>Rating:</span>
                                                 <span className='ml-2 mr-1'>
-                                                   {result.avgRating}
+                                                   {result.node.stats.averageRating}
                                                 </span>
 
                                                 <Star className="h-4 w-4 text-yellow-500 inline-block" fill="rgb(234,179,8)" />
@@ -136,7 +137,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                                        </p>
                                        </div>
                                        <Button className="bg-gray-800 rounded-full  sm:rounded-md w-fit">
-                                          <Link to={`/books/${result.bookId}`} onClick={onClose} className='flex items-center'>
+                                          <Link to={`/books/${result.node.legacyId}`} onClick={onClose} className='flex items-center'>
                                              <span>View</span>
                                              <ArrowUpRightFromSquare className="h-4 w-4 dark:text-black text-white ml-1" />
                                           </Link>
