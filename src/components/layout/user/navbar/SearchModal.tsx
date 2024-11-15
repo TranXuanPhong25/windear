@@ -71,7 +71,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
          document.removeEventListener('mousedown', handleClickOutside);
       };
    }, [isOpen, onClose]);
-
+   
    if (!isOpen && !isVisible) return null;
 
    return (
@@ -101,7 +101,6 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                </Button>
             </div>
             <div className='relative mt-6'>
-
 
                {
                   isLoading ? (
@@ -150,7 +149,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                               <div className='flex justify-center items-center h-28'>
                                  <h2 className='font-sans text-xl'>
                                     {
-                                       searchQuery.length > 0 ? "No results found" : "Type to search"
+                                       searchQuery.length > 0 && searchResults? "No results found" : "You can search by title, author, isbn"
                                     }
                                  </h2>
                               </div>

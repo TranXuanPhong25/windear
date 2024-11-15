@@ -79,10 +79,10 @@ function ProfileInput() {
             .catch((error) => {
                console.error(error);
             })
-         // console.log(data) 
+         console.log(responseData) 
          if (responseData) {
             form.reset({
-               email: responseData?.email || "",
+               email: responseData?.email || "empty@gmail.com",
                username: responseData?.username || responseData?.identities[0].provider,
                location: responseData?.user_metadata?.location || "",
                bio: responseData?.user_metadata?.bio || "",
@@ -96,7 +96,6 @@ function ProfileInput() {
       // enabled: !!user?.sub,
    });
    if (error) return <div>Something went wrong</div>
-   console.log(data?.username);
    function onSubmit(submitData: z.infer<typeof FormSchema>) {
       const updateUserMetadata = async () => {
 
@@ -122,7 +121,10 @@ function ProfileInput() {
                   headers: {
                      Authorization: `Bearer ${accessToken}`,
                   },
-                  data: requestBody
+                  data: {
+                     isSocial: data?.identities[0]?.provider !== 'auth0',
+                     payload:JSON.stringify(requestBody)
+                  }
                }
             ).then(response => response.data);
 
