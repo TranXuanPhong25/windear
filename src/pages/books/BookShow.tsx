@@ -1,12 +1,6 @@
 import { useParams } from "react-router-dom";
 import StarRating from "@/components/books/StarRating";
 import { Skeleton } from "@/components/ui/skeleton"
-import {
-   Accordion,
-   AccordionContent,
-   AccordionItem,
-   AccordionTrigger,
-} from "@/components/ui/accordion"
 import ExpandableParagraph from "@/components/books/ExpandableParagraph";
 import BookList from "@/components/home/BookList";
 import ShelfAction from "@/components/books/ShelfAction";
@@ -16,6 +10,9 @@ import { Book } from "@/types/Book";
 import Genres from "@/components/books/Genres";
 import { Separator } from "@/components/ui/separator";
 import { handlePlural } from "@/lib/handlePlural";
+import { Suspense } from "react";
+import SimilarBooks from "@/components/books/SimilarBooks";
+import BookDetails from "@/components/books/BookDetails";
 
 
 const fetchBook = async (bookId: string | undefined) => {
@@ -41,52 +38,54 @@ export default function BookShow() {
    const book: Book = data ? data?.data.getBookByLegacyId : {};
    const authorBook: string = handlePlural(book.primaryContributorEdge?.node.works.totalCount, "book", true);
    const authorFollower: string = handlePlural(book.primaryContributorEdge?.node.followers.totalCount, "follower", true);
+   const secondaryContributors: string | false = book.secondaryContributorEdges && book.secondaryContributorEdges.length > 0 && ", " + book.secondaryContributorEdges.map((contributor) => `${contributor.node.name} (${contributor.role})`).join(", ");
+
    console.log(book)
    // const genres: Tag[] = book.taggings? extractTags(book.taggings, "Genre"):[];
    // const moodTags: Tag[] = book.taggings? extractTags(book.taggings, "Mood"):[];
    // const contentWarningTags: Tag[] = book.taggings? extractTags(book.taggings, "Content Warning"):[];
    return (
       <>
-         <div className="w-full dark:text-white flex mt-8">
+         <div className="w-full dark:text-white flex mt-8 px-5">
             {/* book header */}
 
-            <div className="flex flex-col items-center mr-16 sticky h-fit top-24">
+            <div className="w-[240px] flex flex-col items-center sticky top-24 ">
                {isLoading ? <Skeleton className="w-[240px] h-80" />
                   : <img
-                     className="w-[240px] rounded-r-2xl rounded-l-md dark:drop-shadow-[0_0_1em_#D2D9E11f] shadow-lg "
+                     className="w-full rounded-r-2xl rounded-l-sm dark:drop-shadow-[0_0_1em_#D2D9E11f] drop-shadow-[0_0_1.6em_#0000001f] h-fit"
                      src={book?.imageUrl}
-                     alt="book cover" 
+                     alt="book cover"
                   />
                }
                <ShelfAction customClass="w-full" />
                <GetBook />
-               <StarRating initialRating={5} ratable onChange={() => { }} />
+               <StarRating initialRating={0} ratable onChange={() => { }} />
             </div>
             {/* book detail */}
-            <div className=" font-sans ">
+            <div className="flex-1 w-full font-sans ml-12 max-w-4xl">
                {
                   isLoading ? <Skeleton className="my-2 scroll-m-20 text-5xl font-semibold tracking-tight " >&nbsp;</Skeleton> :
                      <h1 className="my-2 scroll-m-20 text-5xl font-semibold tracking-tight ">{book.title}</h1>
                }
                {
-                  isLoading ? <Skeleton className="text-lg mb-3 w-64"  >&nbsp;</Skeleton> :
-                     <div className="text-xl mb-3 flex ">By &nbsp;
-                        <h2>
-                           {
-                              book.primaryContributorEdge && book.primaryContributorEdge.node.name
-                           }
-                        </h2>
-                        &nbsp;
-                        <h2>
-                           {
-                              book.secondaryContributorEdges && book.secondaryContributorEdges.length > 0 && ", " + book.secondaryContributorEdges.map((contributor) => `${contributor.node.name} (${contributor.role})`).join(", ")
-                           }
-                        </h2>
-                     </div>
+                  isLoading ? <Skeleton className="text-lg m￼
+SAKAMOTO DAYS 4
+Yuto Suzuki
+4.36
+
+b-3 w-64"  >&nbsp;</Skeleton> :
+                     <h2 className="text-xl mb-3 flex ">
+                        {
+                           ["By ",
+                              book.primaryContributorEdge && book.primaryContributorEdge.node.name,
+                              secondaryContributors
+                           ]
+                        }
+                     </h2>
                }
                {
-                  isLoading ? <Skeleton className="flex items-center size-8 w-96 mb-2" /> :
-                     <div className="flex items-center mb-2">
+                  isLoading ? <Skeleton className="flex items-center h-12 w-96 mb-2" /> :
+                     <a href="#" className="flex items-center mb-2 hover:bg-gray-50/10 w-fit p-2 -mx-2 rounded-md">
                         <StarRating initialRating={book.stats.averageRating} onChange={() => { }} />
                         <span className="ml-3 text-2xl">{Number(book.stats.averageRating).toFixed(2)}</span>
                         <span className="ml-3 font-sans text-gray-600 dark:text-gray-300 text-sm" >
@@ -96,135 +95,38 @@ export default function BookShow() {
                         <span className="ml-2 font-sans text-gray-600 dark:text-gray-300 text-sm" >
                            {handlePlural(book.work.reviews.totalCount, "review")}
                         </span>
-                     </div>
+                     </a>
                }
                {
-                  isLoading ? <Skeleton className="w-full h-32" /> :
+                  isLoading ? <Skeleton className="w-full h-32 my-4" /> :
                      <ExpandableParagraph
                         text={book.description}
                      />
                }
 
                {
-                  isLoading ? <Skeleton className="w-full h-32" /> :
+                  isLoading ? <Skeleton className="w-full h-24 my-4" /> :
                      <Genres genres={book.bookGenres} />
                }
 
                {
-                  isLoading ? <Skeleton className="w-full h-32" /> :
+                  isLoading ? <Skeleton className="w-60  h-12 my-4" /> :
                      (
-                        <div className="mt-6 text-gray-600 dark:text-gray-300">
+                        <div className="mt-8 mb-6 text-gray-600 dark:text-gray-300">
                            <h3>{book.details.numPages} Pages, {book.details.format}</h3>
                            <h3>First published {new Date(book.details.publicationTime).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</h3>
                         </div>
                      )
                }
-               <Accordion type="single" collapsible className=" " >
-                  <AccordionItem value="item-1" className="border-b-0 w-full max-w-[900px] ">
-                     <AccordionTrigger className="flex justify-start w-fit gap-1">
-                        Book details and other editions
-                     </AccordionTrigger>
-                     <AccordionContent className="text-gray-600 dark:text-gray-200">
-                        <div className="flex mt-2">
-                           <div >
-                              <div>
-                                 Original title
-                              </div>
-
-                           </div>
-                           <div className="ml-10 ">
-                              {
-                                 book.work &&
-                                 <div>
-                                    {book.work.details.originalTitle}
-                                 </div>
-                              }
-
-
-                           </div>
-                        </div>
-                        <div>
-                           <h1 className="text-lg mb-2 mt-6 text-black dark:text-white ">This edition</h1>
-                        </div>
-                        <div className="flex">
-                           <div >
-                              {
-                                 book.details && book.details.format &&
-                                 <p>
-                                    Format
-                                 </p>
-                              }
-                              {
-                                 book.details && book.details.publicationTime &&
-                                 <p>
-                                    Published
-                                 </p>
-                              }
-                              {
-                                 book.details && book.details.isbn &&
-                                 <p>
-                                    ISBN
-                                 </p>
-                              }
-                              {
-                                 book.details && book.details.asin &&
-                                 <p>
-                                    ASIN
-                                 </p>
-                              }
-                              {
-                                 book.details && book.details.language?.name &&
-                                 <p>
-                                    Language
-                                 </p>
-                              }
-
-                           </div>
-                           <div className="ml-10">
-                              {
-                                 book.details && book.details.format &&
-                                 <p>
-                                    {book.details.numPages} Pages, {book.details.format}
-                                 </p>
-                              }
-                              {
-                                 book.details && book.details.publicationTime &&
-                                 <p>
-                                    {new Date(book.details.publicationTime).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} by {book.details.publisher}
-                                 </p>
-                              }
-                              {
-                                 book.details && book.details.isbn &&
-                                 <p>
-                                    {book.details.isbn}
-                                 </p>
-                              }
-                              {
-                                 book.details && book.details.asin &&
-                                 <p>
-                                    {book.details.asin}
-                                 </p>
-                              }
-                              {
-                                 book.details && book.details.language?.name &&
-                                 <p>
-                                    {book.details.language.name}
-                                 </p>
-                              }
-
-                           </div>
-                        </div>
-                        <h3 className="text-lg mt-6 mb-2">More edition</h3>
-                        <BookList title="" className="sm:px-4 my-4" />
-                     </AccordionContent>
-
-                  </AccordionItem>
-               </Accordion>
+               {
+                  isLoading ? <Skeleton className="w-60 h-8 my-4" /> :
+                     <BookDetails book={book} />
+               }
                <Separator className="my-4" />
                <div className="mb-6">
                   <h1 className="text-2xl ">About the author</h1>
                   {
-                     isLoading ? <Skeleton className="w-full h-32" /> :
+                     isLoading ? <Skeleton className="w-full h-40 mt-4" /> :
                         <div >
                            <div className="flex items-center mt-4 ">
                               <img className="w-16 h-16 rounded-full bg-gray-700" src={book.primaryContributorEdge?.node.profileImageUrl} alt="author" />
@@ -239,10 +141,15 @@ export default function BookShow() {
                </div>
                <Separator className="my-4" />
 
-               <div className="  border-2 border-white mb-6 max-w-[900px]">
-                  <h1 className="text-xl font-semibold">Reader also enjoyed</h1>
-                  <BookList title="" className="my-4" />
+               <div className="mb-6 w-full max-w-4xl pt-2">
+                  <h1 className="text-2xl mb-6">Reader also enjoyed</h1>
+                  <Suspense fallback={<Skeleton className="h-60 w-full" />}>
+                     <SimilarBooks bookId={book.id} />
+                  </Suspense>
                </div>
+
+               <Separator className="my-4" />
+
                <div className="w-full h-60 border-2 mb-6 border-white ">
                   <h1 className="text-xl font-semibold">Rating & Review</h1>
                </div>

@@ -1,16 +1,16 @@
-export function handlePlural(value: number, type: string, shouldTruncate: boolean = false): string {
-   type = " " + type;
+export function handlePlural(value: number, unit: string, shouldTruncate: boolean = false): string {
+   unit = " " + unit;
    if (value > 1) {
-      type += "s";
+      unit += "s";
    }
 
    if (shouldTruncate && value > 1000) {
       value = Math.floor(value / 1000);
-      type = "K" + type;
+      unit = "K" + unit;
    } else {
       const formattedNumber = new Intl.NumberFormat('en-US').format(value);
-      return `${formattedNumber}${type}`;
+      return `${formattedNumber}${unit}`;
    }
 
-   return `${value}${type}`;
+   return `${value}${unit}`;
 }

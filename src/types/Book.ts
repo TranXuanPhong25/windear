@@ -71,9 +71,11 @@ interface Work {
    reviews: {
       totalCount: number;
    };
+   id:number;
 }
 
 export interface Book {
+   id: string;
    stats: Stats;
    title: string;
    details: BookDetails;

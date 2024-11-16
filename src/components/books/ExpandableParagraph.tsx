@@ -20,7 +20,7 @@ export default function ExpandableParagraph({
    const shouldTruncate = text.length > maxLength
    const displayText = isExpanded || !shouldTruncate ? text : `${text.slice(0, maxLength)}...`
    return (
-      <div className="py-3 text-gray-900 dark:text-gray-200 rounded-md text-justify text-md max-w-[800px] opacity-85 ">
+      <div className="py-3 text-gray-900 dark:text-gray-100 rounded-md text-justify text-md max-w-[800px] opacity-85 ">
          
             <Markup content={parseLinks(displayText)} />
 

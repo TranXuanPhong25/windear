@@ -25,7 +25,7 @@ export const FloatingNav = ({
       const direction = current! - scrollYProgress.getPrevious()!;
       //*************h-6: 24px ***************
       if(window.scrollY > 24){
-        setBorderClass("border-b-2 border-gray-400/30")
+        setBorderClass("border-b-2 border-gray-400/30 shadow-md");
       }else {
         setBorderClass("")
       }

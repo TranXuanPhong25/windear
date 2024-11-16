@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardDescription,  CardTitle } from "@/components/ui/card"
 import {
    Carousel,
    CarouselContent,
@@ -7,16 +7,19 @@ import {
    CarouselPrevious
 } from "@/components/ui/carousel"
 import { Button } from "@/components/ui/button"
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Star } from 'lucide-react';
+import BookSearchInfo from "@/types/BookSearchInfo";
 
 interface BookListProps {
-   title:string,
-   brief?:boolean,
-   className?:string
+   title: string,
+   books?: BookSearchInfo[];
+   brief?: boolean,
+   className?: string
 }
-export default function BookList({ title, brief = false,className ="my-4 sm:my-20 sm:px-8"}: BookListProps) {
+
+export default function BookList({ title, books = [], brief = false, className = "my-4 sm:px-0" }: BookListProps) {
    return (
-      <section className={className+" relative w-full"}>
+      <section className={className + " relative w-full"}>
          {title != "" &&
             <header className="text-white text-2xl mb-4 ml-2">
                {title}
@@ -31,16 +34,30 @@ export default function BookList({ title, brief = false,className ="my-4 sm:my-2
                dragFree: true
             }}
          >
-            <CarouselContent className="md:gap-8 gap-auto">
-               {Array.from({ length: 8 }).map((_, index) => (
-                  <CarouselItem key={index} className="w-[120px] sm:w-[160px] md:w-[250px] basis-auto cursor-default">
-                     <div >
-                        <Card className="overflow-hidden  border-0 text-white bg-gray-900">
-                           <CardContent className="w-full md:h-[350px] sm:h-[250px] h-[180px] flex aspect-square items-center justify-center p-6 ">
-                              <span className="text-4xl font-semibold">{index + 1}</span>
-                           </CardContent>
-                        </Card>
-                     </div>
+            <CarouselContent className="md:gap-8 gap-auto pl-4">
+               {books && books.map((book, index) => (
+                  <CarouselItem key={index} className="w-[120px] sm:w-[160px] md:w-[220px] basis-auto cursor-default p-0">
+                     <Card className="overflow-hidden   !bg-transparent rounded-none shadow-none border-0 p-2">
+                        <CardContent className="min-h-60 flex items-center justify-center p-0 ">
+                              <img 
+                                 src={book.node.imageUrl} 
+                                 alt="book cover" 
+                                 width={220}
+                                 
+                                 className="object-cover object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33]"
+                                 loading="lazy"
+                                 decoding="async"
+                              />
+                        </CardContent>
+                        <CardTitle className="text-lg mt-2">
+                           {book.node.title}
+                        </CardTitle>
+                           <span>{book.node.primaryContributorEdge.node.name}</span>
+                        <CardDescription className="flex items-center">
+                           <Star className="h-4 w-4 text-yellow-500 mr-1" fill="rgb(234,179,8)" />
+                           {book.node.stats.averageRating}
+                        </CardDescription>
+                     </Card>
                   </CarouselItem>
                ))}
             </CarouselContent>
