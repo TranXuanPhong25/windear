@@ -11,13 +11,13 @@ interface ExpandableParagraphProps {
 
 export default function ExpandableParagraph({
    text,
-   maxLength = 450
+   maxLength = 400
 }: ExpandableParagraphProps) {
    const [isExpanded, setIsExpanded] = useState(false)
 
    const toggleExpand = () => setIsExpanded(!isExpanded)
 
-   const shouldTruncate = text.length > maxLength
+   const shouldTruncate = text.length >= maxLength
    const displayText = isExpanded || !shouldTruncate ? text : `${text.slice(0, maxLength)}...`
    return (
       <div className="py-3 text-gray-900 dark:text-gray-100 rounded-md text-justify text-md max-w-[800px] opacity-85 ">

@@ -62,7 +62,7 @@ export default function BookShow() {
                <StarRating initialRating={0} ratable onChange={() => { }} />
             </div>
             {/* book detail */}
-            <div className="flex-1 w-full font-sans ml-12 max-w-4xl">
+            <div className="flex-1 font-sans ml-12 max-w-4xl">
                {
                   isLoading ? <Skeleton className="my-2 scroll-m-20 text-5xl font-semibold tracking-tight " >&nbsp;</Skeleton> :
                      <h1 className="my-2 scroll-m-20 text-5xl font-semibold tracking-tight ">{book.title}</h1>
