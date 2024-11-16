@@ -52,7 +52,12 @@ export default function BookShow() {
 
             <div className="flex flex-col items-center mr-16 sticky h-fit top-24">
                {isLoading ? <Skeleton className="w-[240px] h-80" />
-                  : <img className="w-[240px] rounded-r-2xl rounded-l-md shadow-lg" src={book?.imageUrl} alt="book cover" />}
+                  : <img
+                     className="w-[240px] rounded-r-2xl rounded-l-md dark:drop-shadow-[0_0_1em_#D2D9E11f] shadow-lg "
+                     src={book?.imageUrl}
+                     alt="book cover" 
+                  />
+               }
                <ShelfAction customClass="w-full" />
                <GetBook />
                <StarRating initialRating={5} ratable onChange={() => { }} />
@@ -240,7 +245,6 @@ export default function BookShow() {
                </div>
                <div className="w-full h-60 border-2 mb-6 border-white ">
                   <h1 className="text-xl font-semibold">Rating & Review</h1>
-
                </div>
                <div className="w-full border-2 border-white ">
                   <h1 className="text-xl font-semibold">Community review</h1>

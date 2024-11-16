@@ -1,37 +1,23 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { BrowserRouter } from "react-router-dom";
-import { Auth0Provider } from "@auth0/auth0-react";
+
 import App from "./App";
 import "./index.css";
-import {
-	QueryClient,
-	QueryClientProvider,
-} from '@tanstack/react-query'
-import { Toaster } from "./components/ui/toaster";
 
-const queryClient = new QueryClient()
+import { AppProviders } from "./provider/AppProvider";
+
+import Toaster from "./components/ui/toaster";
+
 
 const root = document.getElementById("root")
 root?.classList.add(localStorage.getItem("theme") || "light")
 createRoot(root!).render(
 	<StrictMode>
-		<BrowserRouter>
-			<Auth0Provider
-				domain={import.meta.env.VITE_AUTH0_DOMAIN}
-				clientId={import.meta.env.VITE_AUTH0_CLIENTID}
-				authorizationParams={{
-					redirect_uri: window.location.origin,
-					audience: `${import.meta.env.VITE_AUTH0_AUDIENCE}`
-				}}
-			>
-				<QueryClientProvider client={queryClient}>
-					<App />
-					<Toaster />
-				</QueryClientProvider>
-			</Auth0Provider>
-		</BrowserRouter>
+		<AppProviders>
+			<App />
+			<Toaster />
+		</AppProviders>
 		<SpeedInsights />
 	</StrictMode>
 );
