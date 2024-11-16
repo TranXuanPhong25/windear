@@ -3,7 +3,7 @@ export interface Stats {
    averageRating: number;
 }
 
-interface BookDetails {
+export interface BookDetails {
    language: {
       name: string;
    };
@@ -71,7 +71,7 @@ interface Work {
    reviews: {
       totalCount: number;
    };
-   id:number;
+   id:string;
 }
 
 export interface Book {

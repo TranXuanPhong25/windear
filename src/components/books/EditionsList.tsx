@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription,  CardTitle } from "@/components/ui/card"
+import { Card, CardContent,  CardTitle } from "@/components/ui/card"
 import {
    Carousel,
    CarouselContent,
@@ -7,18 +7,18 @@ import {
    CarouselPrevious
 } from "@/components/ui/carousel"
 import { Button } from "@/components/ui/button"
-import { ChevronRight, Star } from 'lucide-react';
-import BookSearchInfo from "@/types/BookSearchInfo";
+import { ChevronRight } from 'lucide-react';
 import React from "react";
+import Edition from "@/types/Edition";
 
 interface BookListProps {
    title: string,
-   books?: BookSearchInfo[];
+   books?: Edition[];
    brief?: boolean,
    className?: string
 }
 
-export default function BookList({ title, books = [], brief = false, className = "my-4 sm:px-0" }: BookListProps) {
+export default function EditionList({ title, books = [], brief = false, className = "my-4 sm:px-0" }: BookListProps) {
    const container = React.useRef<HTMLDivElement>(null);
    function handleResize(){
       if(!container.current)return;
@@ -59,25 +59,21 @@ export default function BookList({ title, books = [], brief = false, className =
                {books && books.map((book, index) => (
                   <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-[45%] min-[900px]:basis-[35%] lg:basis-[27%]   cursor-default p-0">
                      <Card className="overflow-hidden   !bg-transparent rounded-none shadow-none border-0 p-2">
-                        <CardContent className="min-h-60 flex items-center justify-center p-0 ">
+                        <CardContent className="w-[220px] min-h-60 flex items-center justify-center p-0 ">
                               <img 
                                  src={book.node.imageUrl} 
                                  alt="book cover" 
                                  width={220}
-                                 
-                                 className="object-cover object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33]"
+                                 className="object-fill object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33] "
                                  loading="lazy"
                                  decoding="async"
                               />
                         </CardContent>
-                        <CardTitle className="text-lg mt-2">
-                           {book.node.title}
+                        <CardTitle className="text-[1rem] mt-2 text-gray-300">
+                           <span className="block">{book.node.details.format}</span>
+                           <span className="block">{book.node.details.publisher}</span>
+                           <span className="block">{new Date(book.node.details.publicationTime).getFullYear()}</span>
                         </CardTitle>
-                           <span>{book.node.primaryContributorEdge.node.name}</span>
-                        <CardDescription className="flex items-center">
-                           <Star className="h-4 w-4 text-yellow-500 mr-1" fill="rgb(234,179,8)" />
-                           {book.node.stats.averageRating}
-                        </CardDescription>
                      </Card>
                   </CarouselItem>
                ))}

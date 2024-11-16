@@ -39,11 +39,6 @@ export default function BookShow() {
    const authorBook: string = handlePlural(book.primaryContributorEdge?.node.works.totalCount, "book", true);
    const authorFollower: string = handlePlural(book.primaryContributorEdge?.node.followers.totalCount, "follower", true);
    const secondaryContributors: string | false = book.secondaryContributorEdges && book.secondaryContributorEdges.length > 0 && ", " + book.secondaryContributorEdges.map((contributor) => `${contributor.node.name} (${contributor.role})`).join(", ");
-
-   console.log(book)
-   // const genres: Tag[] = book.taggings? extractTags(book.taggings, "Genre"):[];
-   // const moodTags: Tag[] = book.taggings? extractTags(book.taggings, "Mood"):[];
-   // const contentWarningTags: Tag[] = book.taggings? extractTags(book.taggings, "Content Warning"):[];
    return (
       <>
          <div className="w-full dark:text-white md:flex mt-8 px-5">

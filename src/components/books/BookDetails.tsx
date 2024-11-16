@@ -1,13 +1,13 @@
 import { Book } from "@/types/Book";
-import BookList from "../home/BookList";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
+import EditionShow from "./EditionShow";
 
 export default function BookDetails({book}:{book:Book}) {
    return (
       <Accordion type="single" collapsible className=" " >
          <AccordionItem value="item-1" className="border-b-0 w-full max-w-4xl ">
             <AccordionTrigger className="flex justify-start w-fit gap-1">
-               Book details and other editions
+               Book details 
             </AccordionTrigger>
             <AccordionContent className="text-gray-600 dark:text-gray-200">
                <div className="flex mt-2">
@@ -100,7 +100,7 @@ export default function BookDetails({book}:{book:Book}) {
                   </div>
                </div>
                <h3 className="text-lg mt-6 mb-2">More edition</h3>
-               <BookList title="" className="sm:px-4 my-4" />
+               <EditionShow workId={book.work.id}/>
             </AccordionContent>
 
          </AccordionItem>
