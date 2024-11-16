@@ -15,6 +15,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Book } from "@/types/Book";
 import Genres from "@/components/books/Genres";
 import { Separator } from "@/components/ui/separator";
+import { handlePlural } from "@/lib/handlePlural";
+import { Suspense } from "react";
 
 
 const fetchBook = async (bookId: string | undefined) => {
@@ -38,7 +40,8 @@ export default function BookShow() {
       return <h1>Invalid book ID</h1>
    }
    const book: Book = data ? data?.data.getBookByLegacyId : {};
-
+   const authorBook: string = handlePlural(book.primaryContributorEdge?.node.works.totalCount, "book", true);
+   const authorFollower: string = handlePlural(book.primaryContributorEdge?.node.followers.totalCount, "follower", true);
    console.log(book)
    // const genres: Tag[] = book.taggings? extractTags(book.taggings, "Genre"):[];
    // const moodTags: Tag[] = book.taggings? extractTags(book.taggings, "Mood"):[];
@@ -48,9 +51,9 @@ export default function BookShow() {
          <div className="w-full dark:text-white flex mt-8">
             {/* book header */}
 
-            <div className="w-[300px] flex flex-col items-center mr-10 sticky h-fit top-24">
-               {isLoading ? <Skeleton className="w-[240px] h-80 rounded-md " />
-                  : <img className="w-[240px] rounded-md " src={book?.imageUrl} alt="book cover" />}
+            <div className="flex flex-col items-center mr-16 sticky h-fit top-24">
+               {isLoading ? <Skeleton className="w-[240px] h-80" />
+                  : <img className="w-[240px] rounded-r-2xl rounded-l-md shadow-lg" src={book?.imageUrl} alt="book cover" />}
                <ShelfAction customClass="w-full" />
                <GetBook />
                <StarRating initialRating={5} ratable onChange={() => { }} />
@@ -63,7 +66,7 @@ export default function BookShow() {
                }
                {
                   isLoading ? <Skeleton className="text-lg mb-3 w-64"  >&nbsp;</Skeleton> :
-                     <div className="text-lg mb-3 flex ">By &nbsp;
+                     <div className="text-xl mb-3 flex ">By &nbsp;
                         <h2>
                            {
                               book.primaryContributorEdge && book.primaryContributorEdge.node.name
@@ -82,11 +85,12 @@ export default function BookShow() {
                      <div className="flex items-center mb-2">
                         <StarRating initialRating={book.stats.averageRating} onChange={() => { }} />
                         <span className="ml-3 text-2xl">{Number(book.stats.averageRating).toFixed(2)}</span>
-                        <span className="ml-3 font-sans text-gray-300" >
-                           {book.stats.ratingsCount} rating{book.stats.ratingsCount >= 2 && "s"}
+                        <span className="ml-3 font-sans text-gray-600 dark:text-gray-300 text-sm" >
+                           {handlePlural(book.stats.ratingsCount, "rating")}
                         </span>
-                        <span className="ml-3 font-sans text-gray-300" >
-                           {book.work.reviews.totalCount} review{book.work.reviews.totalCount >= 2 && "s"}
+                        <span className="ml-2 size-[2px] bg-gray-300 "></span>
+                        <span className="ml-2 font-sans text-gray-600 dark:text-gray-300 text-sm" >
+                           {handlePlural(book.work.reviews.totalCount, "review")}
                         </span>
                      </div>
                }
@@ -105,7 +109,7 @@ export default function BookShow() {
                {
                   isLoading ? <Skeleton className="w-full h-32" /> :
                      (
-                        <div className="text-gray-100 mt-6">
+                        <div className="mt-6 text-gray-600 dark:text-gray-300">
                            <h3>{book.details.numPages} Pages, {book.details.format}</h3>
                            <h3>First published {new Date(book.details.publicationTime).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</h3>
                         </div>
@@ -126,7 +130,7 @@ export default function BookShow() {
                            </div>
                            <div className="ml-10 ">
                               {
-                                 book.work && 
+                                 book.work &&
                                  <div>
                                     {book.work.details.originalTitle}
                                  </div>
@@ -141,31 +145,31 @@ export default function BookShow() {
                         <div className="flex">
                            <div >
                               {
-                                 book.details&&book.details.format&&
+                                 book.details && book.details.format &&
                                  <p>
                                     Format
                                  </p>
                               }
                               {
-                                 book.details&&book.details.publicationTime&&
+                                 book.details && book.details.publicationTime &&
                                  <p>
                                     Published
                                  </p>
                               }
                               {
-                                 book.details&&book.details.isbn&&
+                                 book.details && book.details.isbn &&
                                  <p>
                                     ISBN
                                  </p>
                               }
                               {
-                                 book.details&&book.details.asin&&
+                                 book.details && book.details.asin &&
                                  <p>
                                     ASIN
                                  </p>
                               }
                               {
-                                 book.details&&book.details.language?.name&&
+                                 book.details && book.details.language?.name &&
                                  <p>
                                     Language
                                  </p>
@@ -174,31 +178,31 @@ export default function BookShow() {
                            </div>
                            <div className="ml-10">
                               {
-                                 book.details&&book.details.format&&
+                                 book.details && book.details.format &&
                                  <p>
                                     {book.details.numPages} Pages, {book.details.format}
                                  </p>
                               }
                               {
-                                 book.details&&book.details.publicationTime&&
+                                 book.details && book.details.publicationTime &&
                                  <p>
                                     {new Date(book.details.publicationTime).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} by {book.details.publisher}
                                  </p>
                               }
                               {
-                                 book.details&&book.details.isbn&&
+                                 book.details && book.details.isbn &&
                                  <p>
                                     {book.details.isbn}
                                  </p>
                               }
                               {
-                                 book.details&&book.details.asin&&
+                                 book.details && book.details.asin &&
                                  <p>
                                     {book.details.asin}
                                  </p>
                               }
                               {
-                                 book.details&&book.details.language?.name&&
+                                 book.details && book.details.language?.name &&
                                  <p>
                                     {book.details.language.name}
                                  </p>
@@ -207,16 +211,31 @@ export default function BookShow() {
                            </div>
                         </div>
                         <h3 className="text-lg mt-6 mb-2">More edition</h3>
-                        <BookList title="" className="sm:px-0 my-4" />
+                        <BookList title="" className="sm:px-4 my-4" />
                      </AccordionContent>
 
                   </AccordionItem>
                </Accordion>
-               <Separator className="my-2" />
-               <div className="w-full h-60 border-2 border-white mb-6">
-                  <h1>Author</h1>
+               <Separator className="my-4" />
+               <div className="mb-6">
+                  <h1 className="text-2xl ">About the author</h1>
+                  {
+                     isLoading ? <Skeleton className="w-full h-32" /> :
+                        <div >
+                           <div className="flex items-center mt-4 ">
+                              <img className="w-16 h-16 rounded-full bg-gray-700" src={book.primaryContributorEdge?.node.profileImageUrl} alt="author" />
+                              <div className="ml-4">
+                                 <h2 className="text-lg font-semibold">{book.primaryContributorEdge?.node.name}</h2>
+                                 <h3 className="text-gray-600 dark:text-gray-300">{authorBook}, {authorFollower}</h3>
+                              </div>
+                           </div>
+                           <ExpandableParagraph text={book.primaryContributorEdge?.node.description} />
+                        </div>
+                  }
                </div>
-               <div className="w-full  border-2 border-white mb-6 max-w-[900px]">
+               <Separator className="my-4" />
+
+               <div className="  border-2 border-white mb-6 max-w-[900px]">
                   <h1 className="text-xl font-semibold">Reader also enjoyed</h1>
                   <BookList title="" className="my-4" />
                </div>
@@ -254,7 +273,9 @@ export default function BookShow() {
             </div>
 
          </div>
-         <BookList title="Discover our popular books" brief className="mt-32" />
+         <Suspense fallback={<Skeleton className="w-full h-52" />}>
+            <BookList title="Discover our popular books" brief className="mt-32" />
+         </Suspense>
          <div className="w-full h-52 bg-gray-700 mt-24">
             Add your own Book
          </div>

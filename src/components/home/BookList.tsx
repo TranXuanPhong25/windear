@@ -16,7 +16,7 @@ interface BookListProps {
 }
 export default function BookList({ title, brief = false,className ="my-4 sm:my-20 sm:px-8"}: BookListProps) {
    return (
-      <section className={className+" relative w-full "}>
+      <section className={className+" relative w-full"}>
          {title != "" &&
             <header className="text-white text-2xl mb-4 ml-2">
                {title}

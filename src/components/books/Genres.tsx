@@ -12,7 +12,7 @@ function Genres({ genres }: { genres: Genre[] }) {
                   <div className="flex flex-wrap gap-2">
                      {
                         genres && genres.map((item) => (
-                           <Link to={`/browse/tags/${item.genre.name}`} key={item.genre.name} className="py-1 px-4 rounded-full bg-emerald-500 text-gray-100 hover:bg-emerald-600 hover:text-white flex gap-2">
+                           <Link to={`/browse/tags/${item.genre.name}`} key={item.genre.name} className="py-1 px-4 rounded-full bg-emerald-500 text-gray-50 hover:bg-emerald-600 hover:text-white flex gap-2">
                               {item.genre.name}
                            </Link>
                         ))

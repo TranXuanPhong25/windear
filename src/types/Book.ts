@@ -21,6 +21,7 @@ interface BookDetails {
 interface Author {
    name: string;
    description: string;
+   profileImageUrl: string;
    followers: {
       totalCount: number;
    };
