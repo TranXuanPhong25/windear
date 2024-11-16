@@ -17,7 +17,7 @@ export default function EditionShow({ workId }: { workId: string | undefined }) 
       <div ref={ref}>
          {
             isLoading || !workId ||!data ? <Skeleton className="h-72 w-full" /> :
-               <EditionList title="" books={data?.data.getEditions.edges} />
+               <EditionList books={data?.data.getEditions.edges} />
          }
       </div>
    );

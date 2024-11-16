@@ -12,13 +12,12 @@ import React from "react";
 import Edition from "@/types/Edition";
 
 interface BookListProps {
-   title: string,
    books?: Edition[];
    brief?: boolean,
    className?: string
 }
 
-export default function EditionList({ title, books = [], brief = false, className = "my-4 sm:px-0" }: BookListProps) {
+export default function EditionList({  books = [], brief = false, className = "my-4 sm:pl-4" }: BookListProps) {
    const container = React.useRef<HTMLDivElement>(null);
    function handleResize(){
       if(!container.current)return;
@@ -26,7 +25,7 @@ export default function EditionList({ title, books = [], brief = false, classNam
          container.current.style.width = "100%"
          return;
       }
-      container.current.style.width = (window.innerWidth-350) + "px"
+      container.current.style.width = (window.innerWidth-360) + "px"
       console.log(container.current.style.width)
    }
    React.useEffect(() => {
@@ -37,14 +36,7 @@ export default function EditionList({ title, books = [], brief = false, classNam
       }
    }, [])
    return (
-      <section className={className + " relative w-full"}>
-         {title != "" &&
-            <header className="text-white text-2xl mb-4 ml-2">
-               {title}
-            </header>
-
-         }
-
+      <section className={className + " relative w-full "}>
          <Carousel
             // style={{width:"500px"}}
             ref={container}
@@ -59,12 +51,12 @@ export default function EditionList({ title, books = [], brief = false, classNam
                {books && books.map((book, index) => (
                   <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-[45%] min-[900px]:basis-[35%] lg:basis-[27%]   cursor-default p-0">
                      <Card className="overflow-hidden   !bg-transparent rounded-none shadow-none border-0 p-2">
-                        <CardContent className="w-[220px] min-h-60 flex items-center justify-center p-0 ">
+                        <CardContent className=" min-h-60 flex items-center justify-center p-0 ">
                               <img 
                                  src={book.node.imageUrl} 
                                  alt="book cover" 
                                  width={220}
-                                 className="object-fill object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33] "
+                                 className="object-cover object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33] "
                                  loading="lazy"
                                  decoding="async"
                               />
@@ -78,8 +70,8 @@ export default function EditionList({ title, books = [], brief = false, classNam
                   </CarouselItem>
                ))}
             </CarouselContent>
-            <CarouselNext className="absolute top-1/2 -right-4 transform -translate-y-1/2  sm:inline-flex hidden text-black" />
-            <CarouselPrevious className="absolute top-1/2 -left-4 transform -translate-y-1/2  sm:inline-flex hidden text-black" />
+            <CarouselNext className="absolute top-1/2 -right-0 transform -translate-y-1/2  sm:inline-flex hidden text-black" />
+            <CarouselPrevious className="absolute top-1/2 -left-0 transform -translate-y-1/2  sm:inline-flex hidden text-black" />
          </Carousel>
          {
             brief &&
