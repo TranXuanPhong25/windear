@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { ChevronRight, Star } from 'lucide-react';
 import BookSearchInfo from "@/types/BookSearchInfo";
+import React from "react";
 
 interface BookListProps {
    title: string,
@@ -18,6 +19,24 @@ interface BookListProps {
 }
 
 export default function BookList({ title, books = [], brief = false, className = "my-4 sm:px-0" }: BookListProps) {
+   const container = React.useRef<HTMLDivElement>(null);
+   function handleResize(){
+      if(!container.current)return;
+      if(window.innerWidth < 768){
+         container.current.style.width = "100%"
+         return;
+      }
+      container.current.style.width = (window.innerWidth-350) + "px"
+      console.log(container.current.style.width)
+   }
+   console.log("rerender")
+   React.useEffect(() => {
+      handleResize()
+      window.addEventListener("resize", handleResize)
+      return () => {
+         window.removeEventListener("resize", handleResize)
+      }
+   }, [])
    return (
       <section className={className + " relative w-full"}>
          {title != "" &&
@@ -28,15 +47,18 @@ export default function BookList({ title, books = [], brief = false, className =
          }
 
          <Carousel
-            className="w-full cursor-grab"
+            // style={{width:"500px"}}
+            ref={container}
+            className="w-full max-w-4xl cursor-grab"
             opts={{
                align: "start",
-               dragFree: true
+               dragFree: true,
+               
             }}
          >
-            <CarouselContent className="md:gap-8 gap-auto pl-4">
+            <CarouselContent className="md:gap-2 pl-2 md:pl-0 w-full">
                {books && books.map((book, index) => (
-                  <CarouselItem key={index} className="w-[120px] sm:w-[160px] md:w-[220px] basis-auto cursor-default p-0">
+                  <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-[45%] min-[900px]:basis-[35%] lg:basis-[27%]   cursor-default p-0">
                      <Card className="overflow-hidden   !bg-transparent rounded-none shadow-none border-0 p-2">
                         <CardContent className="min-h-60 flex items-center justify-center p-0 ">
                               <img 

@@ -46,10 +46,10 @@ export default function BookShow() {
    // const contentWarningTags: Tag[] = book.taggings? extractTags(book.taggings, "Content Warning"):[];
    return (
       <>
-         <div className="w-full dark:text-white flex mt-8 px-5">
+         <div className="w-full dark:text-white md:flex mt-8 px-5">
             {/* book header */}
 
-            <div className="w-[240px] flex flex-col items-center sticky top-24 ">
+            <div className="w-[240px] flex flex-col items-center md:sticky top-24 h-fit ">
                {isLoading ? <Skeleton className="w-[240px] h-80" />
                   : <img
                      className="w-full rounded-r-2xl rounded-l-sm dark:drop-shadow-[0_0_1em_#D2D9E11f] drop-shadow-[0_0_1.6em_#0000001f] h-fit"
@@ -62,18 +62,13 @@ export default function BookShow() {
                <StarRating initialRating={0} ratable onChange={() => { }} />
             </div>
             {/* book detail */}
-            <div className="flex-1 font-sans ml-12 max-w-4xl">
+            <div className="flex-1 w-full font-sans md:ml-12 max-w-4xl">
                {
                   isLoading ? <Skeleton className="my-2 scroll-m-20 text-5xl font-semibold tracking-tight " >&nbsp;</Skeleton> :
                      <h1 className="my-2 scroll-m-20 text-5xl font-semibold tracking-tight ">{book.title}</h1>
                }
                {
-                  isLoading ? <Skeleton className="text-lg m￼
-SAKAMOTO DAYS 4
-Yuto Suzuki
-4.36
-
-b-3 w-64"  >&nbsp;</Skeleton> :
+                  isLoading ? <Skeleton className="text-lg mb-3 w-64"  >&nbsp;</Skeleton> :
                      <h2 className="text-xl mb-3 flex ">
                         {
                            ["By ",
@@ -141,7 +136,7 @@ b-3 w-64"  >&nbsp;</Skeleton> :
                </div>
                <Separator className="my-4" />
 
-               <div className="mb-6 w-full max-w-4xl pt-2">
+               <div className="mb-6  pt-2  w-full">
                   <h1 className="text-2xl mb-6">Reader also enjoyed</h1>
                   <Suspense fallback={<Skeleton className="h-60 w-full" />}>
                      <SimilarBooks bookId={book.id} />
