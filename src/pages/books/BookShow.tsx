@@ -16,7 +16,6 @@ import { Book } from "@/types/Book";
 import Genres from "@/components/books/Genres";
 import { Separator } from "@/components/ui/separator";
 import { handlePlural } from "@/lib/handlePlural";
-import { Suspense } from "react";
 
 
 const fetchBook = async (bookId: string | undefined) => {
@@ -273,9 +272,7 @@ export default function BookShow() {
             </div>
 
          </div>
-         <Suspense fallback={<Skeleton className="w-full h-52" />}>
-            <BookList title="Discover our popular books" brief className="mt-32" />
-         </Suspense>
+         <BookList title="Discover our popular books" brief className="mt-32" />
          <div className="w-full h-52 bg-gray-700 mt-24">
             Add your own Book
          </div>
