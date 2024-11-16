@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/TranXuanPhong25/windear/tree/HEAD)
+## [v0.1.1](https://github.com/TranXuanPhong25/windear/tree/v0.1.1) (2024-11-15)
 
-[Full Changelog](https://github.com/TranXuanPhong25/windear/compare/36489051dbaef58f530f4600f04ef81f01b53b8d...HEAD)
+[Full Changelog](https://github.com/TranXuanPhong25/windear/compare/36489051dbaef58f530f4600f04ef81f01b53b8d...v0.1.1)
 
 **Merged pull requests:**
 

@@ -12,7 +12,9 @@ import BookList from "@/components/home/BookList";
 import ShelfAction from "@/components/books/ShelfAction";
 import GetBook from "@/components/books/GetBook";
 import { useQuery } from "@tanstack/react-query";
-import Book from "@/types/Book";
+import { Book } from "@/types/Book";
+import Genres from "@/components/books/Genres";
+import { Separator } from "@/components/ui/separator";
 
 
 const fetchBook = async (bookId: string | undefined) => {
@@ -70,7 +72,7 @@ export default function BookShow() {
                         &nbsp;
                         <h2>
                            {
-                              book.secondaryContributorEdges&&book.secondaryContributorEdges.length>0 && ", " + book.secondaryContributorEdges.map((contributor) => `${contributor.node.name} (${contributor.role})` ).join(", ")
+                              book.secondaryContributorEdges && book.secondaryContributorEdges.length > 0 && ", " + book.secondaryContributorEdges.map((contributor) => `${contributor.node.name} (${contributor.role})`).join(", ")
                            }
                         </h2>
                      </div>
@@ -82,147 +84,135 @@ export default function BookShow() {
                         <span className="ml-3 text-2xl">{Number(book.stats.averageRating).toFixed(2)}</span>
                         <span className="ml-3 font-sans text-gray-300" >
                            {book.stats.ratingsCount} rating{book.stats.ratingsCount >= 2 && "s"}
-                           </span>
+                        </span>
                         <span className="ml-3 font-sans text-gray-300" >
                            {book.work.reviews.totalCount} review{book.work.reviews.totalCount >= 2 && "s"}
                         </span>
                      </div>
-
+               }
+               {
+                  isLoading ? <Skeleton className="w-full h-32" /> :
+                     <ExpandableParagraph
+                        text={book.description}
+                     />
                }
 
                {
-                  isLoading? <Skeleton className="w-full h-32" /> :
-                  <ExpandableParagraph
-                  text={book.description}
-               />
+                  isLoading ? <Skeleton className="w-full h-32" /> :
+                     <Genres genres={book.bookGenres} />
                }
 
-               <div className="grid grid-cols-3 gap-5  max-w-[900px]">
-                  {/* {
-                     genres.length > 0 ?
-                        (
-                           <div>
-                              <h1 className="text-lg mb-2 font-semibold">
-                                 Genres
-                              </h1>
-                              <div className="flex flex-wrap gap-2">
-                                 {
-                                    genres && genres.map((item) => {
-                                       return (
-                                          <Link key={item.slug} to={"/browse/tags/genre/" + item.slug} className="py-1 px-4 rounded-full bg-emerald-500 flex gap-2">
-                                             {item.tag}
-                                          </Link>
-                                       );
-                                    })
-                                 }
-                              </div>
-                           </div>
-                        )
-                        :
-                        (
-                           <div>
-                              <h1 className="text-lg mb-2 font-semibold">
-                                 Genres not setted yet
-                              </h1>
-                           </div>
-                        )
-                  }
-                  {
-                     moodTags.length > 0 &&
+               {
+                  isLoading ? <Skeleton className="w-full h-32" /> :
                      (
-                        <div>
-                           <h1 className="text-lg mb-2 font-semibold">
-                              Mood
-                           </h1>
-                           <div className="flex flex-wrap gap-2">
-                              {
-                                 moodTags && moodTags.map((item) => (
-                                    <Link key={item.tag} to={"/browse/tags/mood/" + item.slug} className="py-1 px-4 rounded-full bg-blue-500 first-letter:uppercase">
-                                       {item.tag}
-                                    </Link>
-                                 ))
-                              }
-                           </div>
+                        <div className="text-gray-100 mt-6">
+                           <h3>{book.details.numPages} Pages, {book.details.format}</h3>
+                           <h3>First published {new Date(book.details.publicationTime).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</h3>
                         </div>
                      )
-                  }
-                  {
-                     contentWarningTags.length > 0 &&
-                     (
-                        <div>
-                           <h1 className="text-lg mb-2 font-semibold">
-                              Content-warning
-                           </h1>
-                           <div className="flex flex-wrap gap-2">
-                              {
-                                 contentWarningTags.map((item) => (
-                                    <Link key={item.tag} to={"/browse/tags/content-warning/" + item.slug} className="py-1 px-4 rounded-full bg-red-500 first-letter:uppercase">
-                                       {item.tag}
-                                    </Link>
-                                 ))
-                              }
-                           </div>
-                        </div>
-                     )
-                  } */}
-               </div>
-               <div className="mt-3 text-gray-100">
-                  <h3>First publish March 28, 2012</h3>
-                  <h3>314 pages</h3>
-               </div>
+               }
                <Accordion type="single" collapsible className=" " >
                   <AccordionItem value="item-1" className="border-b-0 w-full max-w-[900px] ">
-                     <AccordionTrigger className="flex justify-start w-fit">
-                        Book edition
+                     <AccordionTrigger className="flex justify-start w-fit gap-1">
+                        Book details and other editions
                      </AccordionTrigger>
-                     <AccordionContent >
+                     <AccordionContent className="text-gray-600 dark:text-gray-200">
+                        <div className="flex mt-2">
+                           <div >
+                              <div>
+                                 Original title
+                              </div>
+
+                           </div>
+                           <div className="ml-10 ">
+                              {
+                                 book.work && 
+                                 <div>
+                                    {book.work.details.originalTitle}
+                                 </div>
+                              }
+
+
+                           </div>
+                        </div>
                         <div>
-                           <h1 className="text-lg mb-2">This edition</h1>
+                           <h1 className="text-lg mb-2 mt-6 text-black dark:text-white ">This edition</h1>
                         </div>
                         <div className="flex">
                            <div >
-                              <div>
-                                 Format
-                              </div>
-                              <div>
-                                 Published
-                              </div>
-                              <div>
-                                 ISBN
-                              </div>
-                              <div>
-                                 ASIN
-                              </div>
-                              <div>
-                                 Language
-                              </div>
+                              {
+                                 book.details&&book.details.format&&
+                                 <p>
+                                    Format
+                                 </p>
+                              }
+                              {
+                                 book.details&&book.details.publicationTime&&
+                                 <p>
+                                    Published
+                                 </p>
+                              }
+                              {
+                                 book.details&&book.details.isbn&&
+                                 <p>
+                                    ISBN
+                                 </p>
+                              }
+                              {
+                                 book.details&&book.details.asin&&
+                                 <p>
+                                    ASIN
+                                 </p>
+                              }
+                              {
+                                 book.details&&book.details.language?.name&&
+                                 <p>
+                                    Language
+                                 </p>
+                              }
 
                            </div>
                            <div className="ml-10">
-                              <div>
-                                 314 pages, Hardcover
-                              </div>
-                              <div>
-                                 March 28, 2012
-                              </div>
-                              <div>
-                                 978-4-16-382040-2
-                              </div>
-                              <div>
-                                 B007VZ1V9E
-                              </div>
-                              <div>
-                                 English
-                              </div>
+                              {
+                                 book.details&&book.details.format&&
+                                 <p>
+                                    {book.details.numPages} Pages, {book.details.format}
+                                 </p>
+                              }
+                              {
+                                 book.details&&book.details.publicationTime&&
+                                 <p>
+                                    {new Date(book.details.publicationTime).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} by {book.details.publisher}
+                                 </p>
+                              }
+                              {
+                                 book.details&&book.details.isbn&&
+                                 <p>
+                                    {book.details.isbn}
+                                 </p>
+                              }
+                              {
+                                 book.details&&book.details.asin&&
+                                 <p>
+                                    {book.details.asin}
+                                 </p>
+                              }
+                              {
+                                 book.details&&book.details.language?.name&&
+                                 <p>
+                                    {book.details.language.name}
+                                 </p>
+                              }
 
                            </div>
                         </div>
-                        <h3 className="text-lg my-2">More edition</h3>
-                        <BookList title="" className="sm:px-4 my-4" />
+                        <h3 className="text-lg mt-6 mb-2">More edition</h3>
+                        <BookList title="" className="sm:px-0 my-4" />
                      </AccordionContent>
 
                   </AccordionItem>
                </Accordion>
+               <Separator className="my-2" />
                <div className="w-full h-60 border-2 border-white mb-6">
                   <h1>Author</h1>
                </div>

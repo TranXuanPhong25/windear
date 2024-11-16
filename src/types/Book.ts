@@ -5,6 +5,9 @@ interface Stats {
 }
 
 interface BookDetails {
+   language: {
+      name: string;
+   };
    asin: string;
    format: string;
    isbn: string;
@@ -31,7 +34,7 @@ interface ContributorEdge {
    node: Author;
 }
 
-interface Genre {
+export interface Genre {
    genre: {
       name: string;
    };
@@ -50,7 +53,7 @@ interface Links {
 interface SocialSignal {
    count: number;
    name: string;
-   users: 
+   users:
    {
       nodes: {
          imageUrl: string;
@@ -70,7 +73,7 @@ interface Work {
    };
 }
 
-export default interface Book {
+export interface Book {
    stats: Stats;
    title: string;
    details: BookDetails;
