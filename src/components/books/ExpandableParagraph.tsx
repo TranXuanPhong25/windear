@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import {Markup} from 'interweave';
+import { Markup } from 'interweave';
 import { parseLinks } from '@/lib/parseLink';
 
 interface ExpandableParagraphProps {
@@ -11,7 +11,7 @@ interface ExpandableParagraphProps {
 
 export default function ExpandableParagraph({
    text,
-   maxLength = 600
+   maxLength = 450
 }: ExpandableParagraphProps) {
    const [isExpanded, setIsExpanded] = useState(false)
 
