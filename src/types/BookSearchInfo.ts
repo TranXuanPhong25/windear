@@ -1,3 +1,5 @@
+import { Stats } from "./Book";
+
 export default interface BookSearchInfo {
    node:
    {
@@ -6,15 +8,16 @@ export default interface BookSearchInfo {
       title: string;
       primaryContributorEdge:
       {
-
          node:
          {
             name: string;
          };
       };
-      stats:
-      {
-         averageRating: number;
-      };
+      stats: Stats;
+      work: {
+         reviews: {
+            totalCount: number;
+         }
+      }
    };
 }

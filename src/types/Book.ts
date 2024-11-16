@@ -1,7 +1,6 @@
-interface Stats {
+export interface Stats {
    ratingsCount: number;
    averageRating: number;
-   textReviewsCount: number;
 }
 
 interface BookDetails {
