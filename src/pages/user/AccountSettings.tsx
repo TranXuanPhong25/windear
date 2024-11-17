@@ -1,4 +1,4 @@
-import DangerZone from "@/components/user/DangerZome";
+import DangerZone from "@/components/user/DangerZone";
 import PasswordChange from "@/components/user/PasswordChange";
 import ProfileSettings from "@/components/user/ProfileSettings";
 import { KeyRound, User } from "lucide-react";
