@@ -1,7 +1,11 @@
-export default function LoadingBlock() {
+import { RefreshCcw } from "lucide-react";
+
+export default function LoadingBlock({ className }: { className?: string }) {
   return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <div className="w-20 h-20 border-4 border-blue-500 rounded-full animate-spin"></div>
+    <div className={className}>
+      <div className="w-full h-full flex justify-center items-center">
+        <RefreshCcw className="animate-spin size-24 text-gray-500 dark:text-gray-400" />
+      </div>
     </div>
   );
 }

@@ -1,8 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
-import {  LoaderCircle, StarIcon } from "lucide-react";
+import {  LoaderCircle } from "lucide-react";
 import ExpandableParagraph from "../ExpandableParagraph";
 import Genres from "../Genres";
+import StarRating from "../StarRating";
 interface ReviewCardProps {
    rating: number;
    createAt: string;
@@ -34,14 +35,15 @@ export default function ReviewCard({
                <h3 className="text-lg font-bold dark:text-white ml-2">{userName} {isAuthor && "(GRs Author)"}</h3>
             </div>
             <div>
-               <div className="flex">
+               {/* <div className="flex">
                   {[8, 3, 8, 6, 6].map((_, i) => (
                      <StarIcon
                         key={i}
                         className={`size-5 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300 dark:text-gray-500 "}`}
                      />
                   ))}
-               </div>
+               </div> */}
+               <StarRating initialRating={rating} small />
             </div>
          </CardTitle>
          <CardContent className="p-0">

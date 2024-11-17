@@ -14,6 +14,7 @@ import { Suspense } from "react";
 import SimilarBooks from "@/components/books/SimilarBooks";
 import BookDetails from "@/components/books/BookDetails";
 import CommunityReviews from "@/components/books/reviews/CommunityReviews";
+import LoadingBlock from "@/components/layout/LoadingBlock";
 
 
 const fetchBook = async (bookId: string | undefined) => {
@@ -90,9 +91,11 @@ export default function BookShow() {
                }
                {
                   isLoading ? <Skeleton className="w-full h-32 my-4" /> :
-                     <ExpandableParagraph
+                     <div className="max-w-[800px]">
+                        <ExpandableParagraph
                         text={book.description}
                      />
+                     </div>
                }
 
                {
@@ -126,7 +129,10 @@ export default function BookShow() {
                                  <h3 className="text-gray-600 dark:text-gray-300">{authorBook}, {authorFollower}</h3>
                               </div>
                            </div>
+                           <div className="max-w-[800px]">
+                       
                            <ExpandableParagraph text={book.primaryContributorEdge?.node.description} />
+                     </div>
                         </div>
                   }
                </div>
@@ -145,7 +151,7 @@ export default function BookShow() {
                   <h1 className="text-xl font-semibold">Rating & Review</h1>
                </div>
                {
-                  isLoading ? <Skeleton className="w-full h-60" /> :
+                  isLoading ? <LoadingBlock className="w-full h-60" /> :
                      <CommunityReviews bookId={bookId} workId={book.work.id} />
                }
             </div>

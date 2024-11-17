@@ -6,7 +6,7 @@ import StarRatingProps from "@/types/StarRatingProps";
 
 
 
-export default function StarRating({ initialRating = 0, ratable = false, onChange }: StarRatingProps = {}) {
+export default function StarRating({ initialRating = 0, ratable = false,small=false, onChange }: StarRatingProps = {}) {
   const [rating, setRating] = useState(initialRating)
   const [hover, setHover] = useState<number>(0)
   const handleClick = useCallback((index: number) => {
@@ -103,12 +103,12 @@ export default function StarRating({ initialRating = 0, ratable = false, onChang
               onMouseLeave={handleMouseLeave}
             >
               <Star
-                className="w-8 h-8 text-gray-200"
+                className={`${small ? "size-5" : "w-8 h-8 "} text-gray-300 dark:text-gray-500 `}
                 fill="currentColor"
               />
               <div className="absolute top-0 left-0 overflow-hidden" style={{ width: `${fillPercentage}%` }}>
                 <Star
-                  className="w-8 h-8  text-yellow-400"
+                  className={`${small ? "size-5" : "w-8 h-8 "} text-yellow-400 `}
                   fill="currentColor"
                 />
               </div>

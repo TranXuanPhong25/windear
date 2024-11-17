@@ -143,6 +143,9 @@ export const ProductCard = ({
             src={product.thumbnail}
             className="object-cover object-left-top absolute inset-0"
             alt={product.title}
+            loading="lazy"
+            decoding="async"
+
           />
 
       </Link>

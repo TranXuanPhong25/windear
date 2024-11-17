@@ -10,11 +10,10 @@ export default function CommunityReviews({ workId, bookId }: { workId: string, b
 
    return (
       <>
-
          <Tabs defaultValue="windear" className="w-full" id="community-reviews">
-            <TabsList className="w-fit p-1 rounded-md bg-muted dark:bg-gray-700">
-               <TabsTrigger value="windear" className="px-4 py-1.5 dark:text-gray-200 dark:data-[state=active]:bg-gray-600">Windear</TabsTrigger>
-               <TabsTrigger value="goodreads" className="px-4 py-1.5 dark:text-gray-200 dark:data-[state=active]:bg-gray-600">Goodreads</TabsTrigger>
+            <TabsList className="w-fit p-1 rounded-md bg-muted dark:bg-gray-700 border-b-2 border-gray-400 bg-gray-100">
+               <TabsTrigger value="windear" className="px-4 py-1.5 dark:text-gray-200 dark:data-[state=active]:bg-gray-600 data-[state=active]:text-lg data-[state=active]:py-1">Windear</TabsTrigger>
+               <TabsTrigger value="goodreads" className="px-4 py-1.5 dark:text-gray-200 dark:data-[state=active]:bg-gray-600 data-[state=active]:text-lg data-[state=active]:py-1">Goodreads</TabsTrigger>
             </TabsList>
             <TabsContent value="windear" >
                <WindearReviews bookId={bookId} />
