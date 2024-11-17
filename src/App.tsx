@@ -6,7 +6,7 @@ import { lazy, Suspense } from 'react';
 import CommonLayout from './layouts/common/CommonLayout';
 import AuthenticationGuard from './components/auth/AuthenticationGuard';
 const HomePageLayout = lazy(() => import('./layouts/homepage/HomePageLayout'));
-const LogoutPage = lazy(() => import('./pages/auth/LogoutPage'));
+import LogoutPage from './pages/auth/LogoutPage';
 import NotFound from './pages/notfound/NotFound';
 import LoadingBlock from './components/layout/LoadingBlock';
 import AdminGuard from './components/auth/AdminGuard';

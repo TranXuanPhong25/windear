@@ -15,6 +15,7 @@ import BookDetails from "@/components/books/BookDetails";
 import CommunityReviews from "@/components/books/reviews/CommunityReviews";
 import LoadingBlock from "@/components/layout/LoadingBlock";
 import WriteReview from "@/components/books/reviews/WriteReview";
+import BookNotFound from "./BookNotFound";
 
 
 const fetchBook = async (bookId: string | undefined) => {
@@ -32,10 +33,13 @@ export default function BookShow() {
       queryKey: ['book', bookId],
       queryFn: () => fetchBook(bookId)
    });
-   if (!bookId) return <h1>Invalid book ID</h1>
-   if (error) return <div>Error: {error.message}</div>;
    if (NONDIGIT_REGEX.test(bookId || '')) {
       return <h1>Invalid book ID</h1>
+   }
+   if (!bookId) return <h1>Invalid book ID</h1>
+   if (error) return <div>Error: {error.message}</div>;
+   if(data?.errors){
+      return <BookNotFound/>;
    }
    const book: Book = data ? data?.data.getBookByLegacyId : {};
    const authorBook: string = handlePlural(book.primaryContributorEdge?.node.works.totalCount, "book", true);
@@ -144,13 +148,12 @@ export default function BookShow() {
                      <SimilarBooks bookId={book.id} />
                   </Suspense>
                </div>
-
                <Separator className="my-4" />
 
-               {
-                  isLoading ? <Skeleton className="w-full h-60" /> :
+               {/* {
+                  isLoading ? <Skeleton className="w-full h-60" /> : */}
                      <WriteReview bookId={bookId} />
-               }
+               {/* } */}
                <Separator className="my-4" />
 
                {

@@ -1,0 +1,42 @@
+.ql-toolbar {
+    @apply border-b border-gray-300 rounded-t-md bg-gray-200 mt-4;
+}
+
+.ql-toolbar .ql-formats button {
+    @apply rounded-md mr-2;
+}
+
+.ql-toolbar .ql-formats button:hover {
+    @apply bg-gray-300;
+}
+
+html.dark .ql-toolbar {
+    @apply border-none border-b border-gray-600 bg-gray-400;
+}
+
+html.dark .ql-toolbar .ql-formats button svg {
+    @apply !text-white;
+}
+
+.ql-container {
+    @apply border border-gray-300 rounded-b-md;
+}
+
+html.dark .ql-container {
+    @apply border border-gray-600;
+}
+
+.ql-editor {
+    @apply p-4;
+}
+
+html.dark .ql-editor {
+    @apply bg-gray-800 text-white;
+}
+html.dark .ql-editor.ql-blank::before {
+    @apply text-gray-500;
+    
+}
+.ql-align-right {
+    text-align: right;
+}

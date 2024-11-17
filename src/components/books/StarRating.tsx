@@ -6,7 +6,7 @@ import StarRatingProps from "@/types/StarRatingProps";
 
 
 
-export default function StarRating({ initialRating = 0, ratable = false,small=false, onChange }: StarRatingProps = {}) {
+export default function StarRating({ title="Your rating",initialRating = 0, ratable = false,small=false, onChange }: StarRatingProps = {}) {
   const [rating, setRating] = useState(initialRating)
   const [hover, setHover] = useState<number>(0)
   const handleClick = useCallback((index: number) => {
@@ -78,7 +78,7 @@ export default function StarRating({ initialRating = 0, ratable = false,small=fa
       {
         ratable && (
           <div className="flex justify-between text-lg">
-            <h3 className="">Your rating</h3>
+            <h3 className="">{title}</h3>
             {
               rating != 0 && (
                 <h3 onClick={handleClear} className="cursor-pointer">Clear</h3>

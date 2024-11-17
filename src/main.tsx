@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { SpeedInsights } from '@vercel/speed-insights/react';
-
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 
@@ -14,10 +14,14 @@ const root = document.getElementById("root")
 root?.classList.add(localStorage.getItem("theme") || "light")
 createRoot(root!).render(
 	<StrictMode>
-		<AppProviders>
-			<App />
-			<Toaster />
-		</AppProviders>
-		<SpeedInsights />
+		<BrowserRouter>
+
+			<AppProviders>
+				<App />
+				<Toaster />
+			</AppProviders>
+			<SpeedInsights />
+		</BrowserRouter>
+
 	</StrictMode>
 );

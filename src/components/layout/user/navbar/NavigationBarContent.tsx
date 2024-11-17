@@ -102,7 +102,7 @@ export default function NavigationBarContent() {
                   <MyNavigationMenu />
                   <ThemeSwitcher />
                   {
-                     auth.user ? (
+                     auth.user  ? (
 
                         <div className="group relative px-2">
 

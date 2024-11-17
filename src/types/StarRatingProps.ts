@@ -1,7 +1,7 @@
 export default interface StarRatingProps {
-   initialRating?: number
-   ratable?: boolean
-   small?: boolean
-   onChange?: (rating: number) => void
-   
- }
+  title?:string;
+  initialRating?: number
+  ratable?: boolean
+  small?: boolean
+  onChange?: (rating: number) => void
+}

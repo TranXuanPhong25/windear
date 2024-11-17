@@ -2,10 +2,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "./use-toast";
-import { SetStateAction } from "react";
-
-export function useGeneratePasswordReset(changeTicket: { (value: SetStateAction<string | null>): void; (arg0: string): void; }) {
+import { useQueryClient } from "@tanstack/react-query";
+export function usePostReview(method: string, review: string ,bookId:number,reviewId:number,rating:number) {
    const { user, getAccessTokenSilently } = useAuth0();
+   const queryClient = useQueryClient();
    return useMutation({
       mutationFn: async () => {
          if (!user?.sub) {
@@ -13,27 +13,33 @@ export function useGeneratePasswordReset(changeTicket: { (value: SetStateAction<
          }
 
          const accessToken = await getAccessTokenSilently();
-         const resetPasswordGeneratorUrl = `${import.meta.env.VITE_BASE_API_URL}/auth0/user/${user?.sub}/reset-password`;
-
+         const resetPasswordGeneratorUrl = `${import.meta.env.VITE_BASE_API_URL}/review${method=="PUT"?"/"+reviewId:""}`;
          const response = await axios.request(
             {
-               method: 'GET',
+               method: method,
                url: resetPasswordGeneratorUrl,
                headers: {
                   Authorization: `Bearer ${accessToken}`,
                },
+               data: {
+                  userId: user?.sub,
+                  bookId: bookId,
+                  content: review,
+                  rating: rating,
+                  userImageUrl: user.picture,
+                  userName: user.name?.includes("@gmail.com")?user.nickname:user.name,
+               }
             }
          ).then(response => response.data);
-
          return response.ticket;
       },
-      onSuccess: (data) => {
-         changeTicket(data);
+      onSuccess: () => {
          toast({
             title: "Success",
-            description: "Successfully receive password reset link.",
+            description: "Successfully update your review.",
             className: "mb-4  bg-green-400 dark:bg-green-600  ",
          })
+         queryClient.invalidateQueries({ queryKey: ['windearReview', bookId.toString()] });
       },
       onError: (error: AxiosError) => {
 

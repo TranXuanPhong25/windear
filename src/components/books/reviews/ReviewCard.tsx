@@ -47,9 +47,6 @@ export default function ReviewCard({
             </div>
          </CardTitle>
          <CardContent className="p-0">
-            <div className="flex justify-between items-center mb-2">
-                  
-            </div>
             <ExpandableParagraph text={content || "No content"} />
             
          </CardContent>
