@@ -5,14 +5,14 @@ import {
 import { lazy, Suspense } from 'react';
 import CommonLayout from './layouts/common/CommonLayout';
 import AuthenticationGuard from './components/auth/AuthenticationGuard';
-import HomePageLayout from './layouts/homepage/HomePageLayout';
-import HomePage from './pages/home/HomePage';
-import LogoutPage from './pages/auth/LogoutPage';
+const HomePageLayout = lazy(() => import('./layouts/homepage/HomePageLayout'));
+const LogoutPage = lazy(() => import('./pages/auth/LogoutPage'));
 import NotFound from './pages/notfound/NotFound';
 import LoadingBlock from './components/layout/LoadingBlock';
 import AdminGuard from './components/auth/AdminGuard';
 
 // Lazy load components
+const HomePage = lazy(() => import('./pages/home/HomePage'));
 const BookShow = lazy(() => import('./pages/books/BookShow'));
 const BookBrowse = lazy(() => import('./pages/browse/BookBrowse'));
 const AccountSettings = lazy(() => import('./pages/user/AccountSettings'));
@@ -28,8 +28,17 @@ export default function App() {
    return (
       <Routes>
          <Route path="*" element={<NotFound />} />
-         <Route path="/" element={<HomePageLayout />} >
-            <Route index element={<HomePage />} />
+         <Route path="/" element={
+            <Suspense fallback={<LoadingBlock className='h-screen w-full' />}>
+               <HomePageLayout />
+            </Suspense>
+         } >
+
+            <Route index element={
+               <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
+                  <HomePage />
+               </Suspense>
+            } />
          </Route>
          <Route element={<CommonLayout />} >
             <Route path="/browse/*" element={
@@ -58,7 +67,7 @@ export default function App() {
          </Route>
          <Route path="/logout" element={<LogoutPage />} />
          <Route path="/admin" element={
-            <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
+            <Suspense fallback={<LoadingBlock className='h-screen w-full dark:bg-gray-800' />}>
                <AdminGuard component={AdminLayout} />
             </Suspense>
          }>

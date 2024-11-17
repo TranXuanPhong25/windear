@@ -8,7 +8,7 @@ import {
 } from "framer-motion";
 import { Link } from "react-router-dom";
 
-export const HeroParallax = ({
+const HeroParallax = ({
   products,
 }: {
   products: {
@@ -98,6 +98,8 @@ export const HeroParallax = ({
     </div>
   );
 };
+
+export default HeroParallax;
 
 export const Header = () => {
   return (

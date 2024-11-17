@@ -1,8 +1,9 @@
 // import BookList from "@/components/home/BookList";
 // import NewsBanner from "@/components/home/NewsBanner";
 // import { useAuth0 } from "@auth0/auth0-react";
-import { HeroParallax } from "@/components/ui/hero-parallax";
+// import HeroParallax from "@/components/home/HeroParallax";
 // import { getProtectedResource, getPublicResource, getAdminResource } from "@/services/services/message.service";
+import HeroParallax from '../../components/ui/hero-parallax';
 const products = [
    {
       title: "Moonbeam",
@@ -101,9 +102,8 @@ const products = [
 export default function HomePage() {
    return (
       <>
-         
             <HeroParallax products={products} />
-         
+
 
          {/* <main className=" max-w-[1200px] mx-auto">
          

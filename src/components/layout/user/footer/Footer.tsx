@@ -7,7 +7,7 @@ export default function Footer() {
             <div className="flex justify-around items-center">
                <div className="flex items-center">
                   <Link to="/">
-                     <img src="react.svg" alt="Windear" className="h-8 w-auto" />
+                     <img src="/react.svg" alt="Windear" className="h-8 w-auto" />
                   </Link>
                   <p className="ml-2">
                      © 2024 Windear. All rights reserved.

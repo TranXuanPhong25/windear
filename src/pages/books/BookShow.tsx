@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import StarRating from "@/components/books/StarRating";
 import { Skeleton } from "@/components/ui/skeleton"
 import ExpandableParagraph from "@/components/books/ExpandableParagraph";
-import BookList from "@/components/home/BookList";
 import ShelfAction from "@/components/books/ShelfAction";
 import GetBook from "@/components/books/GetBook";
 import { useQuery } from "@tanstack/react-query";
@@ -15,6 +14,7 @@ import SimilarBooks from "@/components/books/SimilarBooks";
 import BookDetails from "@/components/books/BookDetails";
 import CommunityReviews from "@/components/books/reviews/CommunityReviews";
 import LoadingBlock from "@/components/layout/LoadingBlock";
+import WriteReview from "@/components/books/reviews/WriteReview";
 
 
 const fetchBook = async (bookId: string | undefined) => {
@@ -28,11 +28,11 @@ export default function BookShow() {
    const params = useParams();
    const bookId = params.bookId;
    const NONDIGIT_REGEX = /\D/g;
-
    const { isLoading, error, data } = useQuery({
       queryKey: ['book', bookId],
       queryFn: () => fetchBook(bookId)
    });
+   if (!bookId) return <h1>Invalid book ID</h1>
    if (error) return <div>Error: {error.message}</div>;
    if (NONDIGIT_REGEX.test(bookId || '')) {
       return <h1>Invalid book ID</h1>
@@ -93,14 +93,14 @@ export default function BookShow() {
                   isLoading ? <Skeleton className="w-full h-32 my-4" /> :
                      <div className="max-w-[800px]">
                         <ExpandableParagraph
-                        text={book.description}
-                     />
+                           text={book.description}
+                        />
                      </div>
                }
 
                {
                   isLoading ? <Skeleton className="w-full h-24 my-4" /> :
-                     <Genres genres={book.bookGenres.map(genre=>genre.genre.name)} />
+                     <Genres genres={book.bookGenres.map(genre => genre.genre.name)} />
                }
 
                {
@@ -130,9 +130,9 @@ export default function BookShow() {
                               </div>
                            </div>
                            <div className="max-w-[800px]">
-                       
-                           <ExpandableParagraph text={book.primaryContributorEdge?.node.description} />
-                     </div>
+
+                              <ExpandableParagraph text={book.primaryContributorEdge?.node.description} />
+                           </div>
                         </div>
                   }
                </div>
@@ -147,9 +147,12 @@ export default function BookShow() {
 
                <Separator className="my-4" />
 
-               <div className="w-full h-60 border-2 mb-6 border-white ">
-                  <h1 className="text-xl font-semibold">Rating & Review</h1>
-               </div>
+               {
+                  isLoading ? <Skeleton className="w-full h-60" /> :
+                     <WriteReview bookId={bookId} />
+               }
+               <Separator className="my-4" />
+
                {
                   isLoading ? <LoadingBlock className="w-full h-60" /> :
                      <CommunityReviews bookId={bookId} workId={book.work.id} />
@@ -157,10 +160,7 @@ export default function BookShow() {
             </div>
 
          </div>
-         <BookList title="Discover our popular books" brief className="mt-32" />
-         <div className="w-full h-52 bg-gray-700 mt-24">
-            Add your own Book
-         </div>
+         
       </>
    )
 }
