@@ -108,7 +108,7 @@ export default function StarRating({ initialRating = 0, ratable = false, onChang
               />
               <div className="absolute top-0 left-0 overflow-hidden" style={{ width: `${fillPercentage}%` }}>
                 <Star
-                  className="w-8 h-8 dark:text-yellow-300 text-yellow-400"
+                  className="w-8 h-8  text-yellow-400"
                   fill="currentColor"
                 />
               </div>

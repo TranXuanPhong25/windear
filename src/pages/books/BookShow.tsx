@@ -13,6 +13,7 @@ import { handlePlural } from "@/lib/handlePlural";
 import { Suspense } from "react";
 import SimilarBooks from "@/components/books/SimilarBooks";
 import BookDetails from "@/components/books/BookDetails";
+import CommunityReviews from "@/components/books/reviews/CommunityReviews";
 
 
 const fetchBook = async (bookId: string | undefined) => {
@@ -75,7 +76,7 @@ export default function BookShow() {
                }
                {
                   isLoading ? <Skeleton className="flex items-center h-12 w-96 mb-2" /> :
-                     <a href="#" className="flex items-center mb-2 hover:bg-gray-50/10 w-fit p-2 -mx-2 rounded-md">
+                     <a href="#community-reviews" className="flex items-center mb-2 hover:bg-gray-50/10 w-fit p-2 -mx-2 rounded-md cursor-s-resize">
                         <StarRating initialRating={book.stats.averageRating} onChange={() => { }} />
                         <span className="ml-3 text-2xl">{Number(book.stats.averageRating).toFixed(2)}</span>
                         <span className="ml-3 font-sans text-gray-600 dark:text-gray-300 text-sm" >
@@ -96,7 +97,7 @@ export default function BookShow() {
 
                {
                   isLoading ? <Skeleton className="w-full h-24 my-4" /> :
-                     <Genres genres={book.bookGenres} />
+                     <Genres genres={book.bookGenres.map(genre=>genre.genre.name)} />
                }
 
                {
@@ -114,7 +115,7 @@ export default function BookShow() {
                }
                <Separator className="my-4" />
                <div className="mb-6">
-                  <h1 className="text-2xl ">About the author</h1>
+                  <h1 className="text-2xl font-bold ">About the author</h1>
                   {
                      isLoading ? <Skeleton className="w-full h-40 mt-4" /> :
                         <div >
@@ -132,7 +133,7 @@ export default function BookShow() {
                <Separator className="my-4" />
 
                <div className="mb-6  pt-2  w-full">
-                  <h1 className="text-2xl mb-6">Reader also enjoyed</h1>
+                  <h1 className="text-2xl mb-6 font-bold">Reader also enjoyed</h1>
                   <Suspense fallback={<Skeleton className="h-60 w-full" />}>
                      <SimilarBooks bookId={book.id} />
                   </Suspense>
@@ -143,33 +144,10 @@ export default function BookShow() {
                <div className="w-full h-60 border-2 mb-6 border-white ">
                   <h1 className="text-xl font-semibold">Rating & Review</h1>
                </div>
-               <div className="w-full border-2 border-white ">
-                  <h1 className="text-xl font-semibold">Community review</h1>
-                  <div>
-                     Star
-                  </div>
-                  <div className="h-40">
-                     start stats?
-                  </div>
-                  <div className="w-full ">
-                     reviews
-                     <div className="w-full h-52 bg-gray-700">
-                        review
-                     </div>
-                     <div className="w-full h-52 bg-gray-700">
-                        review
-                     </div>
-                     <div className="w-full h-52 bg-gray-700">
-                        review
-                     </div>
-                     <div className="w-full h-52 bg-gray-700">
-                        review
-                     </div>
-                     <div className="w-full h-52 bg-gray-700">
-                        write your think
-                     </div>
-                  </div>
-               </div>
+               {
+                  isLoading ? <Skeleton className="w-full h-60" /> :
+                     <CommunityReviews bookId={bookId} workId={book.work.id} />
+               }
             </div>
 
          </div>
