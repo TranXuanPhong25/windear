@@ -2,6 +2,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import AdminSidebar from "@/components/layout/admin/sidebar/AdminSidebar"
 import { Link, Outlet, useLocation } from "react-router-dom"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+import React from "react";
 
 export default function AdminLayout() {
   const location = useLocation();
@@ -11,7 +12,7 @@ export default function AdminLayout() {
       <AdminSidebar />
 
       <main className=" pt-6 w-full bg-sidebar">
-        <div className=" pl-4 md:pl-0 flex items-center mb-5">
+        <div className=" pl-4 md:pl-0 flex items-center mb-6">
           <SidebarTrigger />
           <Breadcrumb className="ml-2">
             <BreadcrumbList>
@@ -29,8 +30,8 @@ export default function AdminLayout() {
               </BreadcrumbItem>
               {
                 location.pathname.split("/").slice(2, -1).map((item, index) => (
-                  <>
-                    <BreadcrumbSeparator key={index} />
+                  <React.Fragment key={index}>
+                    <BreadcrumbSeparator />
                     <BreadcrumbItem key={"item" + index}>
                       <BreadcrumbLink asChild>
                         <Link to={path.slice(1, index + 2).join("/")}>
@@ -38,7 +39,7 @@ export default function AdminLayout() {
                         </Link>
                       </BreadcrumbLink>
                     </BreadcrumbItem>
-                  </>
+                  </React.Fragment>
                 )
                 )
               }
@@ -55,7 +56,7 @@ export default function AdminLayout() {
             </BreadcrumbList>
           </Breadcrumb>
         </div>
-        <div className="rounded-t-[1.5rem] md:rounded-tr-none bg-gray-100 dark:bg-gray-800/60 w-full min-h-screen p-5">
+        <div className="rounded-t-[1.5rem] md:rounded-tr-none bg-gray-100 dark:bg-gray-800/60 w-full min-h-screen p-6">
           <Outlet />
         </div>
       </main>

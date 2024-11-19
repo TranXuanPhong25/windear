@@ -57,6 +57,7 @@ function ProfileInput() {
          pronouns: "Don't specify",
       },
    })
+
    const { isLoading, data, error } = useQuery({
       queryKey: ['user', user?.sub],
       queryFn: async () => {
@@ -79,7 +80,7 @@ function ProfileInput() {
             .catch((error) => {
                console.error(error);
             })
-         console.log(responseData) 
+         
          if (responseData) {
             form.reset({
                email: responseData?.email || "empty@gmail.com",
@@ -89,13 +90,12 @@ function ProfileInput() {
                pronouns: responseData?.user_metadata?.pronouns || "Don't specify",
             });
          }
-         console.log(responseData?.user_metadata?.pronouns);
-
          return responseData;
       },
       // enabled: !!user?.sub,
    });
    if (error) return <div>Something went wrong</div>
+   // console.log(data.identities[0].provider);
    function onSubmit(submitData: z.infer<typeof FormSchema>) {
       const updateUserMetadata = async () => {
 
@@ -113,7 +113,6 @@ function ProfileInput() {
             } : {
                "user_metadata": userMetadata
             }
-            console.log(requestBody);
             await axios.request(
                {
                   method: 'PUT',
@@ -151,7 +150,7 @@ function ProfileInput() {
       updateUserMetadata();
 
    }
-
+   // console.log(data?.identities[0]);
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className="w-[90%] space-y-6">
@@ -172,7 +171,7 @@ function ProfileInput() {
                         }
                      </FormControl>
                      <FormDescription>
-                        {data && data?.indentity?.provider == 'auth0' ? "This is used for login via username" : "User login via social media, username is not avaiable  "}
+                        {data && data?.identities[0]?.provider == "auth0" ? "This is used for login via username" : "User login via social media, username is not avaiable  "}
                      </FormDescription>
                      <FormMessage />
                   </FormItem>
@@ -194,7 +193,7 @@ function ProfileInput() {
                      </FormControl>
                      <FormDescription>
 
-                        {data && data?.indentity?.provider == 'auth0' ? "This is used for login via email" : "You login via social media, email can not be changed"}
+                        {data && data?.identities[0]?.provider==='auth0' ? "This is used for login via email" : "You login via social media, email can not be changed"}
                      </FormDescription>
                      <FormMessage />
                   </FormItem>

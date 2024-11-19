@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Markup } from 'interweave';
-import { parseLinks } from '@/lib/parseLink';
+import { parseLinks } from '@/lib/utils';
 
 interface ExpandableParagraphProps {
    text: string;

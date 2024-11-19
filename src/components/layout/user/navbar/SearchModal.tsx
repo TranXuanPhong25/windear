@@ -8,7 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { useBookSearch } from '@/hooks/useBookSearch';
 import clsx from 'clsx';
 import BookSearchInfo from '@/types/BookSearchInfo';
-import { handlePlural } from '@/lib/handlePlural';
+import { handlePlural } from '@/lib/utils';
 interface SearchModalProps {
 
    isOpen: boolean;

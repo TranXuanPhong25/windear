@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Book } from "@/types/Book";
 import Genres from "@/components/books/Genres";
 import { Separator } from "@/components/ui/separator";
-import { handlePlural } from "@/lib/handlePlural";
+import { handlePlural } from "@/lib/utils";
 import { Suspense } from "react";
 import SimilarBooks from "@/components/books/SimilarBooks";
 import BookDetails from "@/components/books/BookDetails";

@@ -10,6 +10,7 @@ import LogoutPage from './pages/auth/LogoutPage';
 import NotFound from './pages/notfound/NotFound';
 import LoadingBlock from './components/layout/LoadingBlock';
 import AdminGuard from './components/auth/AdminGuard';
+import VerifyEmail from './pages/auth/VerifyEmail';
 
 // Lazy load components
 const HomePage = lazy(() => import('./pages/home/HomePage'));
@@ -65,17 +66,42 @@ export default function App() {
                </Suspense>
             } />
          </Route>
-         <Route path="/logout" element={<LogoutPage />} />
-         <Route path="/admin" element={
-            <Suspense fallback={<LoadingBlock className='h-screen w-full dark:bg-gray-800' />}>
-               <AdminGuard component={AdminLayout} />
+
+         <Route path="/verify-email" element={
+            <Suspense fallback={<LoadingBlock />}>
+               <VerifyEmail />
             </Suspense>
+         } />
+         <Route path="/logout" element={<LogoutPage />} />
+
+         <Route path="/admin" element={
+            <AdminGuard component={AdminLayout} />
          }>
-            <Route index element={<AdminHome />} />
-            <Route path="management/users" element={<UsersManagement />} />
-            <Route path="management/books" element={<BooksManagement />} />
-            <Route path="dashboard/analystics" element={<AnalysticDashboard />} />
-            <Route path="dashboard/logs" element={<LogsDashboard />} />
+            <Route index element={
+               <Suspense fallback={<LoadingBlock className='h-[80vh] w-full dark:bg-transparent' />}>
+                  <AdminHome />
+               </Suspense>
+            } />
+            <Route path="management/users" element={
+               <Suspense fallback={<LoadingBlock className='h-[80vh] w-full dark:bg-transparent' />}>
+                  <UsersManagement />
+               </Suspense>
+            } />
+            <Route path="management/books" element={
+               <Suspense fallback={<LoadingBlock className='h-[80vh] w-full dark:bg-transparent' />}>
+                  <BooksManagement />
+               </Suspense>
+            } />
+            <Route path="dashboard/analystics" element={
+               <Suspense fallback={<LoadingBlock className='h-[80vh] w-full dark:bg-transparent' />}>
+                  <AnalysticDashboard />
+               </Suspense>
+            } />
+            <Route path="dashboard/logs" element={
+               <Suspense fallback={<LoadingBlock className='h-[80vh] w-full dark:bg-transparent' />}>
+                  <LogsDashboard />
+               </Suspense>
+            } />
          </Route>
       </Routes>
    );

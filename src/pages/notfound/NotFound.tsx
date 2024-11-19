@@ -1,6 +1,5 @@
 import GoBackButton from "@/components/notfound/GoBackButton";
 import { ArrowLeft } from "lucide-react";
-import "@/assets/NotFoundPage.css";
 export default function NotFound() {
   return (
     <main className="grid min-h-screen place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8 dark:bg-gray-800">

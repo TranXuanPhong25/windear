@@ -1,22 +1,29 @@
 import { Card, CardContent,  CardHeader, CardTitle } from "@/components/ui/card";
-import { Users } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
-function InfoCard() {
+function InfoCard({
+   title,
+   value,
+   icon: Icon,
+   className,
+}:{
+   title: string,
+   value: string,
+   icon: LucideIcon,
+   className: string
+}) {
    return (
-      <Card className="w-72 dark:bg-green-500 rounded-2xl">
+      <Card className={"rounded-2xl "+ className}>
          <CardHeader >
             <div className="flex justify-between items-center" >
                <CardTitle className="text-5xl" >
-                  10
+                  {value}
                </CardTitle>
-
-               <Users className="size-10"/>
+               <Icon/>
             </div>
-
-
          </CardHeader>
          <CardContent>
-            Total active users
+            {title}
          </CardContent>
 
       </Card>
