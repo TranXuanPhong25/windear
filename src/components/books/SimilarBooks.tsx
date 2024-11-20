@@ -1,7 +1,7 @@
 import { useInView } from 'react-intersection-observer';
 import { useSimilarBook } from '@/hooks/useSimilarBook';
 import { Skeleton } from '@/components/ui/skeleton';
-import BookList from '../home/BookList';
+import BookList from './BookList';
 
 export default function SimilarBooks({ bookId }: { bookId: string | undefined }) {
    const { ref, inView } = useInView({

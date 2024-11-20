@@ -11,6 +11,7 @@ import { ChevronRight } from 'lucide-react';
 import React from "react";
 import Edition from "@/types/Edition";
 import { Link } from "react-router-dom";
+import ImageWithFallback from "../notfound/ImageWithFallback";
 
 interface BookListProps {
    books?: Edition[];
@@ -54,13 +55,12 @@ export default function EditionList({ books = [], brief = false, className = "my
                      <Link to={`/books/${book.node.legacyId}`}>
                         <Card className="overflow-hidden   !bg-transparent rounded-none shadow-none border-0 p-2">
                            <CardContent className=" min-h-60 flex items-center justify-center p-0 ">
-                              <img
+                              <ImageWithFallback
                                  src={book.node.imageUrl}
                                  alt="book cover"
                                  width={220}
                                  className="object-cover object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33] "
-                                 loading="lazy"
-                                 decoding="async"
+                                 fallbackSrc="/book-cover-unavailable-placeholder.jpg"
                               />
                            </CardContent>
                            <CardTitle className="text-[1rem] mt-2 text-gray-600">

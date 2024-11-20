@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import { ChevronRight, Star } from 'lucide-react';
 import BookSearchInfo from "@/types/BookSearchInfo";
 import React from "react";
+import { Link } from "react-router-dom";
+import ImageWithFallback from "../notfound/ImageWithFallback";
 
 interface BookListProps {
    title: string,
@@ -58,16 +60,15 @@ export default function BookList({ title, books = [], brief = false, className =
             <CarouselContent className="md:gap-2 pl-2 md:pl-0 w-full">
                {books && books.map((book, index) => (
                   <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-[45%] min-[900px]:basis-[35%] lg:basis-[27%]   cursor-default p-0">
+                     <Link to={`/books/${book.node.legacyId}`}>
                      <Card className="overflow-hidden   !bg-transparent rounded-none shadow-none border-0 p-2">
                         <CardContent className="min-h-60 flex items-center justify-center p-0 ">
-                              <img 
+                              <ImageWithFallback 
                                  src={book.node.imageUrl} 
                                  alt="book cover" 
                                  width={220}
-                                 
                                  className="object-cover object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33]"
-                                 loading="lazy"
-                                 decoding="async"
+                                 fallbackSrc="/book-cover-unavailable-placeholder.jpg"
                               />
                         </CardContent>
                         <CardTitle className="text-lg mt-2">
@@ -79,6 +80,7 @@ export default function BookList({ title, books = [], brief = false, className =
                            {book.node.stats.averageRating}
                         </CardDescription>
                      </Card>
+                     </Link>
                   </CarouselItem>
                ))}
             </CarouselContent>

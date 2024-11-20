@@ -29,7 +29,8 @@ export default function MyReview({ bookId }: { bookId: string }) {
 
       setIsEditing(true);
    }
-   if (error && !(data && data.status!=400)) {
+
+   if (error && (data && data.status!=400)) {
       return <div>Can't get user review data, caused by  {error?.message || "unknown"}</div>
    }
 

@@ -12,7 +12,6 @@ export default function StarRating({ title="Your rating",initialRating = 0, rata
   const {data:userRating} = useGetRate(bookId,ratable);
   const [rating, setRating] = useState(ratable&&userRating?userRating:initialRating)
   const {mutate:rateBook}=useRate(bookId);
-  console.log(rating)
   const [hover, setHover] = useState<number>(0)
   useEffect(() => {
     setRating(initialRating);

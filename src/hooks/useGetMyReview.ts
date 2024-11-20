@@ -20,7 +20,7 @@ export function useGetMyReview(userId: string, bookId: string) {
             },
          }).then(response => response.data)
             .catch((error) => {
-               console.error(error);
+               return error.response.data;
             })
                
             return responseData || {};
