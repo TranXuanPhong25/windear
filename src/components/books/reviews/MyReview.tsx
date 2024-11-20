@@ -18,7 +18,6 @@ export default function MyReview({ bookId }: { bookId: string }) {
             appState: { returnTo: window.location.pathname }
          });
       }
-      console.log("rate")
    }
    const onClickReviewBtn = () => {
       if (authLoading) return;
@@ -30,7 +29,7 @@ export default function MyReview({ bookId }: { bookId: string }) {
 
       setIsEditing(true);
    }
-   if (error || (data && data.errors)) {
+   if (error && !(data && data.status!=400)) {
       return <div>Can't get user review data, caused by  {error?.message || "unknown"}</div>
    }
 
@@ -39,18 +38,19 @@ export default function MyReview({ bookId }: { bookId: string }) {
       return <React.Suspense fallback={<LoadingBlock />}>
          <EditableReviewCard
             {...data}
-            isNewReview
+            bookId={bookId}
+            isNewReview={!data.rating}
             onCancel={() => setIsEditing(false)} />
       </React.Suspense>
    }
    return <>
       <h1 className="text-3xl text-center mb-2">Share your think with world</h1>
       <div className="flex items-center justify-center">
-
          <StarRating
             title="Rate this book"
-            initialRating={0}
+            initialRating={data?.rating || 0}
             ratable
+            bookId={bookId}
             onChange={onRating} />
          <Button
             onClick={onClickReviewBtn}

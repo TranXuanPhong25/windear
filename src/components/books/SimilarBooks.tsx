@@ -8,7 +8,6 @@ export default function SimilarBooks({ bookId }: { bookId: string | undefined })
       threshold: 0.1,
       triggerOnce: true
    });
-   console.log("similar books")
    // Only fetch data when bookId is available and element is in view
    const { data, isLoading } = useSimilarBook(bookId, inView);
 

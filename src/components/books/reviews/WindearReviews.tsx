@@ -11,8 +11,7 @@ export default function WindearReviews({ bookId }: { bookId: string | undefined 
       triggerOnce: true
    });
    const { isLoading, data } = useWindearReviews(bookId, inView);
-   console.log(data)
-
+   
    return (
       <Card className="dark:bg-gray-800 border-0 shadow-none" ref={ref}>
          {

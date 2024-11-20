@@ -24,6 +24,7 @@ export default function ReviewCard({
    tags = [],
 }: ReviewCardProps) {
    const date = new Date(createAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+   console.log(rating)
    return (
       <Card className="mb-4 dark:bg-gray-800 border-0 shadow-none border-b dark:border-gray-400">
          <CardTitle className="flex justify-between items-center ">
@@ -35,14 +36,7 @@ export default function ReviewCard({
                <h3 className="text-lg font-bold dark:text-white ml-2">{userName} {isAuthor && "(GRs Author)"}</h3>
             </div>
             <div>
-               {/* <div className="flex">
-                  {[8, 3, 8, 6, 6].map((_, i) => (
-                     <StarIcon
-                        key={i}
-                        className={`size-5 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300 dark:text-gray-500 "}`}
-                     />
-                  ))}
-               </div> */}
+
                <StarRating initialRating={rating} small />
             </div>
          </CardTitle>

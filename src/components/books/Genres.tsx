@@ -12,7 +12,7 @@ function Genres({ genres, noHeading = false }: { genres: string[], noHeading?: b
                      {
                         genres && genres.map((genre) => (
                            noHeading ? (
-                              <span
+                              <span key={genre}
                                  className="py-1 px-4 rounded-full bg-emerald-500 text-gray-50 hover:bg-emerald-600 hover:text-white flex gap-2 hover:-translate-y-1 transition" >
                                  {genre}
                               </span>

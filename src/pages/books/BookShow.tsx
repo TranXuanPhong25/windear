@@ -9,13 +9,16 @@ import { Book } from "@/types/Book";
 import Genres from "@/components/books/Genres";
 import { Separator } from "@/components/ui/separator";
 import { handlePlural } from "@/lib/utils";
-import { Suspense } from "react";
+import { Suspense, useEffect, lazy } from "react";
 import SimilarBooks from "@/components/books/SimilarBooks";
 import BookDetails from "@/components/books/BookDetails";
 import CommunityReviews from "@/components/books/reviews/CommunityReviews";
 import LoadingBlock from "@/components/layout/LoadingBlock";
 import WriteReview from "@/components/books/reviews/WriteReview";
 import BookNotFound from "./BookNotFound";
+import SocialSignals from "@/components/books/SocialSignals";
+
+const BlockQuote = lazy(() => import('@/components/books/BlockQuote'));
 
 
 const fetchBook = async (bookId: string | undefined) => {
@@ -33,13 +36,16 @@ export default function BookShow() {
       queryKey: ['book', bookId],
       queryFn: () => fetchBook(bookId)
    });
+   useEffect(() => {
+      document.title = data?.data.getBookByLegacyId.title || "Windear library";
+   }, [data])
    if (NONDIGIT_REGEX.test(bookId || '')) {
       return <h1>Invalid book ID</h1>
    }
    if (!bookId) return <h1>Invalid book ID</h1>
    if (error) return <div>Error: {error.message}</div>;
-   if(data?.errors){
-      return <BookNotFound/>;
+   if (data?.errors) {
+      return <BookNotFound />;
    }
    const book: Book = data ? data?.data.getBookByLegacyId : {};
    const authorBook: string = handlePlural(book.primaryContributorEdge?.node.works.totalCount, "book", true);
@@ -47,7 +53,7 @@ export default function BookShow() {
    const secondaryContributors: string | false = book.secondaryContributorEdges && book.secondaryContributorEdges.length > 0 && ", " + book.secondaryContributorEdges.map((contributor) => `${contributor.node.name} (${contributor.role})`).join(", ");
    return (
       <>
-         <div className="w-full dark:text-white md:flex mt-8 px-5">
+         <div className="w-full dark:text-white md:flex mt-8 px-5 pb-10">
             {/* book header */}
 
             <div className="w-[240px] flex flex-col items-center md:sticky top-24 h-fit ">
@@ -60,7 +66,7 @@ export default function BookShow() {
                }
                <ShelfAction customClass="w-full" />
                <GetBook />
-               <StarRating initialRating={0} ratable onChange={() => { }} />
+               <StarRating initialRating={0} ratable onChange={() => { }} bookId={bookId} />
             </div>
             {/* book detail */}
             <div className="flex-1 w-full font-sans md:ml-12 max-w-4xl">
@@ -120,6 +126,10 @@ export default function BookShow() {
                   isLoading ? <Skeleton className="w-60 h-8 my-4" /> :
                      <BookDetails book={book} />
                }
+               {
+                  isLoading ? <Skeleton className="w-60 h-8 my-4" /> :
+                  <SocialSignals data={book.socialSignals}/>
+               }
                <Separator className="my-4" />
                <div className="mb-6">
                   <h1 className="text-2xl font-bold ">About the author</h1>
@@ -152,7 +162,7 @@ export default function BookShow() {
 
                {/* {
                   isLoading ? <Skeleton className="w-full h-60" /> : */}
-                     <WriteReview bookId={bookId} />
+               <WriteReview bookId={bookId} />
                {/* } */}
                <Separator className="my-4" />
 
@@ -163,7 +173,9 @@ export default function BookShow() {
             </div>
 
          </div>
-         
+         <Suspense fallback={<LoadingBlock className="w-full h-60" />}>
+            <BlockQuote />
+         </Suspense>
       </>
    )
 }

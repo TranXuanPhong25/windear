@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@radix-ui/react-label";
@@ -8,6 +8,9 @@ import ShelfAction from '@/components/books/ShelfAction';
 // import GetBook from '@/components/books/GetBook';
 
 export default function Shelves() {
+   useEffect(() => {
+      document.title = "Shelves - Windear library";
+   }, []);
    const userShelves = useMemo(() => [
       {
          name: 'Miscellaneous',

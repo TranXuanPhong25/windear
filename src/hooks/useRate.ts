@@ -3,31 +3,31 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "./use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-export function usePostReview(method: string, review: string ,bookId:number,reviewId:number,rating:number) {
+export function useRate(bookId:string) {
    const { user, getAccessTokenSilently } = useAuth0();
    const queryClient = useQueryClient();
    return useMutation({
-      mutationFn: async () => {
+      mutationFn: async (rating:number) => {
          if (!user?.sub) {
             throw new Error('User is not authenticated');
          }
-         console.log(rating)
          const accessToken = await getAccessTokenSilently();
-         const postReviewUrl = `${import.meta.env.VITE_BASE_API_URL}/review${method=="PUT"?"/"+reviewId:""}`;
+         const resetPasswordGeneratorUrl = `${import.meta.env.VITE_BASE_API_URL}/review/rate`;
          const response = await axios.request(
             {
-               method: method,
-               url: postReviewUrl,
+               method: "PUT",
+               url: resetPasswordGeneratorUrl,
                headers: {
                   Authorization: `Bearer ${accessToken}`,
                },
                data: {
-                  userId: user?.sub,
                   bookId: bookId,
-                  content: review,
+                  userId: user.sub,
                   rating: rating,
                   userImageUrl: user.picture,
-                  userName: user.name?.includes("@gmail.com")?user.nickname:user.name,
+                  userName: user.name,
+
+
                }
             }
          ).then(response => response.data);
@@ -39,6 +39,7 @@ export function usePostReview(method: string, review: string ,bookId:number,revi
             description: "Successfully update your review.",
             className: "mb-4  bg-green-400 dark:bg-green-600  ",
          })
+         queryClient.invalidateQueries( {queryKey: ['rate', bookId]});
          queryClient.invalidateQueries({ queryKey: ['windearReview', bookId.toString()] });
          queryClient.invalidateQueries({queryKey: ['user', user?.sub, 'book', bookId]});
       },

@@ -55,7 +55,6 @@ const navigation = [
 ];
 
 export default function NavigationBarContent() {
-   console.log("navbar");
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const [isModalOpen, setIsModalOpen] = useState(false);
    const handleSearchClick = () => {

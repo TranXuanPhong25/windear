@@ -2,6 +2,7 @@ import DangerZone from "@/components/user/DangerZone";
 import PasswordChange from "@/components/user/PasswordChange";
 import ProfileSettings from "@/components/user/ProfileSettings";
 import { KeyRound, User } from "lucide-react";
+import { useEffect } from "react";
 const userSettings = [
    {
       name:"Profile",
@@ -15,6 +16,9 @@ const userSettings = [
    }
 ]
 function AccountSettings() {
+   useEffect(() => {
+      document.title = "Account Settings - Windear"
+   }, [])
    return (
       <main className="flex mx-6 relative mb-16">
          <div className="w-72 mr-14 !sticky top-24 h-fit">

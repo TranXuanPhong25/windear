@@ -252,7 +252,7 @@ export default function UsersTable({ data }: { data: User[] }) {
          columnFilters,
          columnVisibility,
          rowSelection,
-      },
+      }
    })
    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setFilterValue(e.target.value);
@@ -319,6 +319,7 @@ export default function UsersTable({ data }: { data: User[] }) {
                <DropdownMenuContent align="end">
                   {table
                      .getAllColumns()
+                     .filter((column)=> column.id!="picture" && column.id!="email")
                      .filter((column) => column.getCanHide())
                      .map((column) => {
                         return (

@@ -1,22 +1,36 @@
-import React, { useState, useCallback } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { Star } from "lucide-react"
 import confetti from "canvas-confetti";
 
 import StarRatingProps from "@/types/StarRatingProps";
+import { useGetRate } from "@/hooks/useGetRate";
+import { useRate } from "@/hooks/useRate";
 
 
 
-export default function StarRating({ title="Your rating",initialRating = 0, ratable = false,small=false, onChange }: StarRatingProps = {}) {
-  const [rating, setRating] = useState(initialRating)
+export default function StarRating({ title="Your rating",initialRating = 0, ratable = false,small=false, onChange ,bookId=""}: StarRatingProps = {}) {
+  const {data:userRating} = useGetRate(bookId,ratable);
+  const [rating, setRating] = useState(ratable&&userRating?userRating:initialRating)
+  const {mutate:rateBook}=useRate(bookId);
+  console.log(rating)
   const [hover, setHover] = useState<number>(0)
+  useEffect(() => {
+    setRating(initialRating);
+  }, [initialRating]);
+  useEffect(() => {
+    if (ratable) {
+      setRating(userRating);
+    }
+  }, [userRating,ratable]);
   const handleClick = useCallback((index: number) => {
     if (!ratable) return;
     const newRating = hover === index + 0.5 ? index + 0.5 : index + 1
+    rateBook(newRating);
     setRating(newRating)
     if (onChange) {
       onChange(newRating)
     }
-  }, [hover, onChange, ratable])
+  }, [hover, onChange, ratable, rateBook])
   const activateConfetti = (e: React.MouseEvent<HTMLDivElement>, hover: number) => {
     if (!ratable) return;
     const defaults = {

@@ -27,7 +27,7 @@ export default function BookList({ title, books = [], brief = false, className =
          return;
       }
       container.current.style.width = (window.innerWidth-350) + "px"
-      console.log(container.current.style.width)
+      
    }
    React.useEffect(() => {
       handleResize()

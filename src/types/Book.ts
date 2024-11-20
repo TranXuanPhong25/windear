@@ -50,15 +50,15 @@ interface Links {
    secondaryAffiliateLinks: AffiliateLink[];
 }
 
-interface SocialSignal {
+export interface SocialSignal {
    count: number;
    name: string;
    users:
    {
-      nodes: {
+      node: {
          imageUrl: string;
-      }[];
-   };
+      };
+   }[];
 }
 
 

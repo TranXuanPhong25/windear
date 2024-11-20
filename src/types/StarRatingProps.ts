@@ -3,5 +3,6 @@ export default interface StarRatingProps {
   initialRating?: number
   ratable?: boolean
   small?: boolean
-  onChange?: (rating: number) => void
+  onChange?: (rating: number) => void,
+  bookId?:string
 }

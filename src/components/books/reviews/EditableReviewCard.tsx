@@ -1,4 +1,4 @@
-import { Suspense, useState,lazy } from "react";
+import { Suspense, useState,lazy, useEffect } from "react";
 const ReviewEditor = lazy(() => import("./ReviewEditor"));
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -8,6 +8,7 @@ import ExpandableParagraph from "../ExpandableParagraph";
 import StarRating from "../StarRating";
 import { Button } from "@/components/ui/button";
 import { usePostReview } from "@/hooks/usePostReview";
+import { useAuth0 } from "@auth0/auth0-react";
 interface EditableReviewCard {
    reviewId: number,
    bookId: number;
@@ -31,14 +32,14 @@ export default function EditableReviewCard({
    isNewReview = false,
    onCancel,
 }: EditableReviewCard) {
+   const { user } = useAuth0();
    const [shouldPost, setShouldPost] = useState(isNewReview);
-   const [isEditing, setIsEditing] = useState(isNewReview);
+   const [isEditing, setIsEditing] = useState(isNewReview&&content=="");
    const [newReviewContent, setNewReviewContent] = useState(content);
    const [backupContent, setBackupContent] = useState(content);
    const [newRating, setNewRating] = useState(rating);
    const { mutate: putReview, isPending: isPutting } = usePostReview("PUT", newReviewContent || "", bookId, reviewId, newRating);
    const { mutate: postReview, isPending: isPosting } = usePostReview("POST", newReviewContent || "", bookId, reviewId, newRating);
-
    const date = new Date(createAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
    const handleCancel = () => {
       setNewReviewContent(backupContent);
@@ -48,13 +49,17 @@ export default function EditableReviewCard({
       }
       if (onCancel) onCancel();
    };
-
+   useEffect(() => {
+      if (isNewReview&&content=="") {
+         setIsEditing(true);
+      }
+   }, [isNewReview, content])
    return (
       <Card className="mb-4 dark:bg-gray-800 border-0 shadow-none border-b dark:border-gray-400">
          <CardTitle className="flex justify-between items-center ">
             <div className="flex items-center">
                <Avatar className="size-16">
-                  <AvatarImage src={userImageUrl} alt={userName} />
+                  <AvatarImage src={userImageUrl||user?.picture} alt={userName} />
                   <AvatarFallback><User /></AvatarFallback>
                </Avatar>
                <h3 className="text-lg font-bold dark:text-white ml-2">{userName}</h3>
@@ -64,7 +69,7 @@ export default function EditableReviewCard({
             </div>
          </CardTitle>
          {
-            !isEditing || !isNewReview ? (
+            !isEditing  ? (
                <CardContent className="p-0">
                   <ExpandableParagraph text={newReviewContent || "No content"} />
                </CardContent>
@@ -91,7 +96,7 @@ export default function EditableReviewCard({
                }
             }} className="">
                {
-                  isPosting || isPutting ? "Loading..." : ""
+                  isPosting || isPutting ? "Saving..." : ""
                }
                {isEditing ? "Update" : "Edit review"}
 
