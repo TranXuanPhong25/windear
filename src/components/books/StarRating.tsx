@@ -3,8 +3,8 @@ import { Star } from "lucide-react"
 import confetti from "canvas-confetti";
 
 import StarRatingProps from "@/types/StarRatingProps";
-import { useGetRate } from "@/hooks/useGetRate";
-import { useRate } from "@/hooks/useRate";
+import { useGetRate } from "@/hooks/book/useGetRate";
+import { useRate } from "@/hooks/book/useRate";
 
 
 

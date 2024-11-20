@@ -11,7 +11,7 @@ import {
    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { useDeleteUser } from "@/hooks/useDeleteUser";
+import { useDeleteUser } from "@/hooks/user/useDeleteUser";
 import { Trash2 } from "lucide-react"
 
 export default function DangerZone() {

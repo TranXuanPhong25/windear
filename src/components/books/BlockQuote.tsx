@@ -1,4 +1,4 @@
-import { useQuote } from "@/hooks/useQuote"
+import { useQuote } from "@/hooks/book/useQuote"
 import LoadingBlock from "../layout/LoadingBlock";
 import { useInView } from "react-intersection-observer";
 import { Separator } from "../ui/separator";

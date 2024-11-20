@@ -1,5 +1,5 @@
 import { useInView } from 'react-intersection-observer';
-import { useSimilarBook } from '@/hooks/useSimilarBook';
+import { useSimilarBook } from '@/hooks/book/useSimilarBook';
 import { Skeleton } from '@/components/ui/skeleton';
 import BookList from './BookList';
 

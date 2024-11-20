@@ -1,4 +1,4 @@
-import { useSendVerificationEmail } from "@/hooks/useSendVerificationEmail";
+import { useSendVerificationEmail } from "@/hooks/user/useSendVerificationEmail";
 
 export default function  SendEmailButton({userId,children}:{userId:string,children:React.ReactNode}) {
    const { mutate: sendVerificationEmail } = useSendVerificationEmail(userId);

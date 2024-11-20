@@ -7,7 +7,7 @@ import { User } from "lucide-react";
 import ExpandableParagraph from "../ExpandableParagraph";
 import StarRating from "../StarRating";
 import { Button } from "@/components/ui/button";
-import { usePostReview } from "@/hooks/usePostReview";
+import { usePostReview } from "@/hooks/book/usePostReview";
 import { useAuth0 } from "@auth0/auth0-react";
 interface EditableReviewCard {
    reviewId: number,

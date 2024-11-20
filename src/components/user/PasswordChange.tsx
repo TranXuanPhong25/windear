@@ -4,7 +4,7 @@ import { CircleCheckBig, RefreshCcw } from "lucide-react";
 import clsx from "clsx";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
-import { useGeneratePasswordReset } from "@/hooks/useGeneratePasswordReset";
+import { useGeneratePasswordReset } from "@/hooks/user/useGeneratePasswordReset";
 
 function PasswordChange() {
   const [ticket, setTicket] = useState<string | null>(null);

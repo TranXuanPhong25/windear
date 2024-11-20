@@ -1,6 +1,6 @@
 import React from "react";
 import LoadingBlock from "@/components/layout/LoadingBlock";
-import { useGetMyReview } from "@/hooks/useGetMyReview";
+import { useGetMyReview } from "@/hooks/book/useGetMyReview";
 import { Button } from "@/components/ui/button";
 import { useAuth0 } from "@auth0/auth0-react";
 import StarRating from "../StarRating";

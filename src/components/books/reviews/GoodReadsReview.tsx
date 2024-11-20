@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import ReviewCard from "./ReviewCard";
-import { useGoodReadsReviews } from "@/hooks/useGoodReadsReviews";
+import { useGoodReadsReviews } from "@/hooks/book/useGoodReadsReviews";
 import { useInView } from "react-intersection-observer";
 import { GoodreadsReview } from "@/types/GoodreadsReview";
 import LoadingBlock from "@/components/layout/LoadingBlock";

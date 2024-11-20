@@ -1,11 +1,11 @@
 import InfoCard from "@/components/layout/admin/InfoCard";
 import UsersTable from '@/components/admin/Management/user/UsersTable';
-import { useGetUsers } from "@/hooks/useGetUsers";
+import { useGetUsers } from "@/hooks/admin/useGetUsers";
 import { replaceUnderscores } from "@/lib/utils";
 import LoadingBlock from "@/components/layout/LoadingBlock";
 import { User } from "@/types/User";
 import { UsersIcon } from "lucide-react";
-import { useGetActiveUsers } from "@/hooks/useGetActiveUsers";
+import { useGetActiveUsers } from "@/hooks/admin/useGetActiveUsers";
 
 const preProcessData = (data: User[]) => {
     return data.map(replaceUnderscores);

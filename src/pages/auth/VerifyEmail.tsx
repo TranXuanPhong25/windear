@@ -1,6 +1,6 @@
 // src/pages/auth/VerifyEmail.tsx
 import { Button } from "@/components/ui/button";
-import { useSendVerificationEmail } from "@/hooks/useSendVerificationEmail";
+import { useSendVerificationEmail } from "@/hooks/user/useSendVerificationEmail";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Loader } from "lucide-react";
 import { ArrowLeft } from "lucide-react";

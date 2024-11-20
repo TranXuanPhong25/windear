@@ -1,47 +1,39 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { toast } from "./use-toast";
-import { useQueryClient } from "@tanstack/react-query";
-export function useRate(bookId:string) {
+import { toast } from "../use-toast";
+import { SetStateAction } from "react";
+
+export function useGeneratePasswordReset(changeTicket: { (value: SetStateAction<string | null>): void; (arg0: string): void; }) {
    const { user, getAccessTokenSilently } = useAuth0();
-   const queryClient = useQueryClient();
    return useMutation({
-      mutationFn: async (rating:number) => {
+      mutationFn: async () => {
          if (!user?.sub) {
             throw new Error('User is not authenticated');
          }
+
          const accessToken = await getAccessTokenSilently();
-         const resetPasswordGeneratorUrl = `${import.meta.env.VITE_BASE_API_URL}/review/rate`;
+         const resetPasswordGeneratorUrl = `${import.meta.env.VITE_BASE_API_URL}/auth0/user/${user?.sub}/reset-password`;
+
          const response = await axios.request(
             {
-               method: "PUT",
+               method: 'GET',
                url: resetPasswordGeneratorUrl,
                headers: {
                   Authorization: `Bearer ${accessToken}`,
                },
-               data: {
-                  bookId: bookId,
-                  userId: user.sub,
-                  rating: rating,
-                  userImageUrl: user.picture,
-                  userName: user.name,
-
-
-               }
             }
          ).then(response => response.data);
+
          return response.ticket;
       },
-      onSuccess: () => {
+      onSuccess: (data) => {
+         changeTicket(data);
          toast({
             title: "Success",
-            description: "Successfully update your review.",
+            description: "Successfully receive password reset link.",
             className: "mb-4  bg-green-400 dark:bg-green-600  ",
          })
-         queryClient.invalidateQueries( {queryKey: ['rate', bookId]});
-         queryClient.invalidateQueries({ queryKey: ['windearReview', bookId.toString()] });
-         queryClient.invalidateQueries({queryKey: ['user', user?.sub, 'book', bookId]});
       },
       onError: (error: AxiosError) => {
 

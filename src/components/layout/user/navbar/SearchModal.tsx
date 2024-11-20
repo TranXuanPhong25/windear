@@ -5,7 +5,7 @@ import { ArrowUpRightFromSquare, RefreshCcw, Search, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import anime from 'animejs';
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { useBookSearch } from '@/hooks/useBookSearch';
+import { useBookSearch } from '@/hooks/book/useBookSearch';
 import clsx from 'clsx';
 import BookSearchInfo from '@/types/BookSearchInfo';
 import { handlePlural } from '@/lib/utils';
