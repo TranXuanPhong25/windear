@@ -12,13 +12,6 @@ export default function MyReview({ bookId }: { bookId: string }) {
    const [isEditing, setIsEditing] = useState(false);
    const { user, loginWithRedirect, isLoading: authLoading } = useAuth0();
    const { isLoading, error, data } = useGetMyReview(user?.sub || "", bookId);
-   const onRating = () => {
-      if (!user?.sub) {
-         loginWithRedirect({
-            appState: { returnTo: window.location.pathname }
-         });
-      }
-   }
    const onClickReviewBtn = () => {
       if (authLoading) return;
       if (!user?.sub) {
@@ -30,7 +23,7 @@ export default function MyReview({ bookId }: { bookId: string }) {
       setIsEditing(true);
    }
 
-   if (error && (data && data.status!=400)) {
+   if (error && (data && data.status != 400)) {
       return <div>Can't get user review data, caused by  {error?.message || "unknown"}</div>
    }
 
@@ -52,7 +45,7 @@ export default function MyReview({ bookId }: { bookId: string }) {
             initialRating={data?.rating || 0}
             ratable
             bookId={bookId}
-            onChange={onRating} />
+         />
          <Button
             onClick={onClickReviewBtn}
             className="ml-4 rounded-full"

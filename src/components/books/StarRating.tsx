@@ -5,13 +5,13 @@ import confetti from "canvas-confetti";
 import StarRatingProps from "@/types/StarRatingProps";
 import { useGetRate } from "@/hooks/book/useGetRate";
 import { useRate } from "@/hooks/book/useRate";
+import { useAuth0 } from "@auth0/auth0-react";
 
-
-
-export default function StarRating({ title="Your rating",initialRating = 0, ratable = false,small=false, onChange ,bookId=""}: StarRatingProps = {}) {
-  const {data:userRating} = useGetRate(bookId,ratable);
-  const [rating, setRating] = useState(ratable&&userRating?userRating:initialRating)
-  const {mutate:rateBook}=useRate(bookId);
+export default function StarRating({ title = "Your rating", initialRating = 0, ratable = false, small = false, onChange, bookId = "" }: StarRatingProps = {}) {
+  const { user, loginWithRedirect, isLoading: authLoading } = useAuth0();
+  const { data: userRating } = useGetRate(bookId, ratable);
+  const [rating, setRating] = useState(ratable && userRating ? userRating : initialRating)
+  const { mutate: rateBook } = useRate(bookId);
   const [hover, setHover] = useState<number>(0)
   useEffect(() => {
     setRating(initialRating);
@@ -20,16 +20,23 @@ export default function StarRating({ title="Your rating",initialRating = 0, rata
     if (ratable) {
       setRating(userRating);
     }
-  }, [userRating,ratable]);
+  }, [userRating, ratable]);
   const handleClick = useCallback((index: number) => {
     if (!ratable) return;
+    if (authLoading) return;
+    if (!user?.sub) {
+      loginWithRedirect({
+        appState: { returnTo: window.location.pathname }
+      });
+    }
+
     const newRating = hover === index + 0.5 ? index + 0.5 : index + 1
     rateBook(newRating);
     setRating(newRating)
     if (onChange) {
       onChange(newRating)
     }
-  }, [hover, onChange, ratable, rateBook])
+  }, [authLoading, hover, loginWithRedirect, onChange, ratable, rateBook, user?.sub])
   const activateConfetti = (e: React.MouseEvent<HTMLDivElement>, hover: number) => {
     if (!ratable) return;
     const defaults = {
