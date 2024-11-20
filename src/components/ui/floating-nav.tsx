@@ -27,7 +27,7 @@ const FloatingNav = ({
       if(window.scrollY > 24){
         setBorderClass("border-b-2 border-gray-400/30 shadow-md");
       }else {
-        setBorderClass("")
+        setBorderClass("bg-transparent")
       }
       if(scrollYProgress.getPrevious()==0){
         setVisible(true);
@@ -55,7 +55,7 @@ const FloatingNav = ({
           duration: 0.2,
         }}
         className={cn(
-          "sticky top-0 inset-x-0 mx-auto  dark:bg-gray-800 bg-white  z-[5000] ",
+          "sticky top-0 inset-x-0 mx-auto  dark:bg-gray-800 bg-white z-[5000] transition-all duration-200 ease-in-out",
           borderClass
         )}
         >

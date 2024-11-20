@@ -5,7 +5,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Loader } from "lucide-react";
 import { ArrowLeft } from "lucide-react";
 import GoBackButton from "@/components/notfound/GoBackButton";
+import { useNavigate } from "react-router-dom";
 const VerifyEmail = () => {
+   const navigate = useNavigate();
    const { user } = useAuth0();
    const { mutate: sendVerificationEmail ,isPending} = useSendVerificationEmail(user?.id);
    return (
@@ -14,7 +16,7 @@ const VerifyEmail = () => {
          <p className="mb-4">Please verify your email address to access this page.</p>
          <p className="mb-4">A verification email has been sent to: {user?.email}</p>
          <p>If you did not receive the email, please check your spam folder or <Button className="!text-blue-500 px-0 !bg-transparent hover:underline" onClick={()=>sendVerificationEmail()}>{!isPending?"click here":<Loader className="animate-spin"/>}</Button> to resend.</p>
-         <GoBackButton buttonText="Go back" buttonOnClick={() => window.history.back()} icon={ArrowLeft}/>
+         <GoBackButton buttonText="Go Home" buttonOnClick={() => navigate("/")} icon={ArrowLeft}/>
 
       </div>
    );

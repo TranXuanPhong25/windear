@@ -12,6 +12,7 @@
     -moz-osx-font-smoothing: grayscale;
 }
 html {
+    @apply bg-[#f0f4f9];
     scroll-behavior: smooth;
 }
 @layer base {

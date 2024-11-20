@@ -37,7 +37,7 @@ export default function BookShow() {
       queryFn: () => fetchBook(bookId)
    });
    useEffect(() => {
-      document.title = data?.data.getBookByLegacyId.title || "Windear library";
+      document.title = (data?.data.getBookByLegacyId && data?.data.getBookByLegacyId.title )|| "Windear library";
    }, [data])
    if (NONDIGIT_REGEX.test(bookId || '')) {
       return <h1>Invalid book ID</h1>
@@ -66,7 +66,7 @@ export default function BookShow() {
                }
                <ShelfAction customClass="w-full" />
                <GetBook />
-               <StarRating initialRating={0} ratable onChange={() => { }} bookId={bookId}/>
+               <StarRating initialRating={0} ratable onChange={() => { }} bookId={bookId} />
             </div>
             {/* book detail */}
             <div className="flex-1 w-full font-sans md:ml-12 max-w-4xl">
@@ -128,7 +128,7 @@ export default function BookShow() {
                }
                {
                   isLoading ? <Skeleton className="w-60 h-8 my-4" /> :
-                  <SocialSignals data={book.socialSignals}/>
+                     <SocialSignals data={book.socialSignals} />
                }
                <Separator className="my-4" />
                <div className="mb-6">

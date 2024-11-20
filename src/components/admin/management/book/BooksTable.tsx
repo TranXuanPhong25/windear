@@ -39,8 +39,6 @@ import { Avatar } from "@radix-ui/react-avatar"
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import SendEmailButton from "@/components/auth/SendEmailButton"
 
-
-
 const columns: ColumnDef<User>[] = [
    {
       accessorKey: "user id",

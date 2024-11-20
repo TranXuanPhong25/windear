@@ -99,3 +99,4 @@ export function calculateLastLoginTime(lastLogin: string): string {
     return `${Math.floor(diffInDays)} days ago`;
   }
 }
+

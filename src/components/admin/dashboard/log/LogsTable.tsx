@@ -11,19 +11,15 @@ import {
    getSortedRowModel,
    useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react'
+import { ArrowUpDown, ChevronDown } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
 import {
    DropdownMenu,
    DropdownMenuCheckboxItem,
    DropdownMenuContent,
-   DropdownMenuItem,
-   DropdownMenuLabel,
-   DropdownMenuSeparator,
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import {
    Table,
    TableBody,
@@ -32,36 +28,14 @@ import {
    TableHeader,
    TableRow,
 } from "@/components/ui/table"
-import { User } from "@/types/User"
-import EmailVerified from "./EmailVerified"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { calculateLastLoginTime } from "@/lib/utils"
-import { Avatar } from "@radix-ui/react-avatar"
-import { AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import SendEmailButton from "@/components/auth/SendEmailButton"
+import { Auth0Log } from "@/types/Auth0Log"
+import { Input } from "@/components/ui/input"
+import BooleanBadge from "../../BooleanBadge"
+import { extractLogType } from "@/lib/extractLogType"
 
-
-
-const columns: ColumnDef<User>[] = [
-   // {
-   //    id: "select",
-   //    header: ({ table }) => (
-   //       <Checkbox
-   //          checked={table.getIsAllPageRowsSelected()}
-   //          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-   //          aria-label="Select all"
-   //       />
-   //    ),
-   //    cell: ({ row }) => (
-   //       <Checkbox
-   //          checked={row.getIsSelected()}
-   //          onCheckedChange={(value) => row.toggleSelected(!!value)}
-   //          aria-label="Select row"
-   //       />
-   //    ),
-   //    enableSorting: false,
-   //    enableHiding: false,
-   // },
+const columns: ColumnDef<Auth0Log>[] = [
+  
    {
       accessorKey: "user id",
       header: ({ column }) => {
@@ -71,15 +45,15 @@ const columns: ColumnDef<User>[] = [
                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                className="px-0 !bg-transparent  hover:underline !text-gray-400"
             >
-               ID
+               User ID
                <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
          )
       },
-      cell: ({ row }) => <div >{row.getValue("user id")}</div>,
+      cell: ({ row }) => <div>{row.getValue("user id")}</div>,
    },
    {
-      accessorKey: "name",
+      accessorKey: "user name",
       header: ({ column }) => {
          return (
             <Button
@@ -87,44 +61,16 @@ const columns: ColumnDef<User>[] = [
                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                className="px-0 !bg-transparent  hover:underline !text-gray-400"
             >
-               Name
+               Username
                <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
          )
       },
-      cell: ({ row }) => <div className="flex">
-         <Avatar>
-            <AvatarImage
-               className="size-10 rounded-full"
-               src={row.getValue("picture")}
-               alt={row.getValue("name")}
-               width={50}
-               height={50}
-               loading="lazy"
-
-            />
-            <AvatarFallback className="size-10">
-               {typeof row.getValue("name") === "string" && (row.getValue("name") as string).charAt(0)}
-            </AvatarFallback>
-         </Avatar>
-         <div className="flex flex-col justify-center ml-2">
-            <div>{row.getValue("name")}</div>
-            <div>{row.getValue("email")}</div>
-         </div>
-      </div>,
+      cell: ({ row }) => <div>{row.getValue("user name")}</div>,
    },
+   
    {
-      accessorKey: "picture",
-      header: () => <div className="hidden"></div>,
-      cell: () => <div className="hidden"></div>,
-   },
-   {
-      accessorKey: "email",
-      header: () => <div className="hidden"></div>,
-      cell: () => <div className="hidden"></div>,
-   },
-   {
-      accessorKey: "email verified",
+      accessorKey: "ip",
       header: ({ column }) => {
          return (
             <Button
@@ -132,15 +78,15 @@ const columns: ColumnDef<User>[] = [
                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                className="px-0 !bg-transparent  hover:underline !text-gray-400"
             >
-               Email Verified
+               Ip Address
                <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
          )
       },
-      cell: ({ row }) => <EmailVerified isVerified={row.getValue("email verified")} />
+      cell: ({ row }) => <div>{row.getValue("ip")}</div>,
    },
    {
-      accessorKey: "created at",
+      accessorKey: "user agent",
       header: ({ column }) => {
          return (
             <Button
@@ -148,15 +94,15 @@ const columns: ColumnDef<User>[] = [
                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                className="px-0 !bg-transparent  hover:underline !text-gray-400"
             >
-               Create at
+               User Agent
                <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
          )
       },
-      cell: ({ row }) => <div>{new Date(row.getValue("created at")).toLocaleDateString("en-us")}</div>,
+      cell: ({ row }) => <div>{row.getValue("user agent")}</div>,
    },
    {
-      accessorKey: "logins count",
+      accessorKey: "type",
       header: ({ column }) => {
          return (
             <Button
@@ -164,15 +110,15 @@ const columns: ColumnDef<User>[] = [
                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                className="px-0 !bg-transparent  hover:underline !text-gray-400"
             >
-               Logins count
+               Type
                <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
          )
       },
-      cell: ({ row }) => <div >{row.getValue("logins count")}</div>,
+      cell: ({row}) => <div >{extractLogType(row.getValue("type"))}</div>,
    },
    {
-      accessorKey: "last login",
+      accessorKey: "isMobile",
       header: ({ column }) => {
          return (
             <Button
@@ -180,62 +126,40 @@ const columns: ColumnDef<User>[] = [
                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                className="px-0 !bg-transparent  hover:underline !text-gray-400"
             >
-               Last login
+               Is Mobile
                <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
          )
       },
-      cell: ({ row }) => <div>{calculateLastLoginTime(row.getValue("last login"))}</div>,
+      cell: ({ row }) => <BooleanBadge value={row.getValue("isMobile")} color={["bg-sky-400 dark:bg-sky-500","bg-green-400 dark:green-500"]}/>,
    },
    {
-      id: "actions",
-      enableHiding: false,
-      cell: ({ row }) => {
-         const user = row.original
-
+      accessorKey: "date",
+      header: ({ column }) => {
          return (
-            <DropdownMenu>
-               <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-8 w-8 p-0">
-                     <span className="sr-only">Open menu</span>
-                     <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-               </DropdownMenuTrigger>
-               <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuItem
-                     onClick={() => navigator.clipboard.writeText(user.user_id)}
-                  >
-                     Copy user ID
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  {
-                     row.getValue("user id")!==undefined&&(row.getValue("user id")as string).includes("auth0") && (
-                        <DropdownMenuItem>
-                           <SendEmailButton userId={row.getValue("user id")}>
-                              Send verification email
-                           </SendEmailButton>
-                        </DropdownMenuItem>
-                     )
-                  }
-                  <DropdownMenuItem>Edit user</DropdownMenuItem>
-               </DropdownMenuContent>
-            </DropdownMenu>
+            <Button
+
+               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+               className="px-0 !bg-transparent  hover:underline !text-gray-400"
+            >
+               Date
+               <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
          )
       },
+      cell: ({row}) => <div >{new Date(row.getValue("date")).toLocaleString("en-us")}</div>,
    },
 ]
 
-export default function UsersTable({ data }: { data: User[] }) {
+export default function LogsTable({ data }: { data: Auth0Log[] }) {
    const [sorting, setSorting] = React.useState<SortingState>([])
    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
       []
    )
    const [columnVisibility, setColumnVisibility] = React.useState({})
    const [rowSelection, setRowSelection] = React.useState({})
-   const [filterColumn, setFilterColumn] = React.useState("name");
+   const [filterColumn, setFilterColumn] = React.useState("user name");
    const [filterValue, setFilterValue] = React.useState("");
-
    const table = useReactTable({
       data,
       columns,
@@ -252,7 +176,7 @@ export default function UsersTable({ data }: { data: User[] }) {
          columnFilters,
          columnVisibility,
          rowSelection,
-      }
+      },
    })
    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setFilterValue(e.target.value);
@@ -261,13 +185,13 @@ export default function UsersTable({ data }: { data: User[] }) {
    return (
       <div className="w-full ">
          <div className="flex items-center py-4 flex-wrap gap-2">
-            <Select value={filterColumn} onValueChange={setFilterColumn}>
+         <Select value={filterColumn} onValueChange={setFilterColumn}>
                <SelectTrigger className="w-28">
                   <SelectValue placeholder="Select column" />
                </SelectTrigger>
                <SelectContent>
-                  <SelectItem value="name">Name</SelectItem>
-                  <SelectItem value="email">Email</SelectItem>
+                  <SelectItem value="user name">Username</SelectItem>
+                  <SelectItem value="user agent">User Agent</SelectItem>
                </SelectContent>
             </Select>
             <Input
@@ -276,22 +200,6 @@ export default function UsersTable({ data }: { data: User[] }) {
                placeholder={`Filter by ${filterColumn}`}
                className=" max-w-sm "
             />
-            {/* <Input
-               placeholder="Filter names..."
-               value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-               onChange={(event) =>
-                  table.getColumn("name")?.setFilterValue(event.target.value)
-               }
-               className="max-w-sm"
-            />
-            <Input
-               placeholder="Filter emails..."
-               value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-               onChange={(event) =>
-                  table.getColumn("email")?.setFilterValue(event.target.value)
-               }
-               className="max-w-sm mx-2"
-            /> */}
             <Select
                value={(table.getColumn("user id")?.getFilterValue() as string) ?? ""}
                onValueChange={(value) =>
@@ -319,7 +227,6 @@ export default function UsersTable({ data }: { data: User[] }) {
                <DropdownMenuContent align="end">
                   {table
                      .getAllColumns()
-                     .filter((column)=> column.id!="picture" && column.id!="email")
                      .filter((column) => column.getCanHide())
                      .map((column) => {
                         return (

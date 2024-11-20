@@ -52,29 +52,32 @@ export default function EditionList({ books = [], brief = false, className = "my
             <CarouselContent className="md:gap-2 pl-2 md:pl-0 w-full ">
                {books && books.map((book, index) => (
                   <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-[45%] min-[900px]:basis-[35%] lg:basis-[27%]   cursor-default p-0">
-                     <Link to={`/books/${book.node.legacyId}`}>
-                        <Card className="overflow-hidden   !bg-transparent rounded-none shadow-none border-0 p-2">
+                     <Card className="overflow-hidden   !bg-transparent rounded-none shadow-none border-0 p-2">
+                        <Link to={`/books/${book.node.legacyId}`}>
                            <CardContent className=" min-h-60 flex items-center justify-center p-0 ">
                               <ImageWithFallback
                                  src={book.node.imageUrl}
                                  alt="book cover"
                                  width={220}
-                                 className="object-cover object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33] "
+                                 className="object-cover object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33] hover:border-[#0000004f] dark:hover:border-[#ffffff4f] hover:scale-105 transition-transform duration-200 "
                                  fallbackSrc="/book-cover-unavailable-placeholder.jpg"
                               />
                            </CardContent>
+                        </Link>
+
                            <CardTitle className="text-[1rem] mt-2 text-gray-600">
-                              <span className="block">{book.node.details.format}</span>
+                        <Link to={`/books/${book.node.legacyId}`}>
+                              <span className="block hover:underline">{book.node.details.format}</span>
+                        </Link>
                               <span className="block">{book.node.details.publisher}</span>
                               <span className="block">{new Date(book.node.details.publicationTime).getFullYear()}</span>
                            </CardTitle>
-                        </Card>
+                     </Card>
 
-                     </Link>
                   </CarouselItem>
                ))}
             </CarouselContent>
-            <CarouselNext className="absolute top-1/2 -right-0 transform -translate-y-1/2  sm:inline-flex hidden text-black" />
+            <CarouselNext className="absolute top-1/2 right-4 transform -translate-y-1/2  sm:inline-flex hidden text-black" />
             <CarouselPrevious className="absolute top-1/2 -left-0 transform -translate-y-1/2  sm:inline-flex hidden text-black" />
          </Carousel>
          {

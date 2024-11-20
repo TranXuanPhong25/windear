@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription,  CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card"
 import {
    Carousel,
    CarouselContent,
@@ -22,14 +22,14 @@ interface BookListProps {
 
 export default function BookList({ title, books = [], brief = false, className = "my-4 sm:px-0" }: BookListProps) {
    const container = React.useRef<HTMLDivElement>(null);
-   function handleResize(){
-      if(!container.current)return;
-      if(window.innerWidth < 768){
+   function handleResize() {
+      if (!container.current) return;
+      if (window.innerWidth < 768) {
          container.current.style.width = "100%"
          return;
       }
-      container.current.style.width = (window.innerWidth-350) + "px"
-      
+      container.current.style.width = (window.innerWidth - 350) + "px"
+
    }
    React.useEffect(() => {
       handleResize()
@@ -54,33 +54,36 @@ export default function BookList({ title, books = [], brief = false, className =
             opts={{
                align: "start",
                dragFree: true,
-               
+
             }}
          >
             <CarouselContent className="md:gap-2 pl-2 md:pl-0 w-full">
                {books && books.map((book, index) => (
                   <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-[45%] min-[900px]:basis-[35%] lg:basis-[27%]   cursor-default p-0">
-                     <Link to={`/books/${book.node.legacyId}`}>
-                     <Card className="overflow-hidden   !bg-transparent rounded-none shadow-none border-0 p-2">
-                        <CardContent className="min-h-60 flex items-center justify-center p-0 ">
-                              <ImageWithFallback 
-                                 src={book.node.imageUrl} 
-                                 alt="book cover" 
+                     <Card className="overflow-hidden   !bg-transparent rounded-none shadow-none border-0 p-2 ">
+                        <Link to={`/books/${book.node.legacyId}`}>
+                           <CardContent className="min-h-60 flex items-center justify-center p-0 ">
+                              <ImageWithFallback
+                                 src={book.node.imageUrl}
+                                 alt="book cover"
                                  width={220}
-                                 className="object-cover object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33]"
+                                 className="object-cover object-left-top inset-0 rounded-l-sm rounded-r-xl  border-l-[6px] border-b-[10px] border-[#0000002f] dark:border-[#ffffff33] hover:border-[#0000004f] dark:hover:border-[#ffffff4f] hover:scale-105 transition-transform duration-200 "
                                  fallbackSrc="/book-cover-unavailable-placeholder.jpg"
                               />
-                        </CardContent>
-                        <CardTitle className="text-lg mt-2">
-                           {book.node.title}
-                        </CardTitle>
-                           <span>{book.node.primaryContributorEdge.node.name}</span>
+                           </CardContent>
+                        </Link>
+                        <Link to={`/books/${book.node.legacyId}`}>
+
+                           <CardTitle className="text-lg mt-2 hover:underline">
+                              {book.node.title}
+                           </CardTitle>
+                        </Link>
+                        <span>{book.node.primaryContributorEdge.node.name}</span>
                         <CardDescription className="flex items-center">
                            <Star className="h-4 w-4 text-yellow-500 mr-1" fill="rgb(234,179,8)" />
                            {book.node.stats.averageRating}
                         </CardDescription>
                      </Card>
-                     </Link>
                   </CarouselItem>
                ))}
             </CarouselContent>

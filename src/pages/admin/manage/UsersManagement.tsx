@@ -1,5 +1,5 @@
 import InfoCard from "@/components/layout/admin/InfoCard";
-import UsersTable from '@/components/admin/Management/user/UsersTable';
+import UsersTable from '@/components/admin/management/user/UsersTable';
 import { useGetUsers } from "@/hooks/admin/useGetUsers";
 import { replaceUnderscores } from "@/lib/utils";
 import LoadingBlock from "@/components/layout/LoadingBlock";
