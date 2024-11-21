@@ -1,4 +1,4 @@
-import { Book } from "@/types/Book";
+import { Book } from "@/models/Book";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import EditionShow from "./EditionShow";
 

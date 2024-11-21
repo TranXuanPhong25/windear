@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { getQuotes } from "@/lib/quotes";
-import { Quote } from "@/types/Quote";
+import { Quote } from "@/models/Quote";
 export function useQuote(inview: boolean) {
    return useQuery({
       queryKey: [],

@@ -19,8 +19,8 @@ const BookBrowse = lazy(() => import('./pages/browse/BookBrowse'));
 const AccountSettings = lazy(() => import('./pages/user/AccountSettings'));
 const Shelves = lazy(() => import('./pages/shelves/Shelves'));
 const AdminLayout = lazy(() => import('./layouts/admin/AdminLayout'));
-const UsersManagement = lazy(() => import('./pages/admin/manage/UsersManagement'));
-const BooksManagement = lazy(() => import('./pages/admin/manage/BooksManagement'));
+const UsersManagement = lazy(() => import('./pages/admin/management/UsersManagement'));
+const BooksManagement = lazy(() => import('./pages/admin/management/BooksManagement'));
 const AdminHome = lazy(() => import('./pages/admin/AdminHome'));
 const AnalysticDashboard = lazy(() => import('./pages/admin/dashboard/AnalysticDashboard'));
 const LogsDashboard = lazy(() => import('./pages/admin/dashboard/LogsDashboard'));
@@ -42,7 +42,17 @@ export default function App() {
             } />
          </Route>
          <Route element={<CommonLayout />} >
-            <Route path="/browse/*" element={
+            <Route path="/browse/tag/:tagName" element={
+               <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
+                  <BookBrowse />
+               </Suspense>
+            } />
+            <Route path="/browse/tag/:tagName" element={
+               <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
+                  <BookBrowse />
+               </Suspense>
+            } />
+            <Route path="/browse/tag" element={
                <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
                   <BookBrowse />
                </Suspense>

@@ -1,6 +1,6 @@
 // src/types/GoodreadsReview.ts
 
-import { PageInfo } from "./PageInfo";
+import { PageInfo } from "@/types/PageInfo";
 
 interface Tag {
    name: string;

@@ -32,7 +32,7 @@ import {
    TableHeader,
    TableRow,
 } from "@/components/ui/table"
-import { User } from "@/types/User"
+import { User } from "@/models/User"
 import BooleanBadge from "../../BooleanBadge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { calculateLastLoginTime } from "@/lib/utils"

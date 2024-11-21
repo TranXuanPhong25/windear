@@ -7,7 +7,7 @@ import anime from 'animejs';
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useBookSearch } from '@/hooks/book/useBookSearch';
 import clsx from 'clsx';
-import BookSearchInfo from '@/types/BookSearchInfo';
+import BookSearchInfo from '@/models/BookSearchInfo';
 import { handlePlural } from '@/lib/utils';
 interface SearchModalProps {
 

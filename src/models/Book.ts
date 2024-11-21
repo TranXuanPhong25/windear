@@ -1,7 +1,4 @@
-export interface Stats {
-   ratingsCount: number;
-   averageRating: number;
-}
+import { Stats } from "@/types/Stats";
 
 export interface BookDetails {
    language: {

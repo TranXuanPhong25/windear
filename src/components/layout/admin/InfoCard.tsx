@@ -19,7 +19,7 @@ function InfoCard({
                <CardTitle className="text-5xl" >
                   {value}
                </CardTitle>
-               <Icon/>
+               <Icon className="size-10"/>
             </div>
          </CardHeader>
          <CardContent>

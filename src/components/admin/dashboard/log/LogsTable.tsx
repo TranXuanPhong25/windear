@@ -29,7 +29,7 @@ import {
    TableRow,
 } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Auth0Log } from "@/types/Auth0Log"
+import { Auth0Log } from "@/models/Auth0Log"
 import { Input } from "@/components/ui/input"
 import BooleanBadge from "../../BooleanBadge"
 import { extractLogType } from "@/lib/extractLogType"

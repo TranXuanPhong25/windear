@@ -1,4 +1,4 @@
-import { Stats } from "./Book";
+import { Stats } from "@/types/Stats";
 
 export default interface BookSearchInfo {
    node:

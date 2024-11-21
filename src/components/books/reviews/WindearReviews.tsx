@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import ReviewCard from "./ReviewCard";
 import { useInView } from "react-intersection-observer";
 import { useWindearReviews } from "@/hooks/book/useWindearReviews";
-import { WindearReview } from "@/types/WindearReview";
+import { WindearReview } from "@/models/WindearReview";
 import LoadingBlock from "@/components/layout/LoadingBlock";
 
 export default function WindearReviews({ bookId }: { bookId: string | undefined }) {

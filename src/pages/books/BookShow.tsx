@@ -5,7 +5,7 @@ import ExpandableParagraph from "@/components/books/ExpandableParagraph";
 import ShelfAction from "@/components/books/ShelfAction";
 import GetBook from "@/components/books/GetBook";
 import { useQuery } from "@tanstack/react-query";
-import { Book } from "@/types/Book";
+import { Book } from "@/models/Book";
 import Genres from "@/components/books/Genres";
 import { Separator } from "@/components/ui/separator";
 import { handlePlural } from "@/lib/utils";
@@ -64,7 +64,7 @@ export default function BookShow() {
                      alt="book cover"
                   />
                }
-               <ShelfAction customClass="w-full" />
+               <ShelfAction customClass="w-full"  />
                <GetBook />
                <StarRating initialRating={0} ratable onChange={() => { }} bookId={bookId} />
             </div>

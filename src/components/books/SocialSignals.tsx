@@ -1,4 +1,4 @@
-import { SocialSignal } from "@/types/Book";
+import { SocialSignal } from "@/models/Book";
 import AvatarCircles from "../ui/avatar-circles";
 
 export default function SocialSignals({data}:{data:SocialSignal[]}){

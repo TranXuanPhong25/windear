@@ -1,4 +1,4 @@
-import { BookDetails } from './Book';
+import { BookDetails } from '../models/Book';
 export default interface Edition {
    node :{
       legacyId : number;

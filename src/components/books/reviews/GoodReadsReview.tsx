@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import ReviewCard from "./ReviewCard";
 import { useGoodReadsReviews } from "@/hooks/book/useGoodReadsReviews";
 import { useInView } from "react-intersection-observer";
-import { GoodreadsReview } from "@/types/GoodreadsReview";
+import { GoodreadsReview } from "@/models/GoodreadsReview";
 import LoadingBlock from "@/components/layout/LoadingBlock";
 // Mock review data
 

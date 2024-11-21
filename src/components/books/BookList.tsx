@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/carousel"
 import { Button } from "@/components/ui/button"
 import { ChevronRight, Star } from 'lucide-react';
-import BookSearchInfo from "@/types/BookSearchInfo";
+import BookSearchInfo from "@/models/BookSearchInfo";
 import React from "react";
 import { Link } from "react-router-dom";
 import ImageWithFallback from "../notfound/ImageWithFallback";

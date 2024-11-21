@@ -3,7 +3,7 @@ import UsersTable from '@/components/admin/management/user/UsersTable';
 import { useGetUsers } from "@/hooks/admin/useGetUsers";
 import { replaceUnderscores } from "@/lib/utils";
 import LoadingBlock from "@/components/layout/LoadingBlock";
-import { User } from "@/types/User";
+import { User } from "@/models/User";
 import { UsersIcon } from "lucide-react";
 import { useGetActiveUsers } from "@/hooks/admin/useGetActiveUsers";
 

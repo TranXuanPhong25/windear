@@ -2,7 +2,7 @@ import LogsTable from "@/components/admin/dashboard/log/LogsTable";
 import LoadingBlock from "@/components/layout/LoadingBlock";
 import { useGetLogs } from "@/hooks/admin/useGetLogs";
 import { replaceUnderscores } from "@/lib/utils";
-import { Auth0Log } from "@/types/Auth0Log";
+import { Auth0Log } from "@/models/Auth0Log";
 
 const preProcessData = (data: Auth0Log[]) => {
   return data.map(replaceUnderscores);
