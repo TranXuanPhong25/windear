@@ -16,7 +16,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { supabase } from '@/lib/supabaseClient'
 import { usePostBook } from '../../../../hooks/admin/usePostBook';
 import { PostBookPayload } from '@/models/PostBookPayload'
-
+import { compressImage } from '@/lib/compressImage'
 const formSchema = z.object({
    title: z.string().min(1, 'Title is required'),
    author: z.string().min(1, 'Author is required'),
@@ -58,9 +58,13 @@ export default function AddBookForm() {
       },
    })
    const uploadImageToSupabase = async (file: File) => {
+      // return;
+      const compressedFile = await compressImage(file);
+      if(!compressedFile) return {data:null,error: new Error('Failed to upload Image')};
+      console.log(compressedFile);
       const { data, error } = await supabase.storage
-         .from('bookcover')
-         .upload(`public/${encodeURIComponent(file.name)}-${new Date().getTime()}`, file);
+      .from('bookcover')
+      .upload(`public/${encodeURIComponent(file.name)}-${new Date().getTime()}`, compressedFile);
       if (error) {
          return { data: null, error }
       }
@@ -69,7 +73,8 @@ export default function AddBookForm() {
    };
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
-
+      
+      // console.log(await compressImage(image as File));
       const { data: publicUrl, error } = await uploadImageToSupabase(image as File);
       if (error) {
          toast({
@@ -98,7 +103,6 @@ export default function AddBookForm() {
 
                <div className=' w-full h-[420px] lg:w-[350px] min-[1480px]:w-[280px] flex justify-center'>
                   <DropZone onDropFile={setImage} />
-
                </div>
                <div className="space-y-4 flex-1">
 

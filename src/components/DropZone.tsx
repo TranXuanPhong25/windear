@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { Input } from "./ui/input";
 import { Pencil, PlusCircle, X } from "lucide-react";
 import clsx from "clsx";
-
+import { compressImage } from "@/lib/compressImage";
 export default function DropZone({ onDropFile }: { onDropFile: (file: File) => void }) {
    const [image, setImage] = useState<File | null>(null);
    const [previewUrl, setPreviewUrl] = useState("");
@@ -12,8 +12,11 @@ export default function DropZone({ onDropFile }: { onDropFile: (file: File) => v
       setPreviewUrl("");
    };
    const onDrop = useCallback((acceptedFiles: File[]) => {
+      
       console.log(acceptedFiles[0]); // Process the dropped files
+
       const file = acceptedFiles[0];
+      console.log(compressImage(file))
       if (file) {
          setImage(file); // Save the file for further use
 
