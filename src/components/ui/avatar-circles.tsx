@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 interface AvatarCirclesProps {
   className?: string;
-  numPeople?: number;
+  numPeople?: string;
   avatarUrls: string[];
 }
 

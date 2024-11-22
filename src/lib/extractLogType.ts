@@ -10,7 +10,7 @@ const logTypes  : LogType= {
    sce: 'Change email Successful',
    scu: 'Change username Successful',
    scp: 'Change password Successful',
-   scpr: 'Change request password Successful',
+   scpr: 'Request change password Successful',
 
    fce: 'Failed change email',
    fcu: 'Failed change username',

@@ -55,7 +55,7 @@ const FloatingNav = ({
           duration: 0.2,
         }}
         className={cn(
-          "sticky top-0 inset-x-0 mx-auto  dark:bg-gray-800 bg-white z-[5000] transition-all duration-200 ease-in-out",
+          "sticky top-0 inset-x-0 mx-auto  dark:bg-gray-800 bg-white z-[49] transition-all duration-200 ease-in-out",
           borderClass
         )}
         >

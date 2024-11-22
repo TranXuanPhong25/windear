@@ -42,7 +42,7 @@ export function flattenObject(ob: Record<string, unknown>): Record<string, strin
 
 export function handlePlural(value: number, unit: string, shouldTruncate: boolean = false): string {
   unit = " " + unit;
-  if (value > 1) {
+  if (value > 1 && unit!=" ") {
     unit += "s";
   }
 

@@ -71,7 +71,7 @@ export default function ThemeSwitcher({ text = "" , sidebar = false}: { text?: s
                </span>
             </Button>
          </DropdownMenuTrigger>
-         <DropdownMenuContent align="center" className={clsx(sidebar&&"bg-sidebar",`dark:bg-gray-800 z-[9999999]`)} >
+         <DropdownMenuContent align="center" className={clsx(sidebar&&"bg-sidebar",`dark:bg-gray-700 z-[9999999]`)} >
             <DropdownMenuItem onClick={() => handleThemeChange('light')} className={clsx(sidebar?"hover:!bg-sidebar-accent":"dark:hover:!bg-purple-500")}>
                <Sun className="mr-2  h-4 w-4 " />
                <span>Light</span>

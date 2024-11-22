@@ -1,5 +1,6 @@
 import { SocialSignal } from "@/models/Book";
 import AvatarCircles from "../ui/avatar-circles";
+import { handlePlural } from "@/lib/utils";
 
 export default function SocialSignals({data}:{data:SocialSignal[]}){
    if(!data||data.length===0) return null;
@@ -7,7 +8,7 @@ export default function SocialSignals({data}:{data:SocialSignal[]}){
       {
          data.map((signal,index)=>(
             <div key={index} className="flex items-center space-x-2">
-               <AvatarCircles numPeople={signal.count} avatarUrls={signal.users.map(user=>user.node.imageUrl)}/>
+               <AvatarCircles numPeople={handlePlural(signal.count,"",true)} avatarUrls={signal.users.map(user=>user.node.imageUrl)}/>
                <span className="text-sm">{signal.name.replace("_"," ")}</span>
             </div>
          ))

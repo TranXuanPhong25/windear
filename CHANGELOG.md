@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.2.0](https://github.com/TranXuanPhong25/windear/tree/v0.2.0) (2024-11-16)
+
+[Full Changelog](https://github.com/TranXuanPhong25/windear/compare/v0.1.1...v0.2.0)
+
 ## [v0.1.1](https://github.com/TranXuanPhong25/windear/tree/v0.1.1) (2024-11-15)
 
 [Full Changelog](https://github.com/TranXuanPhong25/windear/compare/36489051dbaef58f530f4600f04ef81f01b53b8d...v0.1.1)
