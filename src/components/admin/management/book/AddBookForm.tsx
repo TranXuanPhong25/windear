@@ -61,6 +61,7 @@ export default function AddBookForm() {
       // return;
       const compressedFile = await compressImage(file);
       if(!compressedFile) return {data:null,error: new Error('Failed to upload Image')};
+      
       console.log(compressedFile);
       const { data, error } = await supabase.storage
       .from('bookcover')

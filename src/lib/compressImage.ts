@@ -11,12 +11,16 @@ export const compressImage = async (file: File): Promise<File | null> => {
                const ctx = canvas.getContext('2d');
 
                // Set canvas size to match the image size
-               canvas.width = img.width;
-               canvas.height = img.height;
 
+               const targetWidth = 250;
+               const targetHeight = 350;
+     
+               // Set canvas size to the target dimensions
+               canvas.width = targetWidth;
+               canvas.height = targetHeight;
                // Draw the image on the canvas
                if (ctx) {
-                  ctx.drawImage(img, 0, 0);
+                  ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
                }
 
                // Use toBlob for better performance
