@@ -7,4 +7,5 @@ export  interface PostBookPayload  {
    releaseDate: string;
    publisher: string;
    imageUrl: string; 
+   genres: string;
 }

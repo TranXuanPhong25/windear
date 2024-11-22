@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -17,6 +17,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { usePostBook } from '../../../../hooks/admin/usePostBook';
 import { PostBookPayload } from '@/models/PostBookPayload'
 import { compressImage } from '@/lib/compressImage'
+import { useGetAllGenres } from '@/hooks/book/useGetAllGenres'
 const formSchema = z.object({
    title: z.string().min(1, 'Title is required'),
    author: z.string().min(1, 'Author is required'),
@@ -31,12 +32,20 @@ const formSchema = z.object({
    isbn10: z.string().optional(),
    isbn13: z.string().min(13, 'ISBN13 is required').max(13, 'ISBN13 is required'),
    language: z.string().min(1, 'Language is required'),
+   genres: z.string().optional(),
    totalQuantity: z.union([z.number().min(0), z.string().transform(v => v === '' ? undefined : parseInt(v, 10))]),
    availableQuantity: z.union([z.number().min(0), z.string().transform(v => v === '' ? undefined : parseInt(v, 10))]),
 })
 
 export default function AddBookForm() {
+   const { data: genres } = useGetAllGenres();
+   const [suggestGenres, setSuggestGenres] = useState<string[]>([]);
+   const [tags, setTags] = useState<string[]>([]);
+   const [genreQuery, setGenreQuery] = useState('');
    const [image, setImage] = useState<File | null>(null);
+   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState<number>(0);
+   const [tagsIndices, setTagsIndices] = useState<number[]>([]);
+   const firstInputRef=useRef<HTMLInputElement>(null);
    const { mutate: createBook, isPending } = usePostBook();
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -52,7 +61,7 @@ export default function AddBookForm() {
          numPages: 0,
          isbn10: '',
          isbn13: '',
-
+         genres: '',
          totalQuantity: 0,
          availableQuantity: 0,
       },
@@ -60,12 +69,11 @@ export default function AddBookForm() {
    const uploadImageToSupabase = async (file: File) => {
       // return;
       const compressedFile = await compressImage(file);
-      if(!compressedFile) return {data:null,error: new Error('Failed to upload Image')};
-      
-      console.log(compressedFile);
+      if (!compressedFile) return { data: null, error: new Error('Failed to upload Image') };
+
       const { data, error } = await supabase.storage
-      .from('bookcover')
-      .upload(`public/${encodeURIComponent(file.name)}-${new Date().getTime()}`, compressedFile);
+         .from('bookcover')
+         .upload(`public/${encodeURIComponent(file.name)}-${new Date().getTime()}`, compressedFile);
       if (error) {
          return { data: null, error }
       }
@@ -74,7 +82,7 @@ export default function AddBookForm() {
    };
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
-      
+
       // console.log(await compressImage(image as File));
       const { data: publicUrl, error } = await uploadImageToSupabase(image as File);
       if (error) {
@@ -85,23 +93,52 @@ export default function AddBookForm() {
          });
          return;
       }
-      const book :PostBookPayload = {
+      const book: PostBookPayload = {
          ...values,
+         genres: tags.join(','),
          releaseDate: values.releaseDate.toISOString(),
          imageUrl: publicUrl,
          description: values.description || '',
          authorDescription: values.authorDescription || '',
       };
       createBook(book);
-      
+
    }
 
 
+   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter' && genreQuery.trim() !== '') {
+         e.preventDefault();
+         if (selectedSuggestionIndex >= 0 && selectedSuggestionIndex < suggestGenres.length) {
+           const selectedGenre = suggestGenres[selectedSuggestionIndex];
+           if (!tags.includes(selectedGenre)) {
+             setTags([...tags, selectedGenre]);
+             setTagsIndices([...tagsIndices, selectedSuggestionIndex]);
+           }
+           setGenreQuery('');
+           setSuggestGenres([]);
+           setSelectedSuggestionIndex(0);
+         } else if (!tags.includes(genreQuery.trim())) {
+         //   setTags([...tags, genreQuery.trim()]);
+           setGenreQuery('');
+         }
+       } else if (e.key === 'ArrowDown') {
+         e.preventDefault();
+         setSelectedSuggestionIndex((prevIndex) => (prevIndex + 1) % suggestGenres.length);
+       } else if (e.key === 'ArrowUp') {
+         e.preventDefault();
+         setSelectedSuggestionIndex((prevIndex) => (prevIndex - 1 + suggestGenres.length) % suggestGenres.length);
+       }
+    };
+  
+    const handleRemoveTag = (tag: string) => {
+      setTags(tags.filter(t => t !== tag));
+      setTagsIndices(tagsIndices.filter((_, index) => tags[index] !== tag));
+    };
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-3xl mx-auto space-y-6">
             <div className="flex flex-col lg:flex-row gap-6">
-
                <div className=' w-full h-[420px] lg:w-[350px] min-[1480px]:w-[280px] flex justify-center'>
                   <DropZone onDropFile={setImage} />
                </div>
@@ -114,7 +151,7 @@ export default function AddBookForm() {
                         <FormItem>
                            <FormLabel>Title</FormLabel>
                            <FormControl>
-                              <Input {...field} />
+                              <Input {...field} ref={firstInputRef} />
                            </FormControl>
                            <FormMessage />
                         </FormItem>
@@ -270,6 +307,64 @@ export default function AddBookForm() {
                      )}
                   />
                </div>
+               <FormField
+              control={form.control}
+              name="genres"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Genre</FormLabel>
+                  <FormControl >
+                    <Input
+                      {...field}
+                      value={genreQuery}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setGenreQuery(e.target.value);
+                        setSuggestGenres(genres.map((genre: string) => genre.toLowerCase()).filter((genre: string | string[]) => genre.includes(e.target.value.toLowerCase())));
+                      }}
+                      onKeyDown={handleKeyDown}
+                      autoComplete="off"
+                    />
+                   
+                  </FormControl>
+                  {suggestGenres.length > 0 && (
+                      <div className="absolute bg-white border border-gray-300 rounded-md mt-1  z-10">
+                        {suggestGenres.map((genre: string,index:number) => (
+                          <div
+                            key={genre}
+                            className={`p-2 cursor-pointer hover:bg-gray-200 ${index === selectedSuggestionIndex ? 'bg-gray-200' : ''}`}
+                            onClick={() => {
+                              if (!tags.includes(genre)) {
+                                setTags([...tags, genre]);
+                                 setTagsIndices([...tagsIndices, index]);
+                              }
+                              setGenreQuery('');
+                              setSuggestGenres([]);
+                            }}
+                          >
+                            {genre}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  <FormMessage />
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {tags.map((tag) => (
+                      <div key={tag} className="bg-gray-200 rounded-full px-3 py-1 text-sm flex items-center">
+                        {tag}
+                        <button
+                          type="button"
+                          className="ml-2 text-red-500"
+                          onClick={() => handleRemoveTag(tag)}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </FormItem>
+              )}
+            />
                <FormField
                   control={form.control}
                   name="description"
