@@ -2,11 +2,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "../use-toast";
-import { AddBookToShelftPayload } from "@/models/AddBookToShelftPayload";
-export function useAddBookToShelf(payload: AddBookToShelftPayload) {
+import { AddBookToShelfPayload } from "@/models/AddBookToShelfPayload";
+export function useAddBookToShelves() {
    const { user, getAccessTokenSilently } = useAuth0();
    return useMutation({
-      mutationFn: async () => {
+      mutationFn: async (payload:AddBookToShelfPayload) => {
          if (!user?.sub) {
             throw new Error('User is not authenticated');
          }
@@ -14,7 +14,7 @@ export function useAddBookToShelf(payload: AddBookToShelftPayload) {
          const addBookToShelfUrl = `${import.meta.env.VITE_BASE_API_URL}/shelves/${encodeURIComponent(user.sub)}`;
          const response = await axios.request(
             {
-               method: "PUT",
+               method: "POST",
                url: addBookToShelfUrl,
                headers: {
                   Authorization: `Bearer ${accessToken}`,

@@ -17,6 +17,8 @@ import LoadingBlock from "@/components/layout/LoadingBlock";
 import WriteReview from "@/components/books/reviews/WriteReview";
 import BookNotFound from "./BookNotFound";
 import SocialSignals from "@/components/books/SocialSignals";
+import { BookInShelfPayload } from '../../models/AddBookToShelfPayload';
+import { BookInShelfStatus } from '@/types/BookInShelfStatus';
 
 const BlockQuote = lazy(() => import('@/components/books/BlockQuote'));
 
@@ -48,6 +50,32 @@ export default function BookShow() {
       return <BookNotFound />;
    }
    const book: Book = data ? data?.data.getBookByLegacyId : {};
+   const shelfBook :BookInShelfPayload={
+      id:"",
+      title:"",
+      author: "",
+      releaseDate: new Date(),
+      rating:0,
+      imageUrl:"",
+      addedDate:new Date(),
+      readDate:null,
+      userRating:null,
+      bookStatus:BookInShelfStatus.WANT_TO_READ
+
+   };
+  if(book&&book.id){
+      
+      shelfBook.id=bookId;
+      shelfBook.title=book.title;
+      shelfBook.author=book.primaryContributorEdge?.node.name || "";
+      shelfBook.releaseDate=new Date(book.details.publicationTime);
+      shelfBook.rating=book.stats.averageRating;
+      shelfBook.imageUrl=book.imageUrl;
+      shelfBook.addedDate=new Date();
+      shelfBook.readDate=null;
+      shelfBook.userRating=null;
+      shelfBook.bookStatus=BookInShelfStatus.WANT_TO_READ;
+   }
    const authorBook: string = handlePlural(book.primaryContributorEdge?.node.works.totalCount, "book", true);
    const authorFollower: string = handlePlural(book.primaryContributorEdge?.node.followers.totalCount, "follower", true);
    const secondaryContributors: string | false = book.secondaryContributorEdges && book.secondaryContributorEdges.length > 0 && ", " + book.secondaryContributorEdges.map((contributor) => `${contributor.node.name} (${contributor.role})`).join(", ");
@@ -64,7 +92,7 @@ export default function BookShow() {
                      alt="book cover"
                   />
                }
-               <ShelfAction customClass="w-full"  />
+               <ShelfAction customClass="w-full"  book={shelfBook} />
                <GetBook />
                <StarRating initialRating={0} ratable onChange={() => { }} bookId={bookId} />
             </div>

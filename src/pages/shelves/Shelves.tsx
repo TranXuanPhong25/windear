@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@radix-ui/react-label";
 import { Star } from "lucide-react";
 import StarRating from '@/components/books/StarRating';
-import ShelfAction from '@/components/books/ShelfAction';
+// import ShelfAction from '@/components/books/ShelfAction';
 // import GetBook from '@/components/books/GetBook';
 
 export default function Shelves() {
@@ -232,7 +232,7 @@ export default function Shelves() {
                                              <StarRating initialRating={0} ratable onChange={() => { }} />
                                           <div>
                                              <h4 >AddedDate: 10-10-2024</h4>
-                                             <ShelfAction customClass="mt-0 w-full " />
+                                             {/* <ShelfAction customClass="mt-0 w-full " /> */}
                                              {/* <GetBook /> */}
                                           </div>
                                        </div>

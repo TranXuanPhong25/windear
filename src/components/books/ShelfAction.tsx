@@ -4,22 +4,31 @@ import {
    PopoverTrigger,
 } from "@/components/ui/popover"
 import { Close } from "@radix-ui/react-popover";
-import { BookCheckIcon, BookmarkIcon, BookOpenTextIcon } from "lucide-react";
+import { BookCheckIcon, BookmarkIcon, BookOpenTextIcon,Loader } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import React from "react";
-import { Button } from "../ui/button";
 import MuiltiShelvesSelector from "./shelves/MuiltiShelvesSelector";
-
-export default function ShelfAction({ customClass = "w-full" }: { customClass?: string }) {
+import {useGetShelvesOfBook} from "@/hooks/shelves/useGetShelvesOfBook"
+import { BookInShelfPayload } from '@/models/AddBookToShelfPayload';
+const readingList=[
+   {name:"Want to read",icon:BookmarkIcon},
+   {name:"Currently Reading",icon:BookOpenTextIcon},
+   {name:"Read",icon:BookCheckIcon}
+]
+export default function ShelfAction({ customClass = "w-full",book }: { customClass?: string,book:BookInShelfPayload}) {
    const [isPopoverOpen, setIsPopoverOpen] = React.useState(false)
    const [isModalOpen, setIsModalOpen] = React.useState(false)
-
+   const {data:shelvesOfBook,isLoading} = useGetShelvesOfBook(book.id)
+   console.log(book)
+   console.log(shelvesOfBook)
    const handlePopoverClick = () => {
       setIsPopoverOpen(false)
       setIsModalOpen(true)
    }
 
-
+   const  hanldeSaveChanges=()=>{
+      setIsModalOpen(false)
+   }
    return (
       <>
          <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -36,19 +45,15 @@ export default function ShelfAction({ customClass = "w-full" }: { customClass?: 
                   </svg>
                </Close>
                <div className="flex flex-col">
-                  <Close className="flex text-lg w-full justify-start hover:bg-gray-200 dark:hover:bg-gray-800/60 py-2 px-4 transition-colors" onClick={handlePopoverClick}>
-                     <BookmarkIcon className="mr-2" />
-                     Want to read
-                  </Close>
-                  <Close className="flex text-lg w-full justify-start hover:bg-gray-200 dark:hover:bg-gray-800/60 py-2 px-4 transition-colors" onClick={handlePopoverClick}>
-                     <BookOpenTextIcon className="mr-2" />
-                     Currently Reading
-                  </Close>
-                  <Close className="flex text-lg w-full justify-start hover:bg-gray-200 dark:hover:bg-gray-800/60 py-2 px-4 transition-colors" onClick={handlePopoverClick}>
-                     <BookCheckIcon className="mr-2" />
-                     Read
-                  </Close>
-                  {/* TODO: Add more options */}
+                  {
+                     isLoading ? <Loader /> :
+                      readingList.map((item,index)=>(
+                        <Close key={index} className="flex items-center text-lg w-full justify-start hover:bg-gray-200 dark:hover:bg-gray-800/60 py-2 px-4 transition-colors" onClick={handlePopoverClick}>
+                           <item.icon className="h-5 w-5 mr-2"/>
+                           {item.name}
+                        </Close>
+                     ))
+                  }
                </div>
             </PopoverContent>
          </Popover>
@@ -57,8 +62,7 @@ export default function ShelfAction({ customClass = "w-full" }: { customClass?: 
                <DialogHeader>
                   <DialogTitle className="dark:text-white text-center">Add this book to your shelf</DialogTitle>
                </DialogHeader>
-               <MuiltiShelvesSelector />
-               <Button onClick={() => setIsModalOpen(false)}>Update</Button>
+               <MuiltiShelvesSelector book={book} onSaveCompleted={hanldeSaveChanges}/>
                <DialogDescription className="text-center text-gray-500 text-sm mt-2">You can always change this later</DialogDescription>
             </DialogContent>
          </Dialog></>

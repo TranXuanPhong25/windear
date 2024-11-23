@@ -1,16 +1,16 @@
 export interface BookInShelfPayload{
-   bookId: string | null;
+   id: string;
    title: string;
-   authorName: string ;
+   author: string ;
    releaseDate: Date ;
-   rating: number | null;
+   rating: number;
    imageUrl: string;
    addedDate: Date;
    readDate: Date | null;
-   yourRating: number | null;
+   userRating: number | null;
    bookStatus: number;
 }
-export interface AddBookToShelftPayload {
-   ShelfName: string;
+export interface AddBookToShelfPayload {
+   shelfNames: string[];
    book: BookInShelfPayload;
 }

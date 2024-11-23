@@ -26,24 +26,28 @@ import { useGetMyShelves } from "@/hooks/shelves/useGetMyShelves";
 import { useDeleteShelf } from "@/hooks/shelves/useDeleteShelf";
 import { useCallback, useEffect, useRef } from "react";
 import { useChangeShelfName} from "@/hooks/shelves/useChangeShelfName"
+import {useAddBookToShelves} from "@/hooks/shelves/useAddBookToShelves"
+import { BookInShelfPayload } from '../../../models/AddBookToShelfPayload';
+
 const MAX_SHELF_NAME_LENGTH = 30;
 
-export default function MultiShelfSelector() {
+export default function MultiShelfSelector({book,onSaveCompleted}:{book:BookInShelfPayload,onSaveCompleted:()=>void}) {
+  const { toast } = useToast();
   const { mutate: createShelf } = useCreateShelf();
   const { data: myShelves = [], isLoading: isGettingMyShelves } = useGetMyShelves();
   const { mutate: callDeleteShelf } = useDeleteShelf();
   const { mutate:changeShelfName }= useChangeShelfName();
+  const { mutate: addBookToShelves}= useAddBookToShelves();
   const [selectedShelves, setSelectedShelves] = React.useState<string[]>([]);
   const [newShelfName, setNewShelfName] = React.useState("");
   const [editingShelf, setEditingShelf] = React.useState<string | null>(null);
   const shelfInput = useRef<HTMLInputElement | null>(null);
-  const { toast } = useToast();
 
   const toggleShelf = (shelfId: string) => {
     setSelectedShelves((prevSelected) =>
       prevSelected.includes(shelfId)
         ? prevSelected.filter((id) => id !== shelfId)
-        : [...prevSelected, shelfId]
+        : [...prevSelected, shelfId]  
     );
   };
 
@@ -83,7 +87,9 @@ export default function MultiShelfSelector() {
   }, [createShelf, newShelfName, validateShelfName]);
 
   const startEditing = (shelf: string) => {
-    shelfInput.current.focus();
+    if(shelfInput.current){
+      shelfInput.current.focus();
+    }
     setEditingShelf(shelf);
     setNewShelfName(shelf);
   };
@@ -173,7 +179,7 @@ export default function MultiShelfSelector() {
           <>
             <ScrollArea className="h-[230px] w-full rounded-md border p-4">
               <div className="flex flex-col space-y-2">
-                {myShelves.map((shelf) => (
+                {myShelves.map((shelf:string) => (
                   <div key={shelf} className="flex items-center space-x-2">
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -256,6 +262,21 @@ export default function MultiShelfSelector() {
                 </Tooltip>
               ))}
             </div>
+            <div className="mt-4">
+              <Button
+                onClick={() => {
+                  addBookToShelves({
+                    shelfNames: selectedShelves,
+                    book: book
+                  });
+                  onSaveCompleted();
+                }}
+                className="w-full"
+              >
+                Save
+              </Button>
+            </div>
+
           </>
         )}
       </div>
