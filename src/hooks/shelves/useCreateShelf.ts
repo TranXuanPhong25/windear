@@ -1,8 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "../use-toast";
-export function useDeleteShelf() {
+export function useCreateShelf() {
    const { user, getAccessTokenSilently } = useAuth0();
    const queryClient = useQueryClient();
    return useMutation({
@@ -14,7 +14,7 @@ export function useDeleteShelf() {
          const addBookToShelfUrl = `${import.meta.env.VITE_BASE_API_URL}/shelves/${encodeURIComponent(user.sub)}/shelf`;
          await axios.request(
             {
-               method: "DELETE",
+               method: "POST",
                url: addBookToShelfUrl,
                params: {
                   name:shelfName
@@ -28,7 +28,7 @@ export function useDeleteShelf() {
       onSuccess: (_data, variables) => {
          toast({
             title: "Success",
-            description: "Successfully delete shelf " + variables,
+            description: "Successfully create shelf " + variables,
             className: "mb-4  bg-green-400 dark:bg-green-600  ",
          })
          queryClient.invalidateQueries({queryKey:['shelves',user?.sub]})

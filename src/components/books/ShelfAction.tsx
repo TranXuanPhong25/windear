@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/popover"
 import { Close } from "@radix-ui/react-popover";
 import { BookCheckIcon, BookmarkIcon, BookOpenTextIcon } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import React from "react";
 import { Button } from "../ui/button";
 import MuiltiShelvesSelector from "./shelves/MuiltiShelvesSelector";
@@ -59,6 +59,7 @@ export default function ShelfAction({ customClass = "w-full" }: { customClass?: 
                </DialogHeader>
                <MuiltiShelvesSelector />
                <Button onClick={() => setIsModalOpen(false)}>Update</Button>
+               <DialogDescription className="text-center text-gray-500 text-sm mt-2">You can always change this later</DialogDescription>
             </DialogContent>
          </Dialog></>
    )

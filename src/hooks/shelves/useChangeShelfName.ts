@@ -2,22 +2,24 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from "axios";
 import { toast } from "../use-toast";
-export function useDeleteShelf() {
+export function useChangeShelfName() {
    const { user, getAccessTokenSilently } = useAuth0();
    const queryClient = useQueryClient();
    return useMutation({
-      mutationFn: async (shelfName:string) => {
+      mutationFn: async ({shelfName,newShelfName}:{shelfName:string,newShelfName:string}) => {
          if (!user?.sub) {
             throw new Error('User is not authenticated');
          }
+         console.log(shelfName,newShelfName)
          const accessToken = await getAccessTokenSilently();
          const addBookToShelfUrl = `${import.meta.env.VITE_BASE_API_URL}/shelves/${encodeURIComponent(user.sub)}/shelf`;
          await axios.request(
             {
-               method: "DELETE",
+               method: "PUT",
                url: addBookToShelfUrl,
                params: {
-                  name:shelfName
+                  oldName:shelfName,
+                  newName:newShelfName
                },
                headers: {
                   Authorization: `Bearer ${accessToken}`,
