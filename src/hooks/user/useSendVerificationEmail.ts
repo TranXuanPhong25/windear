@@ -2,11 +2,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "../use-toast";
-export function useSendVerificationEmail(userId: string) {
-   const{getAccessTokenSilently} = useAuth0();
+export function useSendVerificationEmail() {
+   const{user,getAccessTokenSilently} = useAuth0();
    return useMutation({
       mutationFn: async () => {
-         if (!userId) {
+        console.log(user)
+         if (!user) {
             throw new Error('User is not authenticated');
          }
          const accessToken = await getAccessTokenSilently();
@@ -20,11 +21,10 @@ export function useSendVerificationEmail(userId: string) {
                   Authorization: `Bearer ${accessToken}`,
                },
                data:{
-                  data: userId
+                  data: user.sub
                }
             }
          ).then(response => response.data);
-
          return response.ticket;
       },
       onSuccess: () => {

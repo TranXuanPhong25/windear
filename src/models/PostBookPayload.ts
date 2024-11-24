@@ -7,5 +7,8 @@ export  interface PostBookPayload  {
    releaseDate: string;
    publisher: string;
    imageUrl: string; 
+}
+export interface AddBookPayload{
    genres: string;
+   internalBook: PostBookPayload;
 }

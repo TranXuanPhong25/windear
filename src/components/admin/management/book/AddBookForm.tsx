@@ -11,11 +11,11 @@ import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
 import { format } from "date-fns"
-import { CalendarIcon } from 'lucide-react'
+import { CalendarIcon, X } from 'lucide-react'
 import { Calendar } from '@/components/ui/calendar'
 import { supabase } from '@/lib/supabaseClient'
 import { usePostBook } from '../../../../hooks/admin/usePostBook';
-import { PostBookPayload } from '@/models/PostBookPayload'
+import { AddBookPayload, PostBookPayload } from '@/models/PostBookPayload'
 import { compressImage } from '@/lib/compressImage'
 import { useGetAllGenres } from '@/hooks/book/useGetAllGenres'
 const formSchema = z.object({
@@ -95,17 +95,20 @@ export default function AddBookForm() {
       }
       const book: PostBookPayload = {
          ...values,
-         genres: tags.join(','),
          releaseDate: values.releaseDate.toISOString(),
          imageUrl: publicUrl,
          description: values.description || '',
          authorDescription: values.authorDescription || '',
       };
-      createBook(book);
+      const payload: AddBookPayload = {
+         genres: tagsIndices.join(','),
+         internalBook: book,
+      };
+      createBook(payload);
 
    }
 
-
+   console.log(tagsIndices)
    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter' && genreQuery.trim() !== '') {
          e.preventDefault();
@@ -113,7 +116,7 @@ export default function AddBookForm() {
            const selectedGenre = suggestGenres[selectedSuggestionIndex];
            if (!tags.includes(selectedGenre)) {
              setTags([...tags, selectedGenre]);
-             setTagsIndices([...tagsIndices, selectedSuggestionIndex]);
+             setTagsIndices([...tagsIndices, genres.indexOf(selectedGenre)]);
            }
            setGenreQuery('');
            setSuggestGenres([]);
@@ -133,7 +136,7 @@ export default function AddBookForm() {
   
     const handleRemoveTag = (tag: string) => {
       setTags(tags.filter(t => t !== tag));
-      setTagsIndices(tagsIndices.filter((_, index) => tags[index] !== tag));
+      setTagsIndices(tagsIndices.filter((tagIndex) => tags[tagIndex] !== tag));
     };
    return (
       <Form {...form}>
@@ -328,11 +331,11 @@ export default function AddBookForm() {
                    
                   </FormControl>
                   {suggestGenres.length > 0 && (
-                      <div className="absolute bg-white border border-gray-300 rounded-md mt-1  z-10">
+                      <div className="absolute dark:bg-gray-600 border border-gray-300 rounded-md mt-1  z-10 overflow-hidden">
                         {suggestGenres.map((genre: string,index:number) => (
                           <div
                             key={genre}
-                            className={`p-2 cursor-pointer hover:bg-gray-200 ${index === selectedSuggestionIndex ? 'bg-gray-200' : ''}`}
+                            className={`p-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700/70  ${index === selectedSuggestionIndex ? 'bg-gray-200 dark:bg-gray-700' : ''}`}
                             onClick={() => {
                               if (!tags.includes(genre)) {
                                 setTags([...tags, genre]);
@@ -350,14 +353,14 @@ export default function AddBookForm() {
                   <FormMessage />
                   <div className="mt-2 flex flex-wrap gap-2">
                     {tags.map((tag) => (
-                      <div key={tag} className="bg-gray-200 rounded-full px-3 py-1 text-sm flex items-center">
+                      <div key={tag} className="bg-gray-200 rounded-full px-3 py-1 text-sm flex items-center dark:bg-gray-700">
                         {tag}
                         <button
                           type="button"
                           className="ml-2 text-red-500"
                           onClick={() => handleRemoveTag(tag)}
                         >
-                          &times;
+                          <X className='size-4' />
                         </button>
                       </div>
                     ))}

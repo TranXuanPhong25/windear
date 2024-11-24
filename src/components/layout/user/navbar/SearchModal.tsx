@@ -9,7 +9,6 @@ import { useBookSearch } from '@/hooks/book/useBookSearch';
 import clsx from 'clsx';
 import BookSearchInfo from '@/models/BookSearchInfo';
 import { handlePlural } from '@/lib/utils';
-import {useAuth0} from "@auth0/auth0-react";
 interface SearchModalProps {
 
    isOpen: boolean;
@@ -17,8 +16,6 @@ interface SearchModalProps {
 }
 
 const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
-   const {user} = useAuth0();
-   console.log(user)
    const modalRef = useRef<HTMLDivElement>(null);
    const overlayRef = useRef<HTMLDivElement>(null);
    const [isVisible, setIsVisible] = useState(false);

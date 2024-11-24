@@ -36,12 +36,6 @@ function AccountSettings() {
                      </li>
                   ))
                }
-               {/* <li>
-                  <Link to="#delete-account" className="flex items-center p-2 text-red-500 rounded-lg dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-700 dark:hover:text-white group">
-                     <Trash2 className="w-5 h-5 text-red-500 transition- duration-75 dark:text-red-400 group-hover:text-red-500 dark:group-hover:text-white" />
-                     <span className="ms-3">Delete account</span>
-                  </Link>
-               </li> */}
             </ul>
          </div>
          <div className="w-full space-y-14">

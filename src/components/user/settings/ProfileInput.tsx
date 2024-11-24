@@ -16,7 +16,7 @@ import {Skeleton} from "@/components/ui/skeleton"
 import {useEffect} from "react";
 
 const FormSchema = z.object({
-    email: z.string().readonly().optional(),
+    email: z.string().email().optional(),
     username: z.string()
         .min(4, {
             message: "Username must be at least 4 characters.",
@@ -101,11 +101,17 @@ function ProfileInput() {
                     "bio": submitData.bio,
                     "pronouns": submitData.pronouns,
                 }
-                const requestBody = data?.username !== undefined ? {
-                    "username": submitData.username,
-                    "user_metadata": userMetadata
-                } : {
-                    "user_metadata": userMetadata
+                let requestBody;
+                if (data?.identities[0]?.provider === 'auth0') {
+                    requestBody = {
+                        "email": submitData.email,
+                        "username": submitData.username,
+                        "user_metadata": userMetadata
+                    }
+                } else {
+                    requestBody = {
+                        "user_metadata": userMetadata
+                    }
                 }
                 await axios.request(
                     {
@@ -115,7 +121,7 @@ function ProfileInput() {
                             Authorization: `Bearer ${accessToken}`,
                         },
                         data: {
-                            isSocial: data?.identities[0]?.provider !== 'auth0',
+                            isSocial: String(data?.identities[0]?.provider !== 'auth0'),
                             payload: JSON.stringify(requestBody)
                         }
                     }

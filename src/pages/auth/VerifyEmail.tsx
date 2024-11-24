@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const VerifyEmail = () => {
    const navigate = useNavigate();
    const { user } = useAuth0();
-   const { mutate: sendVerificationEmail ,isPending} = useSendVerificationEmail(user?.id);
+   const { mutate: sendVerificationEmail ,isPending} = useSendVerificationEmail();
    return (
       <div className="flex flex-col items-center justify-center min-h-screen dark:bg-gray-800 dark:text-white">
          <h1 className="text-5xl font-bold mb-4">Email Verification Required</h1>
