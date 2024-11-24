@@ -94,7 +94,7 @@ export default function BookShow() {
                }
                <ShelfAction customClass="w-full"  book={shelfBook} />
                <GetBook />
-               <StarRating initialRating={0} ratable onChange={() => { }} bookId={bookId} />
+               <StarRating ratable onChange={() => { }} bookId={bookId} />
             </div>
             {/* book detail */}
             <div className="flex-1 w-full font-sans md:ml-12 max-w-4xl">

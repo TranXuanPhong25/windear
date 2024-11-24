@@ -93,7 +93,7 @@ export default function ShelfAction({customClass = "w-full", book}: {
     return (
         <>
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-                <PopoverTrigger className={"dark:text-white rounded-lg px-4 py-2 mt-4 mb-2 text-lg dark:dark:bg-gray-700 border-b-2 dark:border-gray-600  bg-slate-200/80 border-slate-400 hover:bg-slate-300 " + customClass}>
+                <PopoverTrigger className={"dark:text-white rounded-lg px-4 py-2 mt-4 mb-2 text-lg dark:bg-gray-700 hover:dark:bg-slate-700 border-b-2 dark:border-gray-600  bg-slate-200/80 border-slate-400 hover:bg-slate-300 " + customClass}>
                     {!hasOnReadingList ? "Want to read" : readingList.map((list) => (shelvesOfBook.includes(list.name) ? list.name : ""))}
                 </PopoverTrigger>
 

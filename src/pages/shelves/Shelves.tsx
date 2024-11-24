@@ -51,7 +51,7 @@ export default function Shelves() {
                         <AccordionContent className="pl-3 pb-3 border-b-2 dark:border-gray-300/20 border-gray-400/50">
                             {
                                 readingList.map((shelf, index) => (
-                                    <div className="my-1 flex ">
+                                    <div className="my-1 flex " key={index}>
                                         <Checkbox id={"shelf-" + shelf} className="mt-[1px]"
                                                   onCheckedChange={() => handleCheckboxChange(shelf)}/>
                                         <div className="ml-1 break-words break-all ">
@@ -108,7 +108,7 @@ export default function Shelves() {
                                     ) : (
                                         isLoadingShelvesData ? <LoadingBlock/> : shelf.books.map((book) => (
                                             <div key={book.id}
-                                                 className="flex w-full mt-10 mb-10 border-b-2 dark:border-gray-300/20 border-gray-400/50 relative items-center dark:bg-gray-700 rounded-xl bg-zinc-200/30   ">
+                                                 className="flex w-full mt-10 mb-10 border-b-2 dark:border-gray-300/20 border-gray-400/50 relative items-center dark:bg-slate-600 rounded-xl bg-zinc-200/30   ">
                                                 <img src={book.imageUrl || "/book-cover-unavailable-placeholder.jpg"}
                                                      alt={book.title}
                                                      className="object-fit w-[200px] rounded-r-xl rounded-l-sm  -mt-8 -mb-2  ml-4 shadow-[0px_7px_20px_0px_rgba(10,10,10,0.4)] "/>

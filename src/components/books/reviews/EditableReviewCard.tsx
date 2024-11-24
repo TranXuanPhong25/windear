@@ -9,6 +9,7 @@ import StarRating from "../StarRating";
 import { Button } from "@/components/ui/button";
 import { usePostReview } from "@/hooks/book/usePostReview";
 import { useAuth0 } from "@auth0/auth0-react";
+import LoadingBlock from "@/components/layout/LoadingBlock.tsx";
 interface EditableReviewCard {
    reviewId: number,
    bookId: number;
@@ -55,7 +56,7 @@ export default function EditableReviewCard({
       }
    }, [isNewReview, content])
    return (
-      <Card className="mb-4 dark:bg-gray-800 border-0 shadow-none border-b dark:border-gray-400">
+      <Card className="mb-4 dark:bg-gray-800 border-0 shadow-none border-b dark:border-gray-400 p-4">
          <CardTitle className="flex justify-between items-center ">
             <div className="flex items-center">
                <Avatar className="size-16">
@@ -74,7 +75,7 @@ export default function EditableReviewCard({
                   <ExpandableParagraph text={newReviewContent || "No content"} />
                </CardContent>
             ) : (
-               <Suspense fallback={<div>Loading...</div>}>
+               <Suspense fallback={<LoadingBlock/>}>
                   <ReviewEditor review={newReviewContent || ""} onChange={setNewReviewContent} />
                </Suspense>
 
