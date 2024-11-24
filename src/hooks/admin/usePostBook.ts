@@ -36,7 +36,7 @@ export function usePostBook() {
          toast(
             {
                title: "Error",
-               description: (axios.isAxiosError(error) && error.response?.status === 429) ? "Too many requests. Please try again later." : "Unable to add book.",
+               description: (axios.isAxiosError(error) && error.response?.status === 429) ? "Too many requests. Please try again later." : (error.response?.data as { message: string }).message,
                className: "!bg-red-500 mb-4",
             }
          )

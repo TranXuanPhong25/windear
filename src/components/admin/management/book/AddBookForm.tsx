@@ -45,7 +45,7 @@ export default function AddBookForm() {
    const [image, setImage] = useState<File | null>(null);
    const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState<number>(0);
    const [tagsIndices, setTagsIndices] = useState<number[]>([]);
-   const firstInputRef=useRef<HTMLInputElement>(null);
+   const firstInputRef = useRef<HTMLInputElement>(null);
    const { mutate: createBook, isPending } = usePostBook();
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -68,6 +68,10 @@ export default function AddBookForm() {
    })
    const uploadImageToSupabase = async (file: File) => {
       // return;
+      if (!file) {
+         return { data: null, error: new Error('No image to upload') };
+      }
+
       const compressedFile = await compressImage(file);
       if (!compressedFile) return { data: null, error: new Error('Failed to upload Image') };
 
@@ -83,7 +87,6 @@ export default function AddBookForm() {
 
    async function onSubmit(values: z.infer<typeof formSchema>) {
 
-      // console.log(await compressImage(image as File));
       const { data: publicUrl, error } = await uploadImageToSupabase(image as File);
       if (error) {
          toast({
@@ -108,36 +111,35 @@ export default function AddBookForm() {
 
    }
 
-   console.log(tagsIndices)
    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter' && genreQuery.trim() !== '') {
          e.preventDefault();
          if (selectedSuggestionIndex >= 0 && selectedSuggestionIndex < suggestGenres.length) {
-           const selectedGenre = suggestGenres[selectedSuggestionIndex];
-           if (!tags.includes(selectedGenre)) {
-             setTags([...tags, selectedGenre]);
-             setTagsIndices([...tagsIndices, genres.indexOf(selectedGenre)]);
-           }
-           setGenreQuery('');
-           setSuggestGenres([]);
-           setSelectedSuggestionIndex(0);
+            const selectedGenre = suggestGenres[selectedSuggestionIndex];
+            if (!tags.includes(selectedGenre)) {
+               setTags([...tags, selectedGenre]);
+               setTagsIndices([...tagsIndices, genres.indexOf(selectedGenre)]);
+            }
+            setGenreQuery('');
+            setSuggestGenres([]);
+            setSelectedSuggestionIndex(0);
          } else if (!tags.includes(genreQuery.trim())) {
-         //   setTags([...tags, genreQuery.trim()]);
-           setGenreQuery('');
+            //   setTags([...tags, genreQuery.trim()]);
+            setGenreQuery('');
          }
-       } else if (e.key === 'ArrowDown') {
+      } else if (e.key === 'ArrowDown') {
          e.preventDefault();
          setSelectedSuggestionIndex((prevIndex) => (prevIndex + 1) % suggestGenres.length);
-       } else if (e.key === 'ArrowUp') {
+      } else if (e.key === 'ArrowUp') {
          e.preventDefault();
          setSelectedSuggestionIndex((prevIndex) => (prevIndex - 1 + suggestGenres.length) % suggestGenres.length);
-       }
-    };
-  
-    const handleRemoveTag = (tag: string) => {
+      }
+   };
+
+   const handleRemoveTag = (tag: string) => {
       setTags(tags.filter(t => t !== tag));
       setTagsIndices(tagsIndices.filter((tagIndex) => tags[tagIndex] !== tag));
-    };
+   };
    return (
       <Form {...form}>
          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-3xl mx-auto space-y-6">
@@ -311,63 +313,63 @@ export default function AddBookForm() {
                   />
                </div>
                <FormField
-              control={form.control}
-              name="genres"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Genre</FormLabel>
-                  <FormControl >
-                    <Input
-                      {...field}
-                      value={genreQuery}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        setGenreQuery(e.target.value);
-                        setSuggestGenres(genres.map((genre: string) => genre.toLowerCase()).filter((genre: string | string[]) => genre.includes(e.target.value.toLowerCase())));
-                      }}
-                      onKeyDown={handleKeyDown}
-                      autoComplete="off"
-                    />
-                   
-                  </FormControl>
-                  {suggestGenres.length > 0 && (
-                      <div className="absolute dark:bg-gray-600 border border-gray-300 rounded-md mt-1  z-10 overflow-hidden">
-                        {suggestGenres.map((genre: string,index:number) => (
-                          <div
-                            key={genre}
-                            className={`p-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700/70  ${index === selectedSuggestionIndex ? 'bg-gray-200 dark:bg-gray-700' : ''}`}
-                            onClick={() => {
-                              if (!tags.includes(genre)) {
-                                setTags([...tags, genre]);
-                                 setTagsIndices([...tagsIndices, index]);
-                              }
-                              setGenreQuery('');
-                              setSuggestGenres([]);
-                            }}
-                          >
-                            {genre}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  <FormMessage />
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {tags.map((tag) => (
-                      <div key={tag} className="bg-gray-200 rounded-full px-3 py-1 text-sm flex items-center dark:bg-gray-700">
-                        {tag}
-                        <button
-                          type="button"
-                          className="ml-2 text-red-500"
-                          onClick={() => handleRemoveTag(tag)}
-                        >
-                          <X className='size-4' />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </FormItem>
-              )}
-            />
+                  control={form.control}
+                  name="genres"
+                  render={({ field }) => (
+                     <FormItem>
+                        <FormLabel>Genre</FormLabel>
+                        <FormControl >
+                           <Input
+                              {...field}
+                              value={genreQuery}
+                              onChange={(e) => {
+                                 field.onChange(e);
+                                 setGenreQuery(e.target.value);
+                                 setSuggestGenres(genres.map((genre: string) => genre.toLowerCase()).filter((genre: string | string[]) => genre.includes(e.target.value.toLowerCase())));
+                              }}
+                              onKeyDown={handleKeyDown}
+                              autoComplete="off"
+                           />
+
+                        </FormControl>
+                        {suggestGenres.length > 0 && (
+                           <div className="absolute dark:bg-gray-600 border border-gray-300 rounded-md mt-1  z-10 overflow-hidden">
+                              {suggestGenres.map((genre: string, index: number) => (
+                                 <div
+                                    key={genre}
+                                    className={`p-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700/70  ${index === selectedSuggestionIndex ? 'bg-gray-200 dark:bg-gray-700' : ''}`}
+                                    onClick={() => {
+                                       if (!tags.includes(genre)) {
+                                          setTags([...tags, genre]);
+                                          setTagsIndices([...tagsIndices, index]);
+                                       }
+                                       setGenreQuery('');
+                                       setSuggestGenres([]);
+                                    }}
+                                 >
+                                    {genre}
+                                 </div>
+                              ))}
+                           </div>
+                        )}
+                        <FormMessage />
+                        <div className="mt-2 flex flex-wrap gap-2">
+                           {tags.map((tag) => (
+                              <div key={tag} className="bg-gray-200 rounded-full px-3 py-1 text-sm flex items-center dark:bg-gray-700">
+                                 {tag}
+                                 <button
+                                    type="button"
+                                    className="ml-2 text-red-500"
+                                    onClick={() => handleRemoveTag(tag)}
+                                 >
+                                    <X className='size-4' />
+                                 </button>
+                              </div>
+                           ))}
+                        </div>
+                     </FormItem>
+                  )}
+               />
                <FormField
                   control={form.control}
                   name="description"

@@ -4,12 +4,15 @@ import { Input } from "./ui/input";
 import { Pencil, PlusCircle, X } from "lucide-react";
 import clsx from "clsx";
 import { compressImage } from "@/lib/compressImage";
-export default function DropZone({ onDropFile }: { onDropFile: (file: File) => void }) {
+export default function DropZone({ onDropFile }: { onDropFile: (file: File | null) => void }) {
    const [image, setImage] = useState<File | null>(null);
    const [previewUrl, setPreviewUrl] = useState("");
    const handleRemoveImage = () => {
       setImage(null);
       setPreviewUrl("");
+      if (typeof onDropFile === 'function') {
+         onDropFile(null);
+      }
    };
    const onDrop = useCallback((acceptedFiles: File[]) => {
       
