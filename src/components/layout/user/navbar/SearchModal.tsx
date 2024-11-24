@@ -9,6 +9,7 @@ import { useBookSearch } from '@/hooks/book/useBookSearch';
 import clsx from 'clsx';
 import BookSearchInfo from '@/models/BookSearchInfo';
 import { handlePlural } from '@/lib/utils';
+import {useAuth0} from "@auth0/auth0-react";
 interface SearchModalProps {
 
    isOpen: boolean;
@@ -16,6 +17,8 @@ interface SearchModalProps {
 }
 
 const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
+   const {user} = useAuth0();
+   console.log(user)
    const modalRef = useRef<HTMLDivElement>(null);
    const overlayRef = useRef<HTMLDivElement>(null);
    const [isVisible, setIsVisible] = useState(false);
@@ -78,7 +81,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
 
    return (
       <div ref={overlayRef} className="fixed inset-0 z-50 flex justify-center  bg-opacity-80 bg-black dark:text-white ">
-         <div ref={modalRef} className="dark:bg-gray-800/90 rounded-2xl shadow-lg  w-full max-w-2xl h-fit mt-10 bg-[#f4f1ea] backdrop-blur-md border-gray-300/50 border-2">
+         <div ref={modalRef} className="dark:bg-gray-800/90 rounded-2xl shadow-lg  w-full max-w-2xl h-fit mt-10 bg-slate-100 backdrop-blur-md border-gray-300/50 border-2 m-5">
             <div className="flex justify-between items-center relative mx-4 mt-6">
 
                <Label htmlFor="search-in-nav">
@@ -116,10 +119,10 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                               searchResults.map((result: BookSearchInfo) => (
                                  result && (
                                      <div key={result.node.legacyId}
-                                          className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 cursor-pointer overflow-hidden">
-                                        <div className='mr-4 min-w-36 w-36 '>
+                                          className="flex p-4 border-b-2 border-gray-400/40 hover:dark:bg-gray-700 hover:bg-slate-50 cursor-pointer overflow-hidden ">
+                                        <div className='mr-4 min-w-32 w-32 '>
                                            <img src={result.node.imageUrl || "/book-cover-unavailable-placeholder.jpg"}
-                                                alt={result.node.title} className=" w-36 rounded-r-xl rounded-l-sm"/>
+                                                alt={result.node.title} className=" w-32 rounded-r-xl rounded-l-sm"/>
                                         </div>
                                         <div className='flex flex-col justify-between'>
                                            <div>
