@@ -65,7 +65,7 @@ export default function EditableReviewCard({
                <h3 className="text-lg font-bold dark:text-white ml-2">{userName}</h3>
             </div>
             <div>
-               <StarRating initialRating={rating} ratable onChange={setNewRating} />
+               <StarRating initialRating={rating} ratable onChange={setNewRating} bookId={bookId+""} />
             </div>
          </CardTitle>
          {

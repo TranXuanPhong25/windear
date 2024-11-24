@@ -15,7 +15,7 @@ export default function GoodReadsReviews({ workId }: { workId: string }) {
    const { isLoading, data } = useGoodReadsReviews(workId, inView);
    const reviews: GoodreadsReview[] = data?.data.getReviews.edges
    return (
-      <Card className="dark:bg-gray-800 border-0 shadow-none " ref={ref}>
+      <Card className="dark:bg-gray-800 border-0 shadow-none p-3" ref={ref}>
          {
             isLoading || !workId || !data ? <LoadingBlock className="w-full h-60" /> :
                <CardContent className="p-0">

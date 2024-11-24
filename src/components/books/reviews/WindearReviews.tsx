@@ -13,7 +13,7 @@ export default function WindearReviews({ bookId }: { bookId: string | undefined 
    const { isLoading, data } = useWindearReviews(bookId, inView);
    
    return (
-      <Card className="dark:bg-gray-800 border-0 shadow-none" ref={ref}>
+      <Card className="dark:bg-gray-800 border-0 shadow-none p-3 " ref={ref}>
          {
             isLoading || !bookId ||!data? <LoadingBlock className="w-full h-60"/> :
                <CardContent className="p-0">
