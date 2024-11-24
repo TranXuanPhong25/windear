@@ -1,10 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-export function useGetShelvesOfBook(bookId:string) {
+export function useGetMyShelvesName() {
    const { user,getAccessTokenSilently } = useAuth0();
    return useQuery({
-      queryKey: ['shelves', user?.sub,"book",bookId],
+      queryKey: ['shelves', user?.sub],
       queryFn: async () => {
          if(!user?.sub){
             return [];
@@ -12,7 +12,7 @@ export function useGetShelvesOfBook(bookId:string) {
          const domain = `${import.meta.env.VITE_BASE_API_URL}`;
          const accessToken = await getAccessTokenSilently();
          const encodedUserId = encodeURIComponent( user?.sub);
-         const userReviewUrl = `${domain}/shelves/${encodedUserId}/${bookId}`;
+         const userReviewUrl = `${domain}/shelves/shelfName/${encodedUserId}`;
          const responseData = await axios(userReviewUrl, {
             method: 'GET',
             headers: {
@@ -21,11 +21,14 @@ export function useGetShelvesOfBook(bookId:string) {
             },
          }).then(response => response.data)
             .catch((error) => {
-               console.error(error.response.data);
+               return error.response.data;
             })
-         return responseData || [];
+         if(responseData){
+            return responseData.filter((shelf:string)=>!(["Want to read","Currently reading","Read"].includes(shelf)));
+         }
+         return [];
       },
-      enabled: (!!user && !!bookId),
+      enabled: !!user,
       staleTime: 1000 * 60 * 60 * 10,
    });
 }
