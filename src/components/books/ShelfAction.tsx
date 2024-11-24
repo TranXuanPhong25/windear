@@ -3,7 +3,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import {Close} from "@radix-ui/react-popover";
+import {Close} from "@radix-ui/react-popover"
 import {BookCheckIcon, BookmarkIcon, BookOpenTextIcon, Loader} from "lucide-react";
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "../ui/dialog";
 import React, {useEffect} from "react";
@@ -25,6 +25,7 @@ export default function ShelfAction({customClass = "w-full", book}: {
     customClass?: string,
     book: BookInShelfPayload
 }) {
+    console.log(book)
     const {user} = useAuth0();
     const queryClient = useQueryClient();
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -32,12 +33,23 @@ export default function ShelfAction({customClass = "w-full", book}: {
     const {data: shelvesOfBook, isLoading} = useGetShelvesOfBook(book.id);
     const {mutate: addBookToShelves} = useAddBookInShelves();
     const [hasOnReadingList, setHasOnReadingList] = React.useState(false);
+    const [shouldInvalidateQuery, setShouldInvalidateQuery] = React.useState(false);
     useEffect(() => {
         if (shelvesOfBook) {
             setHasOnReadingList(readingList.some((list) => shelvesOfBook.includes(list.name)))
         }
     }, [shelvesOfBook])
+
+    useEffect(() => {
+        if (shouldInvalidateQuery&&!isModalOpen&&!isPopoverOpen) {
+            queryClient.invalidateQueries({
+                queryKey: ['shelves', user?.sub]
+            })
+            setShouldInvalidateQuery(false)
+        }
+    }, [isModalOpen, isPopoverOpen, queryClient, shouldInvalidateQuery, user?.sub]);
     const handlePopoverClick = (shelfName: string) => {
+
         addBookToShelves(
             {
                 shelfNames: [shelfName],
@@ -50,17 +62,18 @@ export default function ShelfAction({customClass = "w-full", book}: {
                     toast({
                         title: "Book added to shelf",
                         description: `The book has been added to your ${shelfName} shelf`,
-                        className: "bg-green-500 text-white mb-4"
+                        className: "!bg-green-500 text-white mb-4"
                     })
                     queryClient.invalidateQueries({
                         queryKey: ['shelves', user?.sub,"book",book.id]
                     })
+                    setShouldInvalidateQuery(true)
                 },
                 onError: (error) => {
                     toast({
                         title: "Error",
                         description: error.message,
-                        className: "bg-red-500 text-white mb-4"
+                        className: "!bg-red-500 text-white mb-4"
                     })
                 }
             }
@@ -81,7 +94,7 @@ export default function ShelfAction({customClass = "w-full", book}: {
     return (
         <>
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-                <PopoverTrigger className={"bg-white text-black rounded-lg px-4 py-2 mt-4 mb-2 text-lg border-2 border-zinc-200  " + customClass}>
+                <PopoverTrigger className={"bg-purple-500  hover:bg-purple-600 text-white rounded-lg px-4 py-2 mt-4 mb-2 text-lg border-2 border-purple-400  " + customClass}>
                     {!hasOnReadingList ? "Want to read" : readingList.map((list) => (shelvesOfBook.includes(list.name) ? list.name : ""))}
                 </PopoverTrigger>
 
@@ -120,8 +133,9 @@ export default function ShelfAction({customClass = "w-full", book}: {
                     </DialogHeader>
                     <MultiShelfSelector book={book} onSaveCompleted={handleSaveChange}
                                         alreadyInShelves={getJustShelves((shelvesOfBook))}/>
-                    <DialogDescription className="text-center text-gray-500 dark:text-gray-400 text-sm mt-2">You can always change this
-                        later</DialogDescription>
+                    <DialogDescription className="text-center text-gray-500 dark:text-gray-400 text-sm mt-2">
+                        You can always change this later</DialogDescription>
+
                 </DialogContent>
             </Dialog></>
     )

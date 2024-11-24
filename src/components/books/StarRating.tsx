@@ -75,6 +75,7 @@ export default function StarRating({ title = "Your rating", initialRating = 0, r
   const handleClear = useCallback(() => {
     if (!ratable) return;
     setRating(0)
+    rateBook(0);
     if (onChange) {
       onChange(0)
     }

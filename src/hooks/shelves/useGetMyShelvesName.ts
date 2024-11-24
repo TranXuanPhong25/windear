@@ -4,11 +4,12 @@ import axios from "axios";
 export function useGetMyShelvesName() {
    const { user,getAccessTokenSilently } = useAuth0();
    return useQuery({
-      queryKey: ['shelves', user?.sub],
+      queryKey: ['shelves-name', user?.sub],
       queryFn: async () => {
          if(!user?.sub){
             return [];
          }
+
          const domain = `${import.meta.env.VITE_BASE_API_URL}`;
          const accessToken = await getAccessTokenSilently();
          const encodedUserId = encodeURIComponent( user?.sub);

@@ -114,51 +114,60 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                         {
                            searchResults && searchResults.length > 0 ? (
                               searchResults.map((result: BookSearchInfo) => (
-                                 <div key={result.node.legacyId} className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 cursor-pointer overflow-hidden">
-                                    <div className='mr-4 min-w-36 w-36 '>
-                                       <img src={result.node.imageUrl || "/book-cover-unavailable-placeholder.jpg"} alt={result.node.title} className=" w-36 rounded-r-xl rounded-l-sm" />
-                                    </div>
-                                    <div className='flex flex-col justify-between'>
-                                       <div>
-                                          <h2 className='text-2xl text-ellipsis'>{result.node.title}</h2>
-                                          <p><span className='font-sans'>By</span> {result.node?.primaryContributorEdge.node.name || "unknown"}</p>
-                                          <p className='flex items-center'>
-                                             {result.node.stats.averageRating != null ? (
-                                                <>
-                                                   <span className='font-sans'>Rating:</span>
-                                                   <span className='ml-2 mr-1'>
+                                 result && (
+                                     <div key={result.node.legacyId}
+                                          className="flex p-4 border-b-2 border-gray-400/40 hover:bg-gray-700 cursor-pointer overflow-hidden">
+                                        <div className='mr-4 min-w-36 w-36 '>
+                                           <img src={result.node.imageUrl || "/book-cover-unavailable-placeholder.jpg"}
+                                                alt={result.node.title} className=" w-36 rounded-r-xl rounded-l-sm"/>
+                                        </div>
+                                        <div className='flex flex-col justify-between'>
+                                           <div>
+                                              <h2 className='text-2xl text-ellipsis'>{result.node.title}</h2>
+                                              <p><span
+                                                  className='font-sans'>By</span> {result.node?.primaryContributorEdge.node.name || "unknown"}
+                                              </p>
+                                              <p className='flex items-center'>
+                                                 {result.node.stats.averageRating != null ? (
+                                                         <>
+                                                            <span className='font-sans'>Rating:</span>
+                                                            <span className='ml-2 mr-1'>
                                                       {result.node.stats.averageRating}
                                                    </span>
 
-                                                   <Star className="h-4 w-4 text-yellow-500 inline-block" fill="rgb(234,179,8)" />
-                                                </>
-                                             ) :
-                                                <span className='font-sans'>Not rated yet</span>
-                                             }
-                                          </p>
-                                          <p>
-                                             {handlePlural(result.node.stats.ratingsCount, "rating")}, {handlePlural(result.node.work.reviews.totalCount, "review")}
-                                          </p>
+                                                            <Star className="h-4 w-4 text-yellow-500 inline-block"
+                                                                  fill="rgb(234,179,8)"/>
+                                                         </>
+                                                     ) :
+                                                     <span className='font-sans'>Not rated yet</span>
+                                                 }
+                                              </p>
+                                              <p>
+                                                 {handlePlural(result.node.stats.ratingsCount, "rating")}, {handlePlural(result.node.work.reviews.totalCount, "review")}
+                                              </p>
 
-                                       </div>
-                                       <Link to={`/books/${result.node.legacyId}`} onClick={onClose} className='flex items-center'>
-                                          <Button className="bg-gray-800 rounded-full  sm:rounded-md w-fit">
-                                             <span>View</span>
-                                             <ArrowUpRightFromSquare className="h-4 w-4 dark:text-black text-white ml-1" />
-                                          </Button>
-                                       </Link>
-                                    </div>
+                                           </div>
+                                           <Link to={`/books/${result.node.legacyId}`} onClick={onClose}
+                                                 className='flex items-center'>
+                                              <Button className="bg-gray-800 rounded-full  sm:rounded-md w-fit">
+                                                 <span>View</span>
+                                                 <ArrowUpRightFromSquare
+                                                     className="h-4 w-4 dark:text-black text-white ml-1"/>
+                                              </Button>
+                                           </Link>
+                                        </div>
 
-                                 </div>
+                                     </div>
+                                 )
                               ))
                            ) : (
-                              <div className='flex justify-center items-center h-28'>
-                                 <h2 className='font-sans text-xl'>
-                                    {
-                                       searchQuery.length > 0 && searchResults ? "No results found" : "You can search by title, author, isbn"
-                                    }
-                                 </h2>
-                              </div>
+                               <div className='flex justify-center items-center h-28'>
+                                  <h2 className='font-sans text-xl'>
+                                     {
+                                        searchQuery.length > 0 && searchResults ? "No results found" : "You can search by title, author, isbn"
+                                     }
+                                  </h2>
+                               </div>
                            )
                         }
                      </ScrollArea>
@@ -166,7 +175,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
                }
             </div>
          </div>
-      </div >
+      </div>
    );
 };
 

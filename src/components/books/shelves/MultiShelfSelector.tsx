@@ -45,6 +45,7 @@ export default function MultiShelfSelector({book, onSaveCompleted, alreadyInShel
     const {toast} = useToast();
     const {mutate: createShelf} = useCreateShelf();
     const {data: myShelves, isLoading: isGettingMyShelves} = useGetMyShelvesName();
+    console.log(myShelves)
     const {mutate: callDeleteShelf} = useDeleteShelf();
     const {mutate: changeShelfName} = useChangeShelfName();
     const {mutate: deleteBookInShelves} = useDeleteBookInShelves();
@@ -71,8 +72,7 @@ export default function MultiShelfSelector({book, onSaveCompleted, alreadyInShel
             toast({
                 title: "Error",
                 description: "Shelf name cannot be empty.",
-                variant: "destructive",
-                className: "mb-4",
+                className: "mb-4 !bg-red-500 text-white",
             });
             return false;
         }
@@ -92,8 +92,7 @@ export default function MultiShelfSelector({book, onSaveCompleted, alreadyInShel
             toast({
                 title: "Error",
                 description: "Shelf name already exists.",
-                variant: "destructive",
-                className: "mb-4",
+                className: "mb-4 !bg-red-500 text-white",
             });
             return;
         }
@@ -119,8 +118,7 @@ export default function MultiShelfSelector({book, onSaveCompleted, alreadyInShel
             toast({
                 title: "Error",
                 description: "Shelf name already exists.",
-                variant: "destructive",
-                className: "mb-4",
+                className: "mb-4 !bg-red-500 text-white",
             });
             return;
         }
@@ -191,7 +189,7 @@ export default function MultiShelfSelector({book, onSaveCompleted, alreadyInShel
                                 toast({
                                     title: "Success",
                                     description: "Update your shelves successfully",
-                                    className: "mb-4 bg-green-500 text-white"
+                                    className: "mb-4 !bg-green-500 text-white"
                                 })
                                 // queryClient.invalidateQueries({
                                 //     queryKey: ['shelves', user?.sub, "book", book.id]
@@ -201,8 +199,7 @@ export default function MultiShelfSelector({book, onSaveCompleted, alreadyInShel
                                 toast({
                                     title: "Error remove book from shelves",
                                     description: error.message,
-                                    variant: "destructive",
-                                    className: "mb-4",
+                                    className: "mb-4 !bg-red-500 text-white",
                                 });
                             }
                         }
@@ -212,8 +209,7 @@ export default function MultiShelfSelector({book, onSaveCompleted, alreadyInShel
                     toast({
                         title: "Error update your shelves",
                         description: error.message,
-                        variant: "destructive",
-                        className: "mb-4",
+                        className: "mb-4 !bg-red-500 text-white",
                     });
                 }
             }

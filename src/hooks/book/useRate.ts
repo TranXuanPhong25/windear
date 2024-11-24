@@ -11,6 +11,9 @@ export function useRate(bookId:string) {
          if (!user?.sub) {
             throw new Error('User is not authenticated');
          }
+         if(!bookId){
+            return;
+         }
          const accessToken = await getAccessTokenSilently();
          const rateUrl = `${import.meta.env.VITE_BASE_API_URL}/review/rate`;
          const response = await axios.request(
@@ -34,6 +37,7 @@ export function useRate(bookId:string) {
          return response.ticket;
       },
       onSuccess: () => {
+          if(!bookId) return;
          toast({
             title: "Success",
             description: "Successfully update your review.",

@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-export function useGetMyShelvesName() {
+export function useGetMyShelves() {
     const { user,getAccessTokenSilently } = useAuth0();
     return useQuery({
         queryKey: ['shelves', user?.sub],
@@ -23,7 +23,9 @@ export function useGetMyShelvesName() {
                 .catch((error) => {
                     return error.response.data;
                 })
-            return responseData||[];
+            return responseData||{
+                shelves:[]
+            };
         },
         enabled: !!user,
         staleTime: 1000 * 60 * 60 * 10,
