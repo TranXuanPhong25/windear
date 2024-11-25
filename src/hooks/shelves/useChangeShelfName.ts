@@ -33,7 +33,7 @@ export function useChangeShelfName() {
             description: "Successfully delete shelf " + variables,
             className: "mb-4  bg-green-400 dark:bg-green-600  ",
          })
-         queryClient.invalidateQueries({queryKey:['shelves',user?.sub]})
+         queryClient.invalidateQueries({queryKey:['shelves-name',user?.sub]})
       },
       onError: (error: AxiosError) => {
 

@@ -302,7 +302,10 @@ export default function MultiShelfSelector({book, onSaveCompleted, alreadyInShel
                                                 </AlertDialogHeader>
                                                 <AlertDialogFooter>
                                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                    <AlertDialogAction onClick={() => deleteShelf(shelf)}>
+                                                    <AlertDialogAction
+                                                        className="dark:bg-red-100 dark:hover:bg-red-500 dark:text-red-500 dark:hover:text-white"
+                                                        onClick={() => deleteShelf(shelf)}
+                                                    >
                                                         Delete
                                                     </AlertDialogAction>
                                                 </AlertDialogFooter>
