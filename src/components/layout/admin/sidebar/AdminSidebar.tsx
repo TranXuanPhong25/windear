@@ -1,4 +1,14 @@
-import { ChevronDown, LogOut,  Circle, Activity, House, LibraryBig, List, UserRoundCog } from "lucide-react"
+import {
+   ChevronDown,
+   LogOut,
+   Circle,
+   Activity,
+   House,
+   LibraryBig,
+   UserRoundCog,
+   NotepadText,
+   BookUser
+} from "lucide-react"
 import clsx from 'clsx';
 
 import {
@@ -22,6 +32,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
 import { useState } from "react";
 import Users from "@/components/icons/fontawesome/Users";
+import {useAuth0} from "@auth0/auth0-react";
 // Menu items.
 const sidebarGroups = [
    {
@@ -30,13 +41,13 @@ const sidebarGroups = [
       items: [
          {
             title: "Analytics",
-            url: "analystics",
+            url: "analytics",
             icon: Activity
          },
          {
             title: "Logs",
             url: "logs",
-            icon: List
+            icon: NotepadText
          }
       ]
    },
@@ -44,15 +55,21 @@ const sidebarGroups = [
       name: "Management",
       groupUrl: "management",
       items: [
-         {
-            title: "Users",
-            url: "users",
-            icon: Users
-         },
+
          {
             title: "Books",
             url: "books",
             icon: LibraryBig
+         },
+         {
+            title: "Borrowing",
+            url: "borrowing",
+            icon: BookUser
+         },
+         {
+            title: "Users",
+            url: "users",
+            icon: Users
          }
       ]
    }
@@ -67,6 +84,7 @@ const userItems = [
 ]
 export default function AdminSidebar() {
    const location = useLocation();
+   const { user } = useAuth0();
    const [activeButton, setActiveButton] = useState<string>(location.pathname.split("/").slice(-1)[0]);
    const { open } = useSidebar();
    return (
@@ -176,12 +194,12 @@ export default function AdminSidebar() {
                            <SidebarMenuButton asChild className="px-2"  >
                               <div >
                                  <Avatar className={clsx("cursor-pointer", open ? "size-7" : "size-6 mr-2")}>
-                                    <AvatarImage src="/react.svg" />
+                                    <AvatarImage src={user?.picture}/>
                                     <AvatarFallback><Circle /></AvatarFallback>
                                  </Avatar>
                                  <div className="flex flex-col ">
-                                    <span className="text-sm font-semibold">Admin</span>
-                                    <span className="text-xs">Windear</span>
+                                    <span className="text-sm font-semibold">{user?.name}</span>
+                                    <span className="text-xs">{user?.email}</span>
                                  </div>
                                  <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                               </div>

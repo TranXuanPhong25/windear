@@ -84,7 +84,7 @@ export default function DropZone({ onDropFile, editingBookImageUrl }: { onDropFi
          </div>
          <div className="absolute transition-all top-[55%] left-1/2 -translate-x-1/2 group-hover:top-1/2 opacity-0 group-hover:opacity-100 -translate-y-1/2">
             {
-               image && (
+                (image || previewUrl )&& (
                   <div className="flex items-center gap-3 ">
                      <div className="bg-sky-500/70 text-white grid place-content-center size-10 rounded-full cursor-pointer hover:bg-sky-500" onClick={open}>
                         <Pencil className="size-5"/>

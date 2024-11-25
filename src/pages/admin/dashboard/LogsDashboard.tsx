@@ -9,7 +9,7 @@ const preProcessData = (data: Auth0Log[]) => {
 }
 function LogsDashboard() {
   const { data: logs, isLoading, error } = useGetLogs();
-  if (isLoading) return <LoadingBlock className="h-[70vh]" />;
+  if (isLoading) return <LoadingBlock className="h-[70vh] !bg-transparent" />;
   if (error) return <div>Error: {error.message}</div>;
 
   const processedData = logs ? preProcessData(logs) as Auth0Log[] : [];

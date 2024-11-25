@@ -12,12 +12,12 @@ function BooksManagement() {
 
 	return (
 		<div>
-			<InfoCard title="New	 books added in the last 30 days." className="!bg-blue-500  text-white w-fit mb-6" value={numOfBookIn30Days} icon={BookPlusIcon} />
 			<div className="flex gap-6 flex-wrap min-[1480px]:flex-nowrap">
 				<div className="w-full p-6 dark:bg-slate-600 bg-white rounded-2xl shadow-md  h-fit  2xl:basis-4/5">
 					<AddBookForm />
 				</div>
 				<div className="w-full p-6 dark:bg-slate-600 bg-white rounded-2xl shadow-md  ">
+			<InfoCard title="New books added in the last 30 days." className="!bg-blue-500  text-white w-fit mb-6" value={numOfBookIn30Days} icon={BookPlusIcon} />
 					<h1 className="text-3xl font-bold">
 						Recently Added Books
 					</h1>

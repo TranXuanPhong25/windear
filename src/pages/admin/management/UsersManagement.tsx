@@ -6,6 +6,7 @@ import LoadingBlock from "@/components/layout/LoadingBlock";
 import { User } from "@/models/User";
 import { UsersIcon } from "lucide-react";
 import { useGetActiveUsers } from "@/hooks/admin/useGetActiveUsers";
+import {useEffect} from "react";
 
 const preProcessData = (data: User[]) => {
     return data.map(replaceUnderscores);
@@ -15,6 +16,9 @@ function UsersManagement() {
     const { data: users, error: errorGetUsers, isPending: isGettingUsers } = useGetUsers();
     const activeUser = isGettingActiveUser || errorGetActiveUser ? "..." : activeUserResponse;
     const processedData = users ? preProcessData(users.users) as User[] : [];
+    useEffect(() => {
+        document.title = "Users Management | Admin";
+    }, []);
     // const {total:totalCount} = users || {start:0,limit:0,length:0,totalCount:0};
     return (
         <div>

@@ -11,6 +11,7 @@ import NotFound from './pages/notfound/NotFound';
 import LoadingBlock from './components/layout/LoadingBlock';
 import AdminGuard from './components/auth/AdminGuard';
 import VerifyEmail from './pages/auth/VerifyEmail';
+import BorrowingManagement from "@/pages/admin/management/BorrowingManagement.tsx";
 
 // Lazy load components
 const HomePage = lazy(() => import('./pages/home/HomePage'));
@@ -22,7 +23,7 @@ const AdminLayout = lazy(() => import('./layouts/admin/AdminLayout'));
 const UsersManagement = lazy(() => import('./pages/admin/management/UsersManagement'));
 const BooksManagement = lazy(() => import('./pages/admin/management/BooksManagement'));
 const AdminHome = lazy(() => import('./pages/admin/AdminHome'));
-const AnalysticDashboard = lazy(() => import('./pages/admin/dashboard/AnalysticDashboard'));
+const AnalysticDashboard = lazy(() => import('./pages/admin/dashboard/AnalyticDashboard.tsx'));
 const LogsDashboard = lazy(() => import('./pages/admin/dashboard/LogsDashboard'));
 
 export default function App() {
@@ -102,7 +103,12 @@ export default function App() {
                   <BooksManagement />
                </Suspense>
             } />
-            <Route path="dashboard/analystics" element={
+            <Route path="management/borrowing" element={
+               <Suspense fallback={<LoadingBlock className='h-[80vh] w-full dark:bg-transparent' />}>
+                  <BorrowingManagement />
+               </Suspense>
+            } />
+            <Route path="dashboard/analytics" element={
                <Suspense fallback={<LoadingBlock className='h-[80vh] w-full dark:bg-transparent' />}>
                   <AnalysticDashboard />
                </Suspense>
