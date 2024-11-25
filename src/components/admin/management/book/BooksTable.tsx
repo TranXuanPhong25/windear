@@ -11,7 +11,7 @@ import {
    getSortedRowModel,
    useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown } from 'lucide-react'
+import { ArrowUpDown } from 'lucide-react';
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -28,6 +28,9 @@ import { BookTableData } from "@/types/BookTableData"
 import { useEffect } from "react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Link } from "react-router-dom"
+import { useGetInternalBooks } from "@/hooks/admin/useGetInternalBooks"
+import LoadingBlock from "@/components/layout/LoadingBlock"
+import BookActions from "./BookActions";
 
 const columns: ColumnDef<BookTableData>[] = [
    {
@@ -119,11 +122,22 @@ const columns: ColumnDef<BookTableData>[] = [
       },
       cell: ({ row }) => <div>{new Date(row.getValue("releaseDate")).toLocaleDateString()}</div>,
 
-   }
+   },
+   {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+         const book = row.original;
+         return (
+            <BookActions book={book} />
+         )
+      },
+   },
 
 ]
 
-export default function BooksTable({ data }: { data: BookTableData[] }) {
+export default function BooksTable() {
+   const { data, isLoading, error } = useGetInternalBooks();
    const [sorting, setSorting] = React.useState<SortingState>([])
    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
       []
@@ -156,7 +170,7 @@ export default function BooksTable({ data }: { data: BookTableData[] }) {
       table.getAllColumns().forEach((column) => {
          if (column.id === "imageUrl") {
             column.toggleVisibility(false);
-         }else if(column.id === "id"){
+         } else if (column.id === "id") {
             column.toggleVisibility(false);
          }
 
@@ -166,6 +180,12 @@ export default function BooksTable({ data }: { data: BookTableData[] }) {
       setFilterValue(e.target.value);
       setColumnFilters([{ id: filterColumn, value: e.target.value }]);
    };
+   if (isLoading) {
+      return <LoadingBlock />
+   }
+   if (error) {
+      return <div>{error.message}</div>
+   }
    return (
       <div className="w-full ">
          <div className="flex items-center py-4 flex-wrap gap-2">
@@ -215,23 +235,30 @@ export default function BooksTable({ data }: { data: BookTableData[] }) {
                               data-state={row.getIsSelected() && "selected"}
                            >
                               {row.getVisibleCells().map((cell) => (
-                                 <TableCell key={cell.id}>
-                                    <Tooltip>
-                                       <TooltipTrigger>
-                                          <Link to={"/books/"+row.getValue("id")} target="_blank">
-                                          {flexRender(
-                                             cell.column.columnDef.cell,
-                                             cell.getContext()
-                                          )}
-                                          </Link>
-                                       </TooltipTrigger>
-                                       <TooltipContent className="p-0">
-                                          <div className="p-0">
-                                             <img src={row.getValue("imageUrl")} alt="Book cover" className="h-32 w-32" />
-                                          </div>
-                                       </TooltipContent>
-                                    </Tooltip>
+                                 cell.column.id === "actions" ? <TableCell key={cell.id}>
+                                    {flexRender(
+                                       cell.column.columnDef.cell,
+                                       cell.getContext()
+                                    )}
                                  </TableCell>
+                                    :
+                                    <TableCell key={cell.id}>
+                                       <Tooltip>
+                                          <TooltipTrigger>
+                                             <Link to={"/books/" + row.getValue("id")} target="_blank">
+                                                {flexRender(
+                                                   cell.column.columnDef.cell,
+                                                   cell.getContext()
+                                                )}
+                                             </Link>
+                                          </TooltipTrigger>
+                                          <TooltipContent className="p-0">
+                                             <div className="p-0">
+                                                <img src={row.getValue("imageUrl")} alt="Book cover" className="h-32 w-24" />
+                                             </div>
+                                          </TooltipContent>
+                                       </Tooltip>
+                                    </TableCell>
                               ))}
                            </TableRow>
                         ))

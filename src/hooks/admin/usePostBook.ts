@@ -1,10 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useMutation } from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "../use-toast";
 import { AddBookPayload } from "@/models/PostBookPayload";
 export function usePostBook() {
    const { user, getAccessTokenSilently } = useAuth0();
+   const queryClient= useQueryClient();
    return useMutation({
       mutationFn: async (payload:AddBookPayload) => {
          if (!user?.sub) {
@@ -30,6 +31,9 @@ export function usePostBook() {
             description: "Successfully add book .",
             className: "mb-4  bg-green-400 dark:bg-green-600  ",
          })
+          queryClient.invalidateQueries({
+              queryKey: ['internal','books']
+          })
       },
       onError: (error: AxiosError) => {
 

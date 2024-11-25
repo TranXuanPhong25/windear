@@ -1,12 +1,12 @@
-import { useCallback, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 import { useDropzone } from "react-dropzone";
 import { Input } from "./ui/input";
 import { Pencil, PlusCircle, X } from "lucide-react";
 import clsx from "clsx";
 import { compressImage } from "@/lib/compressImage";
-export default function DropZone({ onDropFile }: { onDropFile: (file: File | null) => void }) {
+export default function DropZone({ onDropFile, editingBookImageUrl }: { onDropFile: (file: File | null) => void,editingBookImageUrl:string }) {
    const [image, setImage] = useState<File | null>(null);
-   const [previewUrl, setPreviewUrl] = useState("");
+   const [previewUrl, setPreviewUrl] = useState(editingBookImageUrl);
    const handleRemoveImage = () => {
       setImage(null);
       setPreviewUrl("");
@@ -14,6 +14,11 @@ export default function DropZone({ onDropFile }: { onDropFile: (file: File | nul
          onDropFile(null);
       }
    };
+   useEffect(() => {
+        if (editingBookImageUrl) {
+             setPreviewUrl(editingBookImageUrl);
+        }
+   }, [editingBookImageUrl]);
    const onDrop = useCallback((acceptedFiles: File[]) => {
       
       console.log(acceptedFiles[0]); // Process the dropped files
@@ -58,7 +63,7 @@ export default function DropZone({ onDropFile }: { onDropFile: (file: File | nul
          <Input {...getInputProps()} />
          <div className="h-full ">
             {
-               image ? (
+               image || previewUrl ? (
                   <img src={previewUrl}
                      alt="Preview"
                      className="object-center rounded-r-xl rounded-l-sm h-full group-hover:brightness-50 group-hover:blur-[3px] transition-all " />
