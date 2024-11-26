@@ -1,12 +1,13 @@
 export interface BookLoanId {
     userId: string;
     bookId: string|number;
-    borrowDate: string;
+    requestDate: string;
 }
 export interface BorrowingRequest extends BookLoanId {
     title: string;
     authorName: string;
     borrowTime: number;
+    borrowDate: string;
     returnDate: string;
     status: BorrowingRequestStatus;
 }
@@ -14,8 +15,9 @@ export interface BorrowingRequestResponse {
     bookLoanId: BookLoanId;
     title: string;
     authorName: string;
+    borrowDate: string|null;
     borrowTime: number;
-    returnDate: string;
+    returnDate: string|null;
     status: BorrowingRequestStatus;
 }
 export enum BorrowingRequestStatus {

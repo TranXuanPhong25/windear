@@ -25,6 +25,7 @@ export function useGetBorrowingRequest() {
                         title: request.title,
                         authorName: request.authorName,
                         borrowTime: request.borrowTime,
+                        borrowDate: request.borrowDate,
                         returnDate: request.returnDate,
                         status: request.status,
                     };

@@ -16,7 +16,7 @@ export function useIsBorrowing(bookId:string|number) {
                     }
                 }
             );
-            return data;
+            return data.length > 0;
         },
 
         enabled: !!user ,

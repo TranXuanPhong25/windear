@@ -58,8 +58,9 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
             bookLoanId: {
                 bookId: bookId,
                 userId: user?.sub || "",
-                borrowDate: ""
+                requestDate: new Date().toLocaleDateString()
             },
+            borrowDate: null,
             title: title,
             authorName: author,
             returnDate: "",
@@ -82,7 +83,6 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
             }
         )
     }
-
     return (
         <>
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -166,7 +166,7 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
                                     How long do you want to borrow the book?
                                 </Label>
                                 <NumberInput max={86} min={1} step={1} className="w-full justify-center"
-                                             onChange={setBorrowTime} initialValue={0} id="borrow-time-input"/>
+                                             onChange={setBorrowTime} initialValue={1} id="borrow-time-input"/>
 
                                 <Button className="w-full " onClick={handleBorrowRequest}>Make request</Button>
                                 <DialogDescription className="text-center">
