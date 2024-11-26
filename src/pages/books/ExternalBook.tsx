@@ -16,7 +16,7 @@ import LoadingBlock from "@/components/layout/LoadingBlock";
 import WriteReview from "@/components/books/reviews/WriteReview";
 import BookNotFound from "./BookNotFound";
 import SocialSignals from "@/components/books/detail/SocialSignals.tsx";
-import { BookInShelfPayload } from '../../models/AddBookToShelfPayload';
+import { BookInShelfPayload } from '@/models/AddBookToShelfPayload.ts';
 import { BookInShelfStatus } from '@/types/BookInShelfStatus';
 
 const BlockQuote = lazy(() => import('@/components/books/BlockQuote'));

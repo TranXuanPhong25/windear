@@ -79,7 +79,7 @@ export default function StarRating({ title = "Your rating", initialRating = 0, r
     if (onChange) {
       onChange(0)
     }
-  }, [onChange, ratable])
+  }, [onChange, ratable, rateBook])
 
   const handleMouseMove = useCallback((event: React.MouseEvent<HTMLDivElement>, index: number) => {
     if (!ratable) return;
