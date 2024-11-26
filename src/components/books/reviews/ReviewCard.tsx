@@ -1,9 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import {  LoaderCircle } from "lucide-react";
-import ExpandableParagraph from "../ExpandableParagraph";
-import Genres from "../Genres";
-import StarRating from "../StarRating";
+import ExpandableParagraph from "../detail/ExpandableParagraph.tsx";
+import Genres from "../detail/Genres.tsx";
+import StarRating from "../detail/StarRating.tsx";
 interface ReviewCardProps {
    rating: number;
    createAt: string;

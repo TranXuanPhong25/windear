@@ -1,7 +1,7 @@
 import { useInView } from 'react-intersection-observer';
-import { Skeleton } from '@/components/ui/skeleton';
-import EditionList from './EditionsList'; 
-import { useEditionsList } from '@/hooks/book/useEditionsList';
+import { Skeleton } from '@/components/ui/skeleton.tsx';
+import EditionList from './EditionsList.tsx';
+import { useEditionsList } from '@/hooks/book/useEditionsList.ts';
 
 export default function EditionShow({ workId }: { workId: string | undefined }) {
    const { ref, inView } = useInView({

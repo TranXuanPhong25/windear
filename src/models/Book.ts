@@ -37,12 +37,12 @@ export interface Genre {
    };
 }
 
-interface AffiliateLink {
+export interface AffiliateLink {
    name: string;
    url: string;
 }
 
-interface Links {
+export interface Links {
    primaryAffiliateLink: AffiliateLink;
    secondaryAffiliateLinks: AffiliateLink[];
 }

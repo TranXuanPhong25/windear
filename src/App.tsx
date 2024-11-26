@@ -5,7 +5,6 @@ import {
 import { lazy, Suspense } from 'react';
 import CommonLayout from './layouts/common/CommonLayout';
 import AuthenticationGuard from './components/auth/AuthenticationGuard';
-const HomePageLayout = lazy(() => import('./layouts/homepage/HomePageLayout'));
 import LogoutPage from './pages/auth/LogoutPage';
 import NotFound from './pages/notfound/NotFound';
 import LoadingBlock from './components/layout/LoadingBlock';
@@ -14,6 +13,7 @@ import VerifyEmail from './pages/auth/VerifyEmail';
 
 
 // Lazy load components
+const HomePageLayout = lazy(() => import('./layouts/homepage/HomePageLayout'));
 const HomePage = lazy(() => import('./pages/home/HomePage'));
 const BookShow = lazy(() => import('./pages/books/BookShow'));
 const BookBrowse = lazy(() => import('./pages/browse/BookBrowse'));
@@ -26,6 +26,14 @@ const AdminHome = lazy(() => import('./pages/admin/AdminHome'));
 const AnalyticDashboard = lazy(() => import('./pages/admin/dashboard/AnalyticDashboard.tsx'));
 const LogsDashboard = lazy(() => import('./pages/admin/dashboard/LogsDashboard'));
 const BorrowingManagement = lazy(() => import('@/pages/admin/management/BorrowingManagement.tsx'));
+const BrowseGenres = lazy(() => import("@/pages/browse/BrowseGenre.tsx"));
+const NewReleases = lazy(() => import("@/pages/discover/NewReleases.tsx"));
+const PopularBooks = lazy(() => import("@/pages/discover/PopularBooks.tsx"));
+const BrowseGenreIndex = lazy(() => import("@/pages/browse/BrowseGenreIndex.tsx"));
+const GenresLayout = lazy(() => import("@/layouts/genre/GenresLayout.tsx"));
+
+
+
 
 export default function App() {
    return (
@@ -49,14 +57,27 @@ export default function App() {
                   <BookBrowse />
                </Suspense>
             } />
-            <Route path="/browse/tag/:tagName" element={
+
+            <Route path="/browse/genres" element={
                <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
-                  <BookBrowse />
+                  <GenresLayout />
+               </Suspense>
+            } >
+               <Route index element={<BrowseGenreIndex/>}/>
+               <Route path="/browse/genres/:tagName" element={
+                  <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
+                     <BrowseGenres />
+                  </Suspense>
+               } />
+            </Route>
+            <Route path="/new-releases" element={
+               <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
+                  <NewReleases />
                </Suspense>
             } />
-            <Route path="/browse/tag" element={
+            <Route path="/popular" element={
                <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
-                  <BookBrowse />
+                  <PopularBooks />
                </Suspense>
             } />
             <Route path="/books/:bookId" element={

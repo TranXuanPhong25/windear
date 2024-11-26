@@ -1,21 +1,15 @@
-import {
-   Accordion,
-   AccordionContent,
-   AccordionItem,
-   AccordionTrigger,
-} from "@/components/ui/accordion"
+
 import {
 
    LogOut,
-   Menu, Search, Bell,
+   Search, Bell,
    Settings,
-   LibraryBig
+   LibraryBig, User
 } from "lucide-react"
 
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react"
-import clsx from "clsx";
 
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -24,11 +18,6 @@ import MyNavigationMenu from "./NavigationMenu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
-
-// const user = {
-//    name: 'Tom Cook',
-//    email: 'tom@example.com'
-// }
 
 const userNavigation = [
    [
@@ -42,20 +31,7 @@ const userNavigation = [
       { name: 'Sign out', href: '/logout', icon: LogOut },
    ]
 ]
-const navigation = [
-   { name: 'Home', href: '/', current: true, children: null },
-   { name: 'My Shelf', href: '/shelves', current: false, children: null },
-   {
-      name: 'Browse', href: '/browse', current: false, children: [
-         { name: 'Books', href: '/browse/books' },
-         { name: 'Authors', href: '/browse/authors' },
-         { name: 'Genres', href: '/browse/genres' }
-      ]
-   },
-];
-
 export default function NavigationBarContent() {
-   const [isOpen, setIsOpen] = useState<boolean>(false);
    const [isModalOpen, setIsModalOpen] = useState(false);
    const handleSearchClick = () => {
       setIsModalOpen(true);
@@ -66,10 +42,9 @@ export default function NavigationBarContent() {
       setIsModalOpen(false);
    };
    const auth = useAuth0();
-   const toggleMenu = () => setIsOpen(!isOpen);
 
    return (
-      <nav className="dark:bg-gray-800 bg-transparent sticky top-0 z-[30] w-full px-4 sm:px-6 lg:px-8 py-1 ">
+      <nav className="dark:bg-gray-800 bg-transparent sticky top-0 z-[30] w-full px-2 sm:px-5 lg:px-8 py-1 ">
          <div className="mx-auto max-w-7xl ">
             <div className="flex h-16 items-center justify-between">
                <div className="flex items-center">
@@ -80,14 +55,14 @@ export default function NavigationBarContent() {
                            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
                            alt="Windear Logo"
                         />
-                        <span className="ml-1 dark:text-white">Windear</span>
+                        <span className="ml-1 dark:text-white hidden md:block">Windear</span>
 
                      </Link>
                   </div>
                </div>
 
                <div className="ml-4 flex items-center md:ml-6 [&>*]:mx-1">
-                  <div className="hidden md:block">
+                  <div className="dark:bg-gray-700/60 backdrop-blur-[4px] bg-slate-300/60 rounded-md md:block hidden">
                      <div
                         onClick={handleSearchClick}
                         className="opacity-90 hover:opacity-100 transition-opacity relative cursor-pointer dark:border-white border-2 p-2 dark:text-white flex items-center rounded-md ">
@@ -98,8 +73,14 @@ export default function NavigationBarContent() {
 
                      </div>
                   </div>
+                  <div className="block md:hidden"  onClick={handleSearchClick}>
+                     <Search className="h-5 w-5 text-muted-foreground cursor-pointer" />
+                  </div>
                   <MyNavigationMenu />
-                  <ThemeSwitcher />
+                  <div className="hidden md:block">
+                     <ThemeSwitcher />
+                  </div>
+
                   {
                      auth.user  ? (
 
@@ -139,79 +120,16 @@ export default function NavigationBarContent() {
 
                      ) :
                         (
-                           <Button onClick={() => auth.loginWithPopup()} className=" bg-white text-black hover:text-white  ">Sign in</Button>
+                           <Button onClick={() => auth.loginWithPopup()} className=" bg-white text-black hover:text-white  px-2"><User/></Button>
                         )
                   }
 
-                  <Button variant="outline" size="icon" className="-mr-2 flex md:hidden" onClick={toggleMenu}>
-                     <Menu className="h-6 w-6 " />
-                     <span className="sr-only">Toggle menu</span>
-                  </Button>
 
                </div>
 
 
             </div>
          </div>
-         {/* Mobile menu, show/hide based on menu state. */}
-
-
-
-         {isOpen && (
-            <Accordion type="single" collapsible className="md:hidden">
-               {
-                  navigation.map((item) => (
-                     item.children ? (
-                        <AccordionItem key={"parent-" + item.name} value={item.name}>
-                           <AccordionTrigger className={clsx(
-                              item.current
-                                 ? 'bg-gray-900 text-white'
-                                 : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                              'px-4'
-                           )}>
-                              {item.name}
-                           </AccordionTrigger>
-                           <AccordionContent>
-                              <ul className="py-2">
-                                 {item.children.map((child) => (
-                                    <li key={child.name}>
-                                       <Link to={child.href}
-                                          className={clsx(
-                                             item.current
-                                                ? 'bg-gray-900 text-white'
-                                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                             'block px-6 py-2 hover:bg-accent'
-                                          )}>{child.name}</Link>
-                                    </li>
-                                 ))}
-                              </ul>
-                           </AccordionContent>
-                        </AccordionItem>
-                     ) : (
-
-                        <AccordionItem key={item.name} value={item.name}>
-                           <Link
-                              key={item.name}
-                              to={item.href}
-                              className={clsx(
-                                 item.current
-                                    ? 'bg-gray-900 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                 'flex flex-1 items-center justify-between py-4 px-4 font-medium transition-all hover:underline  [&[data-state=open]>svg]:rotate-180 '
-                              )}
-                              aria-current={item.current ? 'page' : undefined}
-                           >
-                              {item.name}
-                           </Link>
-
-                        </AccordionItem>
-                     )
-
-                  ))
-               }
-
-            </Accordion>
-         )}
          <SearchModal isOpen={isModalOpen} onClose={handleCloseModal} />
       </nav>
    )

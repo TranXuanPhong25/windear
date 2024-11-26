@@ -2,20 +2,21 @@ import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover.tsx"
 import {Close} from "@radix-ui/react-popover"
 import {BookCheckIcon, BookmarkIcon, BookOpenTextIcon, Loader} from "lucide-react";
-import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "../ui/dialog";
+import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "../../ui/dialog.tsx";
 import React, {useEffect} from "react";
-import MultiShelfSelector from "./shelves/MultiShelfSelector";
-import {useGetShelvesOfBook} from "@/hooks/shelves/useGetShelvesOfBook"
-import {BookInShelfPayload} from '@/models/AddBookToShelfPayload';
+import MultiShelfSelector from "./MultiShelfSelector.tsx";
+import {useGetShelvesOfBook} from "@/hooks/shelves/useGetShelvesOfBook.ts"
+import {BookInShelfPayload} from '@/models/AddBookToShelfPayload.ts';
 import {clsx} from "clsx";
-import {useAddBookInShelves} from "@/hooks/shelves/useAddBookInShelves";
+import {useAddBookInShelves} from "@/hooks/shelves/useAddBookInShelves.ts";
 import {toast} from "@/hooks/use-toast.ts";
 import {useQueryClient} from "@tanstack/react-query";
 import {useAuth0} from "@auth0/auth0-react";
-
+import LoadingBlock from "@/components/layout/LoadingBlock.tsx";
+import {Button} from "@/components/ui/button.tsx"
 const readingList = [
     {name: "Want to read", icon: BookmarkIcon},
     {name: "Currently reading", icon: BookOpenTextIcon},
@@ -82,9 +83,16 @@ export default function ShelfAction({customClass = "w-full", book}: {
     const getJustShelves: (shelves: string[]) => string[] = (shelves: string[]): string[] => {
         return shelves.filter((shelf: string): boolean => !readingList.map((list) => list.name).includes(shelf))
     }
+    if(!user) {
+        return <Button
+            className={"dark:text-white rounded-lg px-4 py-2 mt-4 mb-2 text-lg dark:bg-gray-700 hover:dark:bg-slate-700 border-b-2 dark:border-gray-600  bg-slate-200/80 border-slate-400 hover:bg-slate-300 " + customClass}>
+            Want to read
+        </Button>
+    }
     if (!shelvesOfBook || !book || isLoading) return (
-        <div className="bg-white text-black rounded-md px-4 py-2 mt-4 mb-2 text-lg w-full flex justify-items-center">
-            <Loader className="animate-spin w-full"/>
+        <div
+            className={"dark:text-white rounded-lg px-4 py-2 mt-4 mb-2 text-lg dark:bg-gray-700 hover:dark:bg-slate-700 border-b-2 dark:border-gray-600  bg-slate-200/80 border-slate-400 hover:bg-slate-300 " + customClass}>
+            <LoadingBlock className="size-6 !bg-transparent mx-auto"/>
         </div>
     )
     const handleSaveChange = () => {

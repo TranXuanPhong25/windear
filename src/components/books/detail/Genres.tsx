@@ -18,7 +18,7 @@ function Genres({ genres, noHeading = false }: { genres: string[], noHeading?: b
                               </span>
                            ) : (
                               <Link
-                                 to={`/browse/tags/${genre}`}
+                                 to={`/browse/genres/${genre}`}
                                  key={genre}
                                  className="py-1 px-4 rounded-full bg-emerald-500 text-gray-50 hover:bg-emerald-600 hover:text-white flex gap-2 hover:-translate-y-1 transition"
                               >

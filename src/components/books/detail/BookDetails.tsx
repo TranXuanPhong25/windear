@@ -1,6 +1,6 @@
-import { Book } from "@/models/Book";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
-import EditionShow from "./EditionShow";
+import { Book } from "@/models/Book.ts";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../ui/accordion.tsx";
+import EditionShow from "./EditionShow.tsx";
 
 export default function BookDetails({book}:{book:Book}) {
    return (

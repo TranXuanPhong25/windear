@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button.tsx"
 import { Markup } from 'interweave';
-import { parseLinks } from '@/lib/utils';
+import { parseLinks } from '@/lib/utils.ts';
 
 interface ExpandableParagraphProps {
    text: string;

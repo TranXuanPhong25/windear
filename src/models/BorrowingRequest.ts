@@ -1,6 +1,6 @@
 export interface BookLoanId {
     userId: string;
-    bookId: number;
+    bookId: string|number;
     borrowDate: string;
 }
 export interface BorrowingRequest extends BookLoanId {

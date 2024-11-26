@@ -3,7 +3,7 @@ import LoadingBlock from "@/components/layout/LoadingBlock";
 import { useGetMyReview } from "@/hooks/book/useGetMyReview";
 import { Button } from "@/components/ui/button";
 import { useAuth0 } from "@auth0/auth0-react";
-import StarRating from "../StarRating";
+import StarRating from "../detail/StarRating.tsx";
 const EditableReviewCard = React.lazy(() => import("./EditableReviewCard"));
 import { useState } from "react";
 import { Edit2 } from "lucide-react";

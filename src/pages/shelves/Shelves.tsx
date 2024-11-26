@@ -3,9 +3,9 @@ import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/co
 import {Checkbox} from "@/components/ui/checkbox";
 import {Label} from "@radix-ui/react-label";
 import {SquareArrowOutUpRight, Star} from "lucide-react";
-import StarRating from '@/components/books/StarRating';
+import StarRating from '@/components/books/detail/StarRating.tsx';
 import {useGetMyShelves} from "@/hooks/shelves/useGetMyShelves.ts";
-import ShelfAction from '@/components/books/ShelfAction';
+import ShelfAction from '@/components/books/shelves/ShelfAction.tsx';
 import {Shelf} from "@/models/Shelf.ts";
 import LoadingBlock from "@/components/layout/LoadingBlock.tsx";
 import {Link} from "react-router-dom";

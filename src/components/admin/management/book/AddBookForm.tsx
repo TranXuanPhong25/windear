@@ -19,6 +19,7 @@ import {AddBookPayload, PostBookPayload} from '@/models/PostBookPayload'
 import {compressImage} from '@/lib/compressImage'
 import {useGetAllGenres} from '@/hooks/book/useGetAllGenres'
 import {useGetinternalBook} from '@/hooks/book/useGetinternalBook'
+import {useUpdateBook} from "@/hooks/admin/useUpdateBook.ts";
 
 const formSchema = z.object({
     title: z.string().min(1, 'Title is required'),
@@ -39,7 +40,7 @@ const formSchema = z.object({
 
 export default function AddBookForm() {
     const [editingBook, setEditingBook] = useState<string>("");
-    const [ editingBookImageUrl, setEditingBookImageUrl] = useState<string>("");
+    const [editingBookImageUrl, setEditingBookImageUrl] = useState<string|null>("");
     const {data: editingBookData} = useGetinternalBook(editingBook)
     const {data: genres} = useGetAllGenres();
     const [suggestGenres, setSuggestGenres] = useState<string[]>([]);
@@ -50,6 +51,7 @@ export default function AddBookForm() {
     const [tagsIndices, setTagsIndices] = useState<number[]>([]);
     const firstInputRef = useRef<HTMLInputElement>(null);
     const {mutate: createBook, isPending} = usePostBook();
+    const {mutate: updateBook} = useUpdateBook();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -79,7 +81,6 @@ export default function AddBookForm() {
     }, []);
 
     useEffect(() => {
-        console.log(editingBookData);
         if (editingBookData) {
             form.setValue('title', editingBookData.internalBook.title);
             form.setValue('author', editingBookData.internalBook.author);
@@ -124,7 +125,6 @@ export default function AddBookForm() {
     };
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-
         const {data: publicUrl, error} = await uploadImageToSupabase(image as File);
         if (error) {
             toast({
@@ -145,7 +145,15 @@ export default function AddBookForm() {
             genres: tagsIndices.join(','),
             internalBook: book,
         };
-        createBook(payload);
+        if (!editingBookImageUrl) {
+            createBook(payload);
+        } else {
+            updateBook({
+                payload,
+                bookId: editingBook
+            });
+        }
+
 
     }
 
@@ -162,7 +170,7 @@ export default function AddBookForm() {
                 setSuggestGenres([]);
                 setSelectedSuggestionIndex(0);
             } else if (!tags.includes(genreQuery.trim())) {
-                //   setTags([...tags, genreQuery.trim()]);
+                //   setTags([...genre, genreQuery.trim()]);
                 setGenreQuery('');
             }
         } else if (e.key === 'ArrowDown') {
@@ -178,6 +186,26 @@ export default function AddBookForm() {
         setTags(tags.filter(t => t !== tag));
         setTagsIndices(tagsIndices.filter((tagIndex) => tags[tagIndex] !== tag));
     };
+    const handleCancelEdit = () => {
+        setEditingBook("")
+        setEditingBookImageUrl(null)
+        form.setValue('title', '');
+        form.setValue('author', '');
+        form.setValue('publisher', '');
+        form.setValue('description', '');
+        form.setValue('authorDescription', '');
+        form.setValue('format', '');
+        form.setValue('releaseDate', new Date());
+        form.setValue('numPages', 0);
+        form.setValue('isbn10', '');
+        form.setValue('isbn13', '');
+        form.setValue('language', '');
+        setTags([]);
+        setTagsIndices([]);
+        setGenreQuery('');
+        setSuggestGenres([]);
+        setImage(null);
+    }
     return (
         <>
             <h1 className="text-3xl font-bold mb-6">
@@ -186,7 +214,8 @@ export default function AddBookForm() {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-3xl mx-auto space-y-6">
                     <div className="flex flex-col lg:flex-row gap-6">
-                        <div className=' w-full h-[420px] lg:w-[350px] min-[1480px]:w-[280px] flex justify-center'>
+                        <div
+                            className=' w-full lg:h-[475px] min-[1480px]:h-[420px] lg:w-[350px] min-[1480px]:w-[280px] flex justify-center'>
                             <DropZone onDropFile={setImage} editingBookImageUrl={editingBookImageUrl}/>
                         </div>
                         <div className="space-y-4 flex-1">
@@ -398,7 +427,7 @@ export default function AddBookForm() {
                                     <FormMessage/>
                                     <div className="mt-2 flex flex-wrap gap-2">
                                         {tags.map((tag) => (
-                                            <div key={tag}
+                                            <div key={tag + "1"}
                                                  className="bg-gray-200 rounded-full px-3 py-1 text-sm flex items-center dark:bg-gray-700">
                                                 {tag}
                                                 <button
@@ -441,7 +470,11 @@ export default function AddBookForm() {
                             )}
                         />
                     </div>
-                    <Button type="submit" className="" disabled={isPending}>Add Book</Button>
+                    <Button type="submit" className=""
+                            disabled={isPending}>{editingBook ? "Update" : "Add"} Book</Button>
+                    {editingBook &&
+                        <Button type="button" onClick={handleCancelEdit}
+                                className="!bg-red-500 ml-2 !text-white">Cancel</Button>}
                 </form>
             </Form>
         </>

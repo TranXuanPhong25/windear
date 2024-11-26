@@ -1,17 +1,17 @@
-import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardTitle } from "@/components/ui/card.tsx"
 import {
    Carousel,
    CarouselContent,
    CarouselItem,
    CarouselNext,
    CarouselPrevious
-} from "@/components/ui/carousel"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/carousel.tsx"
+import { Button } from "@/components/ui/button.tsx"
 import { ChevronRight } from 'lucide-react';
 import React from "react";
-import Edition from "@/types/Edition";
+import Edition from "@/types/Edition.ts";
 import { Link } from "react-router-dom";
-import ImageWithFallback from "../notfound/ImageWithFallback";
+import ImageWithFallback from "../../notfound/ImageWithFallback.tsx";
 
 interface BookListProps {
    books?: Edition[];

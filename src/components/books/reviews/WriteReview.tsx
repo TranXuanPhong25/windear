@@ -1,7 +1,7 @@
 import MyReview from "./MyReview";
 export default function WriteReview({ bookId }: { bookId: string }) {
     return (
-        <div className="dark:text-white ">
+        <div className="dark:text-white" id="community-reviews">
             <h1 className="text-2xl font-bold">
                 Rating & Reviews
             </h1>

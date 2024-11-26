@@ -46,6 +46,9 @@ export function useRate(bookId:string) {
          queryClient.invalidateQueries( {queryKey: ['rate', bookId]});
          queryClient.invalidateQueries({ queryKey: ['windearReview', bookId.toString()] });
          queryClient.invalidateQueries({queryKey: ['user', user?.sub, 'book', bookId]});
+          queryClient.invalidateQueries({queryKey:  ['internal-book', bookId]});
+
+
       },
       onError: (error: AxiosError) => {
 

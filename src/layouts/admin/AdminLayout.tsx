@@ -56,7 +56,7 @@ export default function AdminLayout() {
             </BreadcrumbList>
           </Breadcrumb>
         </div>
-        <div className="rounded-t-[1.5rem] md:rounded-tr-none bg-gray-100 dark:bg-gray-800/60 w-full min-h-screen p-6">
+        <div className="rounded-l-[1.5rem] md:rounded-tr-none bg-gray-100 dark:bg-gray-800/60 w-full min-h-[calc(100vh-100px)] p-6">
           <Outlet />
         </div>
       </main>

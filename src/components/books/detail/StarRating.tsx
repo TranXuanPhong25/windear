@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from "react"
 import { Star } from "lucide-react"
 import confetti from "canvas-confetti";
 
-import StarRatingProps from "@/types/StarRatingProps";
-import { useGetRate } from "@/hooks/book/useGetRate";
-import { useRate } from "@/hooks/book/useRate";
+import StarRatingProps from "@/types/StarRatingProps.ts";
+import { useGetRate } from "@/hooks/book/useGetRate.ts";
+import { useRate } from "@/hooks/book/useRate.ts";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function StarRating({ title = "Your rating", initialRating = 0, ratable = false, small = false, onChange, bookId = "" }: StarRatingProps = {}) {

@@ -1,14 +1,12 @@
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { Award, BadgeCheck, ChevronDown, Compass, Dna, LibraryBig, Telescope, TrendingUp, UserRoundPen } from "lucide-react";
+import {  BadgeCheck, ChevronDown, Compass, Dna, Telescope, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
 const discoverNavigation = [
   {name:"New Releases",href:"/new-releases",description:"Latest books",icon:BadgeCheck},
   {name:"Trending",href:"/popular",description:"Most popular right now",icon:TrendingUp},
-  {name:"Recommendation",href:"recommendations",description:"Just for you",icon:Award},
+  // {name:"Recommendation",href:"recommendations",description:"Just for you",icon:Award},
 ];
 const browseNavigation = [
-  { name: "All books", href: "/browse/books", description: "Browse all books", icon: LibraryBig },
-  { name: "Authors", href: "/browse/authors", description: "Browse by authors", icon: UserRoundPen },
   { name: "Genres", href: "/browse/genres", description: "Browse by genres", icon: Dna },
 ];
 const MyNavigationMenu = () => {
@@ -17,10 +15,10 @@ const MyNavigationMenu = () => {
       <NavigationMenu.List className="center m-0 flex list-none rounded-md p-1 gap-2  ">
         <NavigationMenu.Item>
           <NavigationMenu.Trigger className="group flex select-none items-center justify-between gap-0.5 rounded-md px-3 py-2 text-[15px] dark:text-white font-medium leading-none  outline-none  focus:shadow-[0_0_0_2px] dark:bg-gray-900/50 dark:hover:bg-gray-900 bg-purple-100  hover:bg-purple-500 hover:text-white ">
-            <Telescope className=" mr-1 size-5"/>
-            Discover{" "}
+            <Telescope className="mr-1 size-5 "/>
+            Discover
             <ChevronDown
-              className="relative top-px  transition-transform duration-200 ease-in group-data-[state=open]:-rotate-180"
+              className="relative top-px  transition-transform duration-200 ease-in group-data-[state=open]:-rotate-180 hidden sm:block"
               aria-hidden
             />
           </NavigationMenu.Trigger>
@@ -47,10 +45,10 @@ const MyNavigationMenu = () => {
 
         <NavigationMenu.Item>
         <NavigationMenu.Trigger className="group flex select-none items-center justify-between gap-0.5 rounded-md px-3 py-2 text-[15px] dark:text-white font-medium leading-none  outline-none  focus:shadow-[0_0_0_2px] dark:bg-gray-900/50 dark:hover:bg-gray-900 bg-purple-100  hover:bg-purple-500 hover:text-white ">
-        <Compass className="mr-1 size-5"/>
+        <Compass className="mr-1 size-5 "/>
             Browse{" "}
             <ChevronDown
-              className="relative top-px transition-transform duration-200 ease-in group-data-[state=open]:-rotate-180"
+              className="relative top-px transition-transform duration-200 ease-in group-data-[state=open]:-rotate-180 hidden sm:block"
               aria-hidden
             />
           </NavigationMenu.Trigger>

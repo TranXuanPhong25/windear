@@ -1,6 +1,6 @@
-import { SocialSignal } from "@/models/Book";
-import AvatarCircles from "../ui/avatar-circles";
-import { handlePlural } from "@/lib/utils";
+import { SocialSignal } from "@/models/Book.ts";
+import AvatarCircles from "../../ui/avatar-circles.tsx";
+import { handlePlural } from "@/lib/utils.ts";
 
 export default function SocialSignals({data}:{data:SocialSignal[]}){
    if(!data||data.length===0) return null;
