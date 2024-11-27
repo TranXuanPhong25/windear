@@ -38,7 +38,7 @@ export default function MyReview({ bookId }: { bookId: string }) {
       </React.Suspense>
    }
    return <>
-      <h1 className="text-3xl text-center mb-2">Share your think with world</h1>
+      <h1 className="text-3xl text-center mb-2">Share your think with the world</h1>
       <div className="flex items-center justify-center">
          <StarRating
             title="Rate this book"

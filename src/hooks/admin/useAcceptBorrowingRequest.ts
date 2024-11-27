@@ -13,11 +13,10 @@ export function useAcceptBorrowingRequest() {
                 throw new Error('User is not authenticated');
             }
             const accessToken = await getAccessTokenSilently();
-            const deleteBookUrl = `${import.meta.env.VITE_BASE_API_URL}/bookloan/borrow`;
-            const response = await axios.request(
+            return await axios.request(
                 {
                     method: "PUT",
-                    url: deleteBookUrl,
+                    url: `${import.meta.env.VITE_BASE_API_URL}/bookloan/borrow`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -26,7 +25,6 @@ export function useAcceptBorrowingRequest() {
                     }
                 }
             ).then(response => response.data);
-            return response.ticket;
         },
         onSuccess: () => {
             toast({

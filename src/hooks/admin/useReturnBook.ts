@@ -4,7 +4,7 @@ import axios, {AxiosError} from "axios";
 import {toast} from "../use-toast";
 import {BookLoanId} from "@/models/BorrowingRequest.ts";
 
-export function useDeclineBorrowingRequest() {
+export function useReturnBook() {
     const QueryClient = useQueryClient();
     const {user, getAccessTokenSilently} = useAuth0();
     return useMutation({
@@ -15,8 +15,8 @@ export function useDeclineBorrowingRequest() {
             const accessToken = await getAccessTokenSilently();
             return await axios.request(
                 {
-                    method: "POST",
-                    url: `${import.meta.env.VITE_BASE_API_URL}/bookloan`,
+                    method: "PUT",
+                    url: `${import.meta.env.VITE_BASE_API_URL}/bookloan/return`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -29,7 +29,7 @@ export function useDeclineBorrowingRequest() {
         onSuccess: () => {
             toast({
                 title: "Success",
-                description: "Successfully decline request .",
+                description: "Successfully return book .",
                 className: "mb-4  bg-green-400 dark:bg-green-600  ",
             })
             QueryClient.invalidateQueries({

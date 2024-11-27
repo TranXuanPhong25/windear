@@ -9,8 +9,8 @@ export function useGetPopularBookOnGoodreads() {
             const {data} = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/external/list/popular`);
             console.log(data.data.getPopularBookLists.edges);
             return data.data.getPopularBookLists.edges.map((edge: {
-                title: string;
                 node: {
+                title: string;
                     books: {
                         edges: [
                             node: PopularBookOnGoodreads
@@ -20,7 +20,7 @@ export function useGetPopularBookOnGoodreads() {
             }) => {
                 return [
                     ...edge.node.books.edges.map((book: PopularBookOnGoodreads) => {
-                        book.node.topic = edge.title;
+                        book.node.topic = edge.node.title;
                         return book;
                     })
                 ].slice(Math.random() % 5, Math.random() % 5 + 3)

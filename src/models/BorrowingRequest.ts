@@ -24,4 +24,5 @@ export enum BorrowingRequestStatus {
     DECLINED = "DECLINE",
     ACCEPTED = "ACCEPT",
     PENDING = "PENDING",
+    SUBSCRIBED = "SUBSCRIBE"
 }

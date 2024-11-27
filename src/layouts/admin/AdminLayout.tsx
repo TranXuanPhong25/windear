@@ -35,7 +35,7 @@ export default function AdminLayout() {
                     <BreadcrumbItem key={"item" + index}>
                       <BreadcrumbLink asChild>
                         <Link to={path.slice(1, index + 2).join("/")}>
-                          {item}
+                          {item[0].toUpperCase()+item.slice(1)}
                         </Link>
                       </BreadcrumbLink>
                     </BreadcrumbItem>
@@ -48,7 +48,7 @@ export default function AdminLayout() {
                   <>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                      <BreadcrumbPage>{location.pathname.split("/").slice(-1)}</BreadcrumbPage>
+                      <BreadcrumbPage>{location.pathname.split("/").slice(-1).join("").split("").map((c,index)=>index==0?c.toUpperCase():c)}</BreadcrumbPage>
                     </BreadcrumbItem>
                   </>
                 )

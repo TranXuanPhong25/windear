@@ -202,7 +202,7 @@ export default function AdminSidebar() {
                                  </Avatar>
                                  <div className="flex flex-col ">
                                     <span className="text-sm font-semibold">{user?.name}</span>
-                                    <span className="text-xs">{user?.email}</span>
+                                    <span className="text-xs text-ellipsis max-w-[138px] overflow-hidden">{user?.email}.asdasdas</span>
                                  </div>
                                  <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                               </div>

@@ -53,7 +53,7 @@ const features = [
 
 function AdminHome() {
     return (
-        <BentoGrid className="lg:grid-rows-3 h-[calc(100vh-150px)]">
+        <BentoGrid className="flex  flex-col-reverse lg:grid lg:grid-rows-3 min-h-[calc(100vh-150px)] ">
             {features.map((feature) => (
                 <BentoCard key={feature.name} {...feature} />
             ))}

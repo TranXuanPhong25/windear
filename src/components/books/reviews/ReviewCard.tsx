@@ -24,7 +24,6 @@ export default function ReviewCard({
    tags = [],
 }: ReviewCardProps) {
    const date = new Date(createAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
-   console.log(rating)
    return (
       <Card className="mb-4 dark:bg-gray-800 border-0 shadow-none border-b dark:border-gray-400">
          <CardTitle className="flex justify-between items-center ">

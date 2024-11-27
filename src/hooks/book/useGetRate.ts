@@ -20,6 +20,7 @@ export function useGetRate(bookId:string,belongToUser:boolean) {
       },
 
       enabled: !!user && bookId !== "" &&belongToUser,
+      staleTime: 1000 * 60 * 60 , // 1 hour
 
    });
 }

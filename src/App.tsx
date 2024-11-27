@@ -18,7 +18,7 @@ const HomePage = lazy(() => import('./pages/home/HomePage'));
 const BookShow = lazy(() => import('./pages/books/BookShow'));
 const BookBrowse = lazy(() => import('./pages/browse/BookBrowse'));
 const AccountSettings = lazy(() => import('./pages/user/AccountSettings'));
-const Notifications = lazy(() => import("@/pages/user/Notifications.tsx"));
+const NotificationsPage = lazy(() => import("@/pages/user/NotificationsPage.tsx"));
 const Shelves = lazy(() => import('./pages/user/Shelves.tsx'));
 const AdminLayout = lazy(() => import('./layouts/admin/AdminLayout'));
 const UsersManagement = lazy(() => import('./pages/admin/management/UsersManagement'));
@@ -101,7 +101,7 @@ export default function App() {
             } />
             <Route path="/notifications" element={
                <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
-                  <Notifications />
+                  <NotificationsPage />
                </Suspense>
             } />
          </Route>

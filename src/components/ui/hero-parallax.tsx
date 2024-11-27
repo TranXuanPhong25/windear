@@ -94,7 +94,7 @@ const HeroParallax = ({
                                 <ProductCard
                                     product={product}
                                     translate={translateX}
-                                    key={product.node.title}
+                                    key={product.node.title+product.node.topic}
                                 />
                             ))}
                         </motion.div>
@@ -133,7 +133,7 @@ const HeroParallax = ({
                                     <ProductCard
                                         product={product}
                                         translate={translateXReverse}
-                                        key={product.node.title}
+                                        key={product.node.title+product.node.topic}
                                     />
                             ))}
                         </motion.div>
@@ -167,7 +167,7 @@ const HeroParallax = ({
                                     <ProductCard
                                         product={product}
                                         translate={translateX}
-                                        key={product.node.title}
+                                        key={product.node.title+product.node.topic}
                                     />
                             ))}
                         </motion.div>
@@ -211,16 +211,16 @@ export const ProductCard = ({
                 y: -20,
             }}
             key={product.node.title}
-            className="group/product h-[390px] w-64 relative flex-shrink-0 rounded-r-2xl rounded-l-md overflow-hidden "
+            className="group/product h-[390px] w-64 relative flex-shrink-0 rounded-r-2xl rounded-l-md overflow-hidden border-4 border-slate-500 "
         >
             <Link
                 to={"/books/" + product.node.legacyId}
-                className="block group-hover/product:shadow-2xl w-full bg-gray-400 absolute ">
+                className=" block group-hover/product:shadow-2xl w-full bg-slate-500 absolute h-full">
                 <img
                     src={product.node.imageUrl}
-                    className="object-cover object-left-top absolute inset-0"
+                    className="object-cover  object-left-top absolute inset-0 "
                     alt={product.node.title}
-                    loading="lazy"
+                    // loading="lazy"
                     decoding="async"
 
                 />
@@ -228,7 +228,10 @@ export const ProductCard = ({
             </Link>
             <div
                 className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
-            <div className="relative text-center opacity-0 group-hover/product:opacity-100 text-white">
+            <div className="relative text-center opacity-0 group-hover/product:opacity-100 text-white text-2xl mt-6 font-bold">
+                {product.node.topic}
+            </div>
+            <div className="relative text-center opacity-0 group-hover/product:opacity-100 text-white text-lg mt-10">
                 {product.node.title}
             </div>
         </motion.div>

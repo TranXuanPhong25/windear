@@ -12,15 +12,17 @@ import {AffiliateLink} from "@/models/Book.ts";
 import {Link} from "react-router-dom";
 import {Separator} from "@/components/ui/separator.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import LocationCard from "@/components/books/LocationCard.tsx";
+import LocationCard from "@/components/books/borrowing/LocationCard.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {NumberInput} from "@/components/ui/number-input.tsx";
 import {useSendBorrowingRequest} from "@/hooks/borrowing/useSendBorrowingRequest.ts";
 import {BorrowingRequestResponse, BorrowingRequestStatus} from "@/models/BorrowingRequest.ts";
 import {useQueryClient} from "@tanstack/react-query";
-import {useIsBorrowing} from "@/hooks/borrowing/useIsBorrowing.ts";
+import {useGetRequestStatus} from "@/hooks/borrowing/useGetRequestStatus.ts";
 import {useGetAvailableCopyForBorrowing} from "@/hooks/borrowing/useGetAvailableCopyForBorrowing.ts";
 import LoadingBlock from "@/components/layout/LoadingBlock.tsx";
+import AlreadyBorrowingScreen from "@/components/books/borrowing/AlreadyBorrowingScreen.tsx";
+import SubscribeBookScreen from "@/components/books/borrowing/SubscribeBookScreen.tsx";
 
 const getOptionsInitial = [
     {
@@ -35,9 +37,9 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
     title: string,
     bookId: string
 }) {
-    const {data: availableCopy, isLoading: isGettingAvailCopy} = useGetAvailableCopyForBorrowing(bookId);
-    const {data: isBorrowing} = useIsBorrowing(bookId);
     const queryClient = useQueryClient();
+    const {data: availableCopy, isLoading: isGettingAvailCopy} = useGetAvailableCopyForBorrowing(bookId);
+    const {data: userRequest, isLoading: isGettingRequestStatus} = useGetRequestStatus(bookId);
     const {mutate: sendBorrowRequest} = useSendBorrowingRequest();
     const {user, loginWithRedirect} = useAuth0();
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -47,6 +49,11 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
     const handleBorrowClick = () => {
         setIsPopoverOpen(false);
         setIsModalOpen(true);
+    }
+
+    const closeThis = () => {
+        setIsPopoverOpen(false);
+        setIsModalOpen(false);
     }
     const handleBorrowRequest = () => {
         if (!user?.sub) {
@@ -58,7 +65,7 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
             bookLoanId: {
                 bookId: bookId,
                 userId: user?.sub || "",
-                requestDate: new Date().toLocaleDateString()
+                requestDate: new Date().toISOString(),
             },
             borrowDate: null,
             title: title,
@@ -72,8 +79,7 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
             payload,
             {
                 onSuccess: () => {
-                    setIsPopoverOpen(false);
-                    setIsModalOpen(false);
+                    closeThis();
                     queryClient.invalidateQueries({
                         queryKey: ['borrowing', 'available', bookId],
                     });
@@ -84,6 +90,7 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
             }
         )
     }
+    console.log(userRequest)
     return (
         <>
             <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -139,44 +146,65 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
                     <DialogHeader>
                         <DialogTitle className="dark:text-white text-center">Request a copy </DialogTitle>
                     </DialogHeader>
-                    {isBorrowing ? <>
-                        xxx
-                    </> : isGettingAvailCopy ? <LoadingBlock/>
-                        : availableCopy ? <>
-                            <>
-                                <h1 className="dark:text-white">
-                        <span>
-                             A request will be send to our librarian.
-                        </span>
-                                    <br/>
-                                    <span>
-                        Then you can pick up the book at
-                       </span>
-                                    <LocationCard
-                                        title="Library and Digital Knowledge Center"
-                                        address="Dich Vong Hau, Cau Giay, Hanoi"
-                                    />
-                                </h1>
+                    {
+                        (isGettingAvailCopy || isGettingRequestStatus) && !userRequest ? <LoadingBlock/> :
+                            userRequest ? (
 
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2686.92719053401!2d105.78329579226791!3d21.038393770567787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab3540f05ab1%3A0x3f77bbc1a43d6646!2zVHJ1bmcgdMOibSBUaMO0bmcgdGluIFRoxrAgdmnhu4duIMSQSFFHSE4sIEThu4tjaCBW4buNbmcgSOG6rXUsIEPhuqd1IEdp4bqleSwgSMOgIE7hu5lpLCBWaWV0bmFt!5e0!3m2!1sen!2sus!4v1732540373846!5m2!1sen!2sus"
-                                    width="310" height="220" allowFullScreen loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade">
-                                </iframe>
-                                <Label htmlFor="borrow-time-input" className="dark:text-white">
-                                    How long do you want to borrow the book?
-                                </Label>
-                                <NumberInput max={86} min={1} step={1} className="w-full justify-center"
-                                             onChange={setBorrowTime} initialValue={1} id="borrow-time-input"/>
+                                    userRequest.status === BorrowingRequestStatus.PENDING ? <>
+                                        <h1 className="dark:text-white">
+                                                <span>
+                                                    Your request is pending.
+                                                </span>
+                                            <br/>
+                                            <span>
+                                                    Please wait for librarian to approve.
+                                                </span>
+                                        </h1>
+                                    </> : <AlreadyBorrowingScreen onClose={closeThis}/>
+                                )
+                                : availableCopy ? <>
 
-                                <Button className="w-full " onClick={handleBorrowRequest}>Make request</Button>
-                                <DialogDescription className="text-center">
-                                    Your request will be reject after 3 days if you don't pick up the book.
-                                </DialogDescription>
-                            </>
-                        </>:<>
-                            subcribe
-                        </>
+                                    <h1 className="dark:text-white">
+                                 <span>
+                                  A request will be send to our librarian.
+                                     </span>
+                                        <br/>
+                                        <span>
+                                       Then you can pick up the book at
+                                   </span>
+                                        <LocationCard
+                                            title="Library and Digital Knowledge Center"
+                                            address="Dich Vong Hau, Cau Giay, Hanoi"
+                                        />
+                                    </h1>
+
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2686.92719053401!2d105.78329579226791!3d21.038393770567787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab3540f05ab1%3A0x3f77bbc1a43d6646!2zVHJ1bmcgdMOibSBUaMO0bmcgdGluIFRoxrAgdmnhu4duIMSQSFFHSE4sIEThu4tjaCBW4buNbmcgSOG6rXUsIEPhuqd1IEdp4bqleSwgSMOgIE7hu5lpLCBWaWV0bmFt!5e0!3m2!1sen!2sus!4v1732540373846!5m2!1sen!2sus"
+                                        width="310" height="220" allowFullScreen loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade">
+                                    </iframe>
+                                    <Label htmlFor="borrow-time-input" className="dark:text-white">
+                                        How long do you want to borrow the book?
+                                    </Label>
+                                    <NumberInput max={86} min={1} step={1} className="w-full justify-center"
+                                                 onChange={setBorrowTime} initialValue={1} id="borrow-time-input"/>
+
+                                    <Button className="w-full " onClick={handleBorrowRequest}>Make request</Button>
+                                    <DialogDescription className="text-center">
+                                        Your request will be reject after 3 days if you don't pick up the book.
+                                    </DialogDescription>
+
+                                </> : <SubscribeBookScreen
+                                    onClose={closeThis}
+                                    data={
+                                        {
+                                            bookId: bookId,
+                                            title: title,
+                                            authorName: author,
+                                        }
+                                    }
+                                />
+
                     }
                 </DialogContent>
             </Dialog>

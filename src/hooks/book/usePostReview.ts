@@ -11,7 +11,6 @@ export function usePostReview(method: string, review: string ,bookId:number,revi
          if (!user?.sub) {
             throw new Error('User is not authenticated');
          }
-         console.log(rating)
          const accessToken = await getAccessTokenSilently();
          const postReviewUrl = `${import.meta.env.VITE_BASE_API_URL}/review${method=="PUT"?"/"+reviewId:""}`;
          const response = await axios.request(

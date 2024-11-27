@@ -1,40 +1,39 @@
 import {useAuth0} from "@auth0/auth0-react";
-import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {useMutation} from '@tanstack/react-query';
 import axios, {AxiosError} from "axios";
 import {toast} from "../use-toast";
-import {BookLoanId} from "@/models/BorrowingRequest.ts";
+import {SubscribeRequestPayload} from "@/models/SubscribeRequestPayload.ts";
 
-export function useDeclineBorrowingRequest() {
-    const QueryClient = useQueryClient();
+export function useSubscribeBook() {
     const {user, getAccessTokenSilently} = useAuth0();
     return useMutation({
-        mutationFn: async (bookLoanId: BookLoanId) => {
+        mutationFn: async (request: SubscribeRequestPayload) => {
             if (!user?.sub) {
                 throw new Error('User is not authenticated');
             }
             const accessToken = await getAccessTokenSilently();
-            return await axios.request(
+            const deleteBookUrl = `${import.meta.env.VITE_BASE_API_URL}/bookloan/subscribe`;
+            const response = await axios.request(
                 {
                     method: "POST",
-                    url: `${import.meta.env.VITE_BASE_API_URL}/bookloan`,
+                    url: deleteBookUrl,
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-                    data:{
-                        ...bookLoanId,
+                    data: {
+                        ...request
                     }
                 }
             ).then(response => response.data);
+            return response.ticket;
         },
         onSuccess: () => {
             toast({
                 title: "Success",
-                description: "Successfully decline request .",
+                description: "Successfully subscribe book .",
                 className: "mb-4  bg-green-400 dark:bg-green-600  ",
             })
-            QueryClient.invalidateQueries({
-                queryKey: ['borrowing', 'request']
-            });
+
         },
         onError: (error: AxiosError) => {
 

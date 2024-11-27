@@ -115,8 +115,7 @@ export default function Shelves() {
                                                 <div className="  w-full h-[240px]  pl-2 pr-4 py-1 ml-3 rounded-lg ">
                                                     <div className='flex flex-col justify-between h-full'>
                                                         <div>
-                                                            <h3 className="text-3xl pr-4">{book.title}</h3>
-
+                                                            <Link to={"/books/" + book.id} className="text-3xl pr-4">{book.title}</Link>
                                                             <h4><span
                                                                 className='dark:text-gray-200'>by</span> {book.author} - {new Date(book.releaseDate).getFullYear()}
                                                             </h4>

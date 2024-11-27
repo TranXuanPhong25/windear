@@ -30,8 +30,6 @@ import {useDeleteBookInShelves} from "@/hooks/shelves/useDeleteBookInShelves"
 import {BookInShelfPayload} from '@/models/AddBookToShelfPayload';
 import {useAddBookInShelves} from "@/hooks/shelves/useAddBookInShelves";
 import {clsx} from "clsx";
-// import {useQueryClient} from "@tanstack/react-query";
-// import {useAuth0} from "@auth0/auth0-react";
 
 const MAX_SHELF_NAME_LENGTH = 30;
 
@@ -40,12 +38,9 @@ export default function MultiShelfSelector({book, onSaveCompleted, alreadyInShel
     onSaveCompleted: () => void,
     alreadyInShelves: string[]
 }) {
-    // const {user} = useAuth0();
-    // const queryClient = useQueryClient();
     const {toast} = useToast();
     const {mutate: createShelf} = useCreateShelf();
     const {data: myShelves, isLoading: isGettingMyShelves} = useGetMyShelvesName();
-    console.log(myShelves)
     const {mutate: callDeleteShelf} = useDeleteShelf();
     const {mutate: changeShelfName} = useChangeShelfName();
     const {mutate: deleteBookInShelves} = useDeleteBookInShelves();

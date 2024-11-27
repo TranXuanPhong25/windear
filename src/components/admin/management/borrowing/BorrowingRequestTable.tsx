@@ -29,6 +29,7 @@ import {BorrowingRequest, BorrowingRequestStatus} from "@/models/BorrowingReques
 import {handlePlural} from "@/lib/utils.ts";
 import BorrowingRequestAction from "@/components/admin/management/borrowing/BorrowingRequestAction.tsx";
 import {useGetBorrowingRequest} from "@/hooks/admin/useGetBorrowingRequest.ts";
+import {Link} from "react-router-dom";
 
 const columns: ColumnDef<BorrowingRequest>[] = [
     {
@@ -65,7 +66,7 @@ const columns: ColumnDef<BorrowingRequest>[] = [
                 </Button>
             )
         },
-        cell: ({row}) => <div>{row.getValue("title")}</div>,
+        cell: ({row}) => <Link to={"/books/" + row.getValue("bookId")} target="_blank">{row.getValue("title")}</Link>,
     },
     {
         accessorKey: "authorName",
@@ -148,9 +149,11 @@ const columns: ColumnDef<BorrowingRequest>[] = [
         },
         cell: ({row}) => {
 
+            if (!row.getValue("borrowDate")) return null
             const isOverDue = new Date(row.getValue("borrowDate")).getTime() + (row.getValue("borrowTime") as number) * 24 * 60 * 60 * 1000 < new Date().getTime();
+            const text = isOverDue ? "Overdue" : "Not return yet";
             return <span className={`bg-${isOverDue && "red"}-500  p-2 rounded-full px-3`}>{
-                row.getValue("returnDate") ? new Date(row.getValue("returnDate")).toLocaleDateString() : "Not return yet"
+                row.getValue("returnDate") ? new Date(row.getValue("returnDate")).toLocaleDateString() : text
             }</span>
         }
 
@@ -170,10 +173,14 @@ const columns: ColumnDef<BorrowingRequest>[] = [
         },
         cell: ({row}) =>
             row.getValue("status") === BorrowingRequestStatus.ACCEPTED ?
-                <span className="bg-green-500  p-2 rounded-full px-3 ">Accepted</span> :
+                <span className="bg-green-500  p-2 rounded-full px-3 text-white ">Accepted</span> :
                 row.getValue("status") === BorrowingRequestStatus.DECLINED ?
-                    <span className="bg-red-500 p-2 rounded-full px-3">Declined</span>
-                    : <span className="bg-yellow-400 p-2 rounded-full px-3 text-black">Pending</span>
+                    <span className="bg-red-500 p-2 rounded-full px-3 text-white">Declined</span>
+                    : row.getValue("status") === BorrowingRequestStatus.PENDING ?
+                        <span className="bg-yellow-400 p-2 rounded-full px-3 text-black">Pending</span>
+                        : row.getValue("status") === BorrowingRequestStatus.SUBSCRIBED ?
+                            <span className="bg-blue-500 p-2 rounded-full px-3 text-white">Subscribed</span>
+                            : null
 
 
     },
@@ -181,6 +188,9 @@ const columns: ColumnDef<BorrowingRequest>[] = [
         id: "actions",
         enableHiding: false,
         cell: ({row}) => {
+            if(row.original.status===BorrowingRequestStatus.SUBSCRIBED){
+                return null;
+            }
             const loanId = {
                 userId: row.original.userId,
                 bookId: row.original.bookId,

@@ -1,10 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-export function useGetMyShelvesName() {
+export function useGetNotifications() {
     const { user,getAccessTokenSilently } = useAuth0();
     return useQuery({
-        queryKey: ['noti', user?.sub],
+        queryKey: ['notifications', user?.sub],
         queryFn: async () => {
             if(!user?.sub){
                 return [];
@@ -13,8 +13,8 @@ export function useGetMyShelvesName() {
             const domain = `${import.meta.env.VITE_BASE_API_URL}`;
             const accessToken = await getAccessTokenSilently();
             const encodedUserId = encodeURIComponent( user?.sub);
-            const notiUrl = `${domain}/notification/${encodedUserId}`;
-            const responseData = await axios(notiUrl, {
+            const notificationsUrl = `${domain}/notification/${encodedUserId}`;
+            const responseData = await axios(notificationsUrl, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -28,6 +28,6 @@ export function useGetMyShelvesName() {
             return responseData||[];
         },
         enabled: !!user,
-        staleTime: 1000 * 60 * 60 * 10,
+        refetchInterval: 1000 * 60, // 1 minute
     });
 }

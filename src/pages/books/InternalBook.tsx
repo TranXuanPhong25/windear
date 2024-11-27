@@ -2,7 +2,7 @@ import StarRating from "@/components/books/detail/StarRating.tsx";
 import {Skeleton} from "@/components/ui/skeleton"
 import ExpandableParagraph from "@/components/books/detail/ExpandableParagraph.tsx";
 import ShelfAction from "@/components/books/shelves/ShelfAction.tsx";
-import GetBook from "@/components/books/GetBook";
+import GetBook from "@/components/books/borrowing/GetBook.tsx";
 import Genres from "@/components/books/detail/Genres.tsx";
 import {Separator} from "@/components/ui/separator";
 import {Suspense, useEffect, lazy} from "react";
@@ -45,13 +45,11 @@ export default function InternalBook({bookId}: { bookId: string }) {
     return (
         <>
             <div className="w-full dark:text-white md:flex mt-8 px-5 pb-10">
-                {/* book header */}
-
-                <div className="w-[220px] flex flex-col items-center md:sticky top-24 h-fit ">
+                <div className="w-full min-[450px]:w-2/3 sm:w-1/2 md:w-[220px] flex flex-col items-center md:sticky top-24 h-fit  mx-auto">
                     {isLoading ? <Skeleton className="w-[220px] h-80"/>
                         : <img
-                            className="w-full rounded-r-2xl rounded-l-sm dark:drop-shadow-[0_0_1em_#D2D9E11f] drop-shadow-[0_0_1.6em_#0000001f] h-fit"
-                            src={book?.imageUrl}
+                            className="w-full rounded-r-2xl rounded-l-sm dark:drop-shadow-[0_0_1em_#D2D9E11f] drop-shadow-[0_0_1.6em_#0000001f] h-fit "
+                            src={book?.imageUrl||"/book-cover-unavailable-placeholder.jpg"}
                             alt="book cover"
                         />
                     }
@@ -61,11 +59,11 @@ export default function InternalBook({bookId}: { bookId: string }) {
                     }} bookId={bookId}/>
                 </div>
                 {/* book detail */}
-                <div className="flex-1 w-full font-sans md:ml-12 max-w-4xl">
+                <div className="flex-1 w-full font-sans md:ml-12 max-w-4xl mt-6 md:mt-0">
                     {
                         isLoading ? <Skeleton
-                                className="my-2 scroll-m-20 text-5xl font-semibold tracking-tight ">&nbsp;</Skeleton> :
-                            <h1 className="my-2 scroll-m-20 text-5xl font-semibold tracking-tight ">{book.title}</h1>
+                                className="my-2 scroll-m-20 text-3xl xs:text-4xl sm:text-5xll font-semibold tracking-tight ">&nbsp;</Skeleton> :
+                            <h1 className="my-2 scroll-m-20 text-3xl xs:text-4xl sm:text-5xl font-semibold tracking-tight ">{book.title}</h1>
                     }
                     {
                         isLoading ? <Skeleton className="text-lg mb-3 w-64">&nbsp;</Skeleton> :
