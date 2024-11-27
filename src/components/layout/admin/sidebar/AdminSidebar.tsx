@@ -30,7 +30,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Users from "@/components/icons/fontawesome/Users";
 import {useAuth0} from "@auth0/auth0-react";
 // Menu items.
@@ -86,6 +86,9 @@ export default function AdminSidebar() {
    const location = useLocation();
    const { user } = useAuth0();
    const [activeButton, setActiveButton] = useState<string>(location.pathname.split("/").slice(-1)[0]);
+   useEffect(() => {
+        setActiveButton(location.pathname.split("/").slice(-1)[0]);
+   }, [location]);
    const { open } = useSidebar();
    return (
       
