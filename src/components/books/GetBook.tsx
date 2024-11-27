@@ -62,6 +62,7 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
             },
             borrowDate: null,
             title: title,
+
             authorName: author,
             returnDate: "",
             borrowTime: borrowTime,

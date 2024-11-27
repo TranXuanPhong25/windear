@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CircleCheckBig, RefreshCcw } from "lucide-react";
 import clsx from "clsx";
-import { Separator } from "../ui/separator";
-import { Button } from "../ui/button";
-import { useGeneratePasswordReset } from "@/hooks/user/useGeneratePasswordReset";
+import { Separator } from "../../ui/separator.tsx";
+import { Button } from "../../ui/button.tsx";
+import { useGeneratePasswordReset } from "@/hooks/user/useGeneratePasswordReset.ts";
 
 function PasswordChange() {
   const [ticket, setTicket] = useState<string | null>(null);

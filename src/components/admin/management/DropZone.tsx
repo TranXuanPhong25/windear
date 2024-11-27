@@ -1,9 +1,9 @@
 import {useCallback, useEffect, useState} from "react";
 import {useDropzone} from "react-dropzone";
-import {Input} from "./ui/input";
+import {Input} from "../../ui/input.tsx";
 import {Pencil, PlusCircle, X} from "lucide-react";
 import clsx from "clsx";
-import {compressImage} from "@/lib/compressImage";
+import {compressImage} from "@/lib/compressImage.ts";
 
 export default function DropZone({onDropFile, editingBookImageUrl}: {
     onDropFile: (file: File | null) => void,

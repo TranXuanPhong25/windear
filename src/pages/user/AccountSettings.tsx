@@ -1,5 +1,5 @@
-import DangerZone from "@/components/user/DangerZone";
-import PasswordChange from "@/components/user/PasswordChange";
+import DangerZone from "@/components/user/settings/DangerZone.tsx";
+import PasswordChange from "@/components/user/settings/PasswordChange.tsx";
 import ProfileSettings from "@/components/user/ProfileSettings";
 import { KeyRound, User } from "lucide-react";
 import { useEffect } from "react";

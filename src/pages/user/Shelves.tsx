@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
-import {Checkbox} from "@/components/ui/checkbox";
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion.tsx";
+import {Checkbox} from "@/components/ui/checkbox.tsx";
 import {Label} from "@radix-ui/react-label";
 import {SquareArrowOutUpRight, Star} from "lucide-react";
 import StarRating from '@/components/books/detail/StarRating.tsx';

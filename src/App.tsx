@@ -18,7 +18,8 @@ const HomePage = lazy(() => import('./pages/home/HomePage'));
 const BookShow = lazy(() => import('./pages/books/BookShow'));
 const BookBrowse = lazy(() => import('./pages/browse/BookBrowse'));
 const AccountSettings = lazy(() => import('./pages/user/AccountSettings'));
-const Shelves = lazy(() => import('./pages/shelves/Shelves'));
+const Notifications = lazy(() => import("@/pages/user/Notifications.tsx"));
+const Shelves = lazy(() => import('./pages/user/Shelves.tsx'));
 const AdminLayout = lazy(() => import('./layouts/admin/AdminLayout'));
 const UsersManagement = lazy(() => import('./pages/admin/management/UsersManagement'));
 const BooksManagement = lazy(() => import('./pages/admin/management/BooksManagement'));
@@ -31,6 +32,7 @@ const NewReleases = lazy(() => import("@/pages/discover/NewReleases.tsx"));
 const PopularBooks = lazy(() => import("@/pages/discover/PopularBooks.tsx"));
 const BrowseGenreIndex = lazy(() => import("@/pages/browse/BrowseGenreIndex.tsx"));
 const GenresLayout = lazy(() => import("@/layouts/genre/GenresLayout.tsx"));
+
 
 
 
@@ -85,7 +87,6 @@ export default function App() {
                   <BookShow />
                </Suspense>
             } />
-            <Route path="/author" element={<div>user</div>} />
          </Route>
          <Route element={<AuthenticationGuard component={CommonLayout} />}>
             <Route path="/shelves" element={
@@ -96,6 +97,11 @@ export default function App() {
             <Route path="/settings" element={
                <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
                   <AccountSettings />
+               </Suspense>
+            } />
+            <Route path="/notifications" element={
+               <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
+                  <Notifications />
                </Suspense>
             } />
          </Route>

@@ -6,7 +6,7 @@ import {Input} from "@/components/ui/input"
 import {Button} from "@/components/ui/button"
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form"
 import {toast} from "@/hooks/use-toast"
-import DropZone from "@/components/DropZone";
+import DropZone from "@/components/admin/management/DropZone.tsx";
 import {Textarea} from '@/components/ui/textarea'
 import {cn} from '@/lib/utils'
 import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover'

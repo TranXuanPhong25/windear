@@ -1,6 +1,6 @@
 import ProfileInput from "./settings/ProfileInput";
 import {Separator} from "../ui/separator";
-import ProfilePictureChange from "@/components/user/ProfilePictureChange";
+import ProfilePictureChange from "@/components/user/settings/ProfilePictureChange.tsx";
 
 function ProfileSettings() {
     return (

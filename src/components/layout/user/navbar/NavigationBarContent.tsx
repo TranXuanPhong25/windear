@@ -21,7 +21,7 @@ import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
 
 const userNavigation = [
    [
-      { name: "Notifications", href: "user/", icon: Bell }
+      { name: "Notifications", href: "/notifications", icon: Bell }
    ],
    [
       { name: 'My shelves', href: '/shelves', icon: LibraryBig },
