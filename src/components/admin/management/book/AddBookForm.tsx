@@ -36,11 +36,12 @@ const formSchema = z.object({
     isbn13: z.string().min(13, 'ISBN13 is required').max(13, 'ISBN13 is required'),
     language: z.string().min(1, 'Language is required'),
     genres: z.string().optional(),
+    quantityAvailable: z.number().default(12),
 })
 
 export default function AddBookForm() {
     const [editingBook, setEditingBook] = useState<string>("");
-    const [editingBookImageUrl, setEditingBookImageUrl] = useState<string|null>("");
+    const [editingBookImageUrl, setEditingBookImageUrl] = useState<string | null>("");
     const {data: editingBookData} = useGetinternalBook(editingBook)
     const {data: genres} = useGetAllGenres();
     const [suggestGenres, setSuggestGenres] = useState<string[]>([]);
@@ -63,11 +64,11 @@ export default function AddBookForm() {
             authorDescription: '',
             format: '',
             releaseDate: new Date(),
-            numPages: 0,
+            numPages: 1,
             isbn10: '',
             isbn13: '',
             genres: '',
-
+            quantityAvailable: 12,
         },
     })
     useEffect(() => {
@@ -93,6 +94,7 @@ export default function AddBookForm() {
             form.setValue('isbn10', editingBookData.internalBook.isbn10 || "");
             form.setValue('isbn13', editingBookData.internalBook.isbn13);
             form.setValue('language', editingBookData.internalBook.language);
+            form.setValue('quantityAvailable', editingBookData.internalBook.quantityAvailable);
             setEditingBookImageUrl(editingBookData.internalBook.imageUrl);
             if (editingBookData.genres) {
                 setTags(editingBookData.genres.split(',').map((genre: string) => genres[parseInt(genre)]));
@@ -140,6 +142,7 @@ export default function AddBookForm() {
             imageUrl: publicUrl,
             description: values.description || '',
             authorDescription: values.authorDescription || '',
+            quantityAvailable: 12,
         };
         const payload: AddBookPayload = {
             genres: tagsIndices.join(','),
@@ -196,7 +199,7 @@ export default function AddBookForm() {
         form.setValue('authorDescription', '');
         form.setValue('format', '');
         form.setValue('releaseDate', new Date());
-        form.setValue('numPages', 0);
+        form.setValue('numPages', 1);
         form.setValue('isbn10', '');
         form.setValue('isbn13', '');
         form.setValue('language', '');
@@ -246,20 +249,35 @@ export default function AddBookForm() {
                                     </FormItem>
                                 )}
                             />
+                            <div className='grid grid-cols-2 gap-6'>
 
-                            <FormField
-                                control={form.control}
-                                name="language"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Language</FormLabel>
-                                        <FormControl>
-                                            <Input {...field} />
-                                        </FormControl>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
-                            />
+                                <FormField
+                                    control={form.control}
+                                    name="language"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>Language</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="format"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>Format</FormLabel>
+                                            <FormControl>
+                                                <Input {...field} />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                             <div className='grid grid-cols-2 gap-6'>
                                 <FormField
                                     control={form.control}
@@ -318,14 +336,15 @@ export default function AddBookForm() {
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-6">
+
                                 <FormField
                                     control={form.control}
-                                    name="format"
+                                    name="quantityAvailable"
                                     render={({field}) => (
                                         <FormItem>
-                                            <FormLabel>Format</FormLabel>
+                                            <FormLabel>Quantity</FormLabel>
                                             <FormControl>
-                                                <Input {...field} />
+                                                <Input type={"number"} {...field} defaultValue={12}/>
                                             </FormControl>
                                             <FormMessage/>
                                         </FormItem>
@@ -341,6 +360,7 @@ export default function AddBookForm() {
                                                 <Input
                                                     type="number"
                                                     {...field}
+                                                    defaultValue={1}
                                                     onChange={(e) => field.onChange(Number(e.target.value) || "")}
                                                 />
                                             </FormControl>
@@ -470,11 +490,13 @@ export default function AddBookForm() {
                             )}
                         />
                     </div>
-                    <Button type="submit" className=""
-                            disabled={isPending}>{editingBook ? "Update" : "Add"} Book</Button>
-                    {editingBook &&
-                        <Button type="button" onClick={handleCancelEdit}
-                                className="!bg-red-500 ml-2 !text-white">Cancel</Button>}
+                    <div className="flex justify-center">
+                        <Button type="submit" className={!isPending ? "!bg-blue-500 hover:!bg-blue-600 px-8" : " bg-gray-300 px-8"}
+                                disabled={isPending}>{editingBook ? "Update" : "Add"} Book</Button>
+                        {editingBook &&
+                            <Button type="button" onClick={handleCancelEdit}
+                                    className="!bg-red-500 ml-2 !text-white px-8">Cancel</Button>}
+                    </div>
                 </form>
             </Form>
         </>

@@ -13,15 +13,15 @@ interface NumberInputProps {
     id?: string
 }
 
-export function NumberInput({
-                                initialValue = 0,
-                                min = -Infinity,
-                                max = Infinity,
-                                step = 1,
-                                onChange,
-                                className = '',
-                                id=""
-                            }: NumberInputProps) {
+const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(({
+                                                                              initialValue = 0,
+                                                                              min = -Infinity,
+                                                                              max = Infinity,
+                                                                              step = 1,
+                                                                              onChange,
+                                                                              className = '',
+                                                                              id = ''
+                                                                          }, ref) => {
     const [value, setValue] = useState<number>(initialValue)
 
     useEffect(() => {
@@ -56,6 +56,7 @@ export function NumberInput({
                 <Minus className="h-4 w-4" />
             </Button>
             <Input
+                ref={ref}
                 id={id}
                 type="number"
                 value={value}
@@ -76,5 +77,6 @@ export function NumberInput({
             </Button>
         </div>
     )
-}
-
+})
+NumberInput.displayName = 'NumberInput'
+export { NumberInput }

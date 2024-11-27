@@ -65,13 +65,12 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
             bookLoanId: {
                 bookId: bookId,
                 userId: user?.sub || "",
-                requestDate: new Date().toISOString(),
+                requestDate: new Date().getTime(),
             },
             borrowDate: null,
             title: title,
-
             authorName: author,
-            returnDate: "",
+            returnDate: null,
             borrowTime: borrowTime,
             status: BorrowingRequestStatus.PENDING
         }

@@ -4,7 +4,7 @@ export default function Footer() {
    return (
       <footer className="bg-transparent dark:text-white text-gray-600 pt-6 pb-12 text-sm">
          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-around items-center">
+            <div className="flex flex-col md:flex-row justify-around items-center md:space-y-0 space-y-6">
                <div className="flex items-center">
                   <Link to="/">
                      <img src="/react.svg" alt="Windear" className="h-8 w-auto" />
@@ -13,7 +13,7 @@ export default function Footer() {
                      © 2024 Windear. All rights reserved.
                   </p>
                </div>
-               <div>
+               <div className="md:block flex">
                   <Link to="/" className="dark:text-white text-gray-600 hover:text-black mx-2">Home</Link>
                   <Link to="/privacy-policy" className="dark:text-white text-gray-600 hover:text-black mx-2">Privacy policy</Link>
                   <Link to="/terms-of-service" className="dark:text-white text-gray-600 hover:text-black mx-2">Terms of service</Link>

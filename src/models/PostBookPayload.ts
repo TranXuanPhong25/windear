@@ -8,6 +8,7 @@ export  interface PostBookPayload  {
    publisher: string;
    imageUrl: string;
    format: string;
+   quantityAvailable?:number;
 }
 export interface AddBookPayload{
    genres: string;

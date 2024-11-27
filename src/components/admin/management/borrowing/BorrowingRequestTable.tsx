@@ -96,7 +96,11 @@ const columns: ColumnDef<BorrowingRequest>[] = [
                 </Button>
             )
         },
-        cell: ({row}) => <div>{new Date(row.getValue("requestDate")).toLocaleDateString()}</div>,
+        cell: ({row}) => <div className="flex flex-col ">
+            <span>{new Date(row.getValue("requestDate")).toDateString()}</span>
+            <span>{new Date(row.getValue("requestDate")).toLocaleTimeString()}</span>
+
+        </div>,
     },
     {
         accessorKey: "borrowDate",
@@ -112,11 +116,11 @@ const columns: ColumnDef<BorrowingRequest>[] = [
             )
         },
         cell: ({row}) => {
-            const isBorrowing = !!row.getValue("borrowDate");
-            console.log(row.getValue("borrowDate"));
-            return <span className={`bg-${!isBorrowing && "yellow"}-500  p-2 rounded-full px-3`}>{
-                row.getValue("borrowDate") ? new Date(row.getValue("borrowDate")).toLocaleDateString() : "Not Accepted"
-            }</span>
+            return row.getValue("borrowDate") ? <div className="flex flex-col ">
+                    <span>{new Date(row.getValue("requestDate")).toDateString()}</span>
+                    <span>{new Date(row.getValue("requestDate")).toLocaleTimeString()}</span>
+                </div>
+                : <span className="text-red-500">Not Accepted yet</span>
         }
     },
     {
@@ -152,8 +156,13 @@ const columns: ColumnDef<BorrowingRequest>[] = [
             if (!row.getValue("borrowDate")) return null
             const isOverDue = new Date(row.getValue("borrowDate")).getTime() + (row.getValue("borrowTime") as number) * 24 * 60 * 60 * 1000 < new Date().getTime();
             const text = isOverDue ? "Overdue" : "Not return yet";
-            return <span className={`bg-${isOverDue && "red"}-500  p-2 rounded-full px-3`}>{
-                row.getValue("returnDate") ? new Date(row.getValue("returnDate")).toLocaleDateString() : text
+            return <span className={`bg-${isOverDue && "red"}-500 rounded-full`}>{
+                row.getValue("returnDate") ? <div className="flex flex-col ">
+                    <span>{new Date(row.getValue("requestDate")).toDateString()}</span>
+                    <span>{new Date(row.getValue("requestDate")).toLocaleTimeString()}</span>
+                </div> : <span className={isOverDue?"p-2  px-3":""}>
+                    {text}
+                </span>
             }</span>
         }
 
@@ -188,7 +197,7 @@ const columns: ColumnDef<BorrowingRequest>[] = [
         id: "actions",
         enableHiding: false,
         cell: ({row}) => {
-            if(row.original.status===BorrowingRequestStatus.SUBSCRIBED){
+            if (row.original.status === BorrowingRequestStatus.SUBSCRIBED) {
                 return null;
             }
             const loanId = {
