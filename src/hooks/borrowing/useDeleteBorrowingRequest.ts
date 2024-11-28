@@ -20,7 +20,7 @@ export function useDeleteBorrowingRequest() {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-                    data:{
+                    data: {
                         ...bookLoanId,
                     }
                 }
@@ -33,8 +33,9 @@ export function useDeleteBorrowingRequest() {
                 className: "mb-4  bg-green-400 dark:bg-green-600  ",
             })
             QueryClient.invalidateQueries({
-                queryKey: ['borrowing', 'request']
+                queryKey: ['user', user?.sub, 'requests-borrowing']
             });
+
         },
         onError: (error: AxiosError) => {
 

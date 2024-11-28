@@ -78,7 +78,6 @@ export function parseLinks(text: string) {
 
 export function calculateLastLoginTime(lastLogin: string|number): string {
   const lastLoginDate = new Date(lastLogin);
-  console.log(lastLogin);
   const currentDate = new Date();
   const diff = currentDate.getTime() - lastLoginDate.getTime();
   const diffInDays = diff / (1000 * 3600 * 24);

@@ -144,7 +144,7 @@ export default function BooksTable() {
    )
    const [columnVisibility, setColumnVisibility] = React.useState({})
    const [rowSelection, setRowSelection] = React.useState({})
-   const [filterColumn, setFilterColumn] = React.useState("name");
+   const [filterColumn, setFilterColumn] = React.useState("title");
    const [filterValue, setFilterValue] = React.useState("");
 
    const table = useReactTable({
@@ -194,8 +194,9 @@ export default function BooksTable() {
                   <SelectValue placeholder="Select column" />
                </SelectTrigger>
                <SelectContent>
-                  <SelectItem value="name">Name</SelectItem>
-                  <SelectItem value="email">Email</SelectItem>
+                  <SelectItem value="title">Title</SelectItem>
+                  <SelectItem value="author">Author</SelectItem>
+                  <SelectItem value="publisher">Publisher</SelectItem>
                </SelectContent>
             </Select>
             <Input

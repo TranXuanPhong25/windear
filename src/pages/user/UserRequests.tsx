@@ -15,14 +15,21 @@ function UserRequests() {
     }
 
     return (
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto min-h-[70vh]">
             <h1 className="text-3xl md:text-4xl font-bold">My borrowing request</h1>
             {
-                isLoading ? <LoadingBlock className="!bg-transparent min-h-[50vh] w-full"/> :
+                isLoading ? <LoadingBlock className="!bg-transparent mt-40 w-full"/> :
                     data.map((request: BorrowingRequestResponse, index: number) => (
                        <BorrowingRequestCard request={request} key={index+request.bookLoanId.requestDate}/>
                     ))
 
+            }
+            {
+                data&&data.length === 0 && !isLoading && (
+                    <div className="text-center text-lg font-bold mt-4">
+                        You don't have any borrowing requests
+                    </div>
+                )
             }
 
         </div>
