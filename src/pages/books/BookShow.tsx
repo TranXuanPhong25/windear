@@ -1,12 +1,15 @@
 import { useParams } from "react-router-dom";
 import InternalBook from "@/pages/books/InternalBook.tsx";
 import ExternalBook from "@/pages/books/ExternalBook.tsx";
+import {useEffect} from "react";
 
 export default function BookShow() {
    const params = useParams();
    const bookId = params.bookId;
    const NONDIGIT_REGEX = /\D/g;
-
+   useEffect(() => {
+         document.title = "Book";
+   }, []);
    if (NONDIGIT_REGEX.test(bookId || '')) {
       return <h1>Invalid book ID</h1>
    }

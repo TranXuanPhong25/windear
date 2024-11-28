@@ -98,7 +98,7 @@ export default function StarRating({ title = "Your rating", initialRating = 0, r
     <div className="relative w-fit font-sans ">
       {
         ratable && (
-          <div className="flex justify-between text-lg">
+          <div className="flex justify-between md:text-lg">
             <h3 className="">{title}</h3>
             {
               rating != 0 && (
@@ -124,12 +124,12 @@ export default function StarRating({ title = "Your rating", initialRating = 0, r
               onMouseLeave={handleMouseLeave}
             >
               <Star
-                className={`${small ? "size-5" : "w-8 h-8 "} text-gray-300 dark:text-gray-500 `}
+                className={`${small ? "size-5" : "size-6 md:size-8"} text-gray-300 dark:text-gray-500 `}
                 fill="currentColor"
               />
               <div className="absolute top-0 left-0 overflow-hidden" style={{ width: `${fillPercentage}%` }}>
                 <Star
-                  className={`${small ? "size-5" : "w-8 h-8 "} text-yellow-400 `}
+                  className={`${small ? "size-5" : "size-6 md:size-8 "} text-yellow-400 `}
                   fill="currentColor"
                 />
               </div>

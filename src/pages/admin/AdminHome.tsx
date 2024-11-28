@@ -1,6 +1,7 @@
 import {BentoCard, BentoGrid} from "@/components/ui/bento-grid";
 // import Users from "@/components/icons/fontawesome/Users.tsx";
 import {Activity, BookUser, LibraryBig, NotepadText, UsersIcon} from "lucide-react";
+import {useEffect} from "react";
 
 const features = [
     {
@@ -52,6 +53,9 @@ const features = [
 ];
 
 function AdminHome() {
+    useEffect(() => {
+        document.title = "Admin Dashboard";
+    }, []);
     return (
         <BentoGrid className="flex  flex-col-reverse lg:grid lg:grid-rows-3 min-h-[calc(100vh-150px)] ">
             {features.map((feature) => (

@@ -3,15 +3,18 @@ import LoadingBlock from "@/components/layout/LoadingBlock";
 import { useGetLogs } from "@/hooks/admin/useGetLogs";
 import { replaceUnderscores } from "@/lib/utils";
 import { Auth0Log } from "@/models/Auth0Log";
+import {useEffect} from "react";
 
 const preProcessData = (data: Auth0Log[]) => {
   return data.map(replaceUnderscores);
 }
 function LogsDashboard() {
   const { data: logs, isLoading, error } = useGetLogs();
+    useEffect(() => {
+    document.title = "Logs | Admin";
+    }, []);
   if (isLoading) return <LoadingBlock className="h-[70vh] !bg-transparent" />;
   if (error) return <div>Error: {error.message}</div>;
-
   const processedData = logs ? preProcessData(logs) as Auth0Log[] : [];
   return (
     <div className="w-full p-6 dark:bg-slate-600 bg-white rounded-2xl shadow-md">

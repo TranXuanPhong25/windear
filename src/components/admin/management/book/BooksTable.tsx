@@ -59,7 +59,7 @@ const columns: ColumnDef<BookTableData>[] = [
             </Button>
          )
       },
-      cell: ({ row }) => <div>{row.getValue("title")}</div>,
+      cell: ({ row }) => <div className="text-left">{row.getValue("title")}</div>,
    },
    {
       accessorKey: "author",
@@ -74,7 +74,7 @@ const columns: ColumnDef<BookTableData>[] = [
             </Button>
          )
       },
-      cell: ({ row }) => <div>{row.getValue("author")}</div>,
+      cell: ({ row }) => <div className="text-left">{row.getValue("author")}</div>,
    },
    {
       accessorKey: "publisher",
@@ -89,7 +89,7 @@ const columns: ColumnDef<BookTableData>[] = [
             </Button>
          )
       },
-      cell: ({ row }) => <div>{row.getValue("publisher")}</div>,
+      cell: ({ row }) => <div className="text-left">{row.getValue("publisher")}</div>,
    }
    ,
    {
@@ -108,7 +108,7 @@ const columns: ColumnDef<BookTableData>[] = [
       cell: ({ row }) => <div>{new Date(row.getValue("releaseDate")).toLocaleDateString()}</div>,
    },
    {
-      accessorKey: "addedDate",
+      accessorKey: "addDate",
       header: ({ column }) => {
          return (
             <Button
@@ -120,7 +120,7 @@ const columns: ColumnDef<BookTableData>[] = [
             </Button>
          )
       },
-      cell: ({ row }) => <div>{new Date(row.getValue("releaseDate")).toLocaleDateString()}</div>,
+      cell: ({ row }) => <div>{new Date(row.getValue("addDate")).toLocaleDateString()}</div>,
 
    },
    {

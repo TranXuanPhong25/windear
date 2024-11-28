@@ -44,7 +44,7 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
     const {user, loginWithRedirect} = useAuth0();
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
-    const [borrowTime, setBorrowTime] = React.useState(0);
+    const [borrowTime, setBorrowTime] = React.useState(1);
 
     const handleBorrowClick = () => {
         setIsPopoverOpen(false);

@@ -4,7 +4,9 @@ import { useEffect } from "react";
 
 export default function LogoutPage() {
    const { logout } = useAuth0();
-
+    useEffect(() => {
+        document.title = "Logging out";
+    }, []);
    useEffect(() => {
       logout();
    }, [logout]);

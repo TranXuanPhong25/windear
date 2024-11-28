@@ -1,8 +1,12 @@
+import {useEffect} from "react";
 
 export default function BookNotFound() {
    setTimeout(() => {
       window.history.back();
    },5000)
+   useEffect(() => {
+        document.title = "Book not found";
+   }, []);
    return (
       <div className="flex center justify-center items-center h-[70vh]">
          <div>

@@ -218,9 +218,9 @@ export const ProductCard = ({
                 className=" block group-hover/product:shadow-2xl w-full bg-slate-500 absolute h-full">
                 <img
                     src={product.node.imageUrl}
-                    className="object-cover  object-left-top absolute inset-0 "
+                    className="object-cover  object-left-top absolute inset-0 aspect-[256/390]"
                     alt={product.node.title}
-                    // loading="lazy"
+                    loading="lazy"
                     decoding="async"
 
                 />

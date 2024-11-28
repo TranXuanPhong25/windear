@@ -78,7 +78,7 @@ const sidebarGroups = [
 const userItems = [
    {
       title: "Account settings",
-      url: "settings",
+      url: "/settings",
       icon: UserRoundCog
    }
 ]

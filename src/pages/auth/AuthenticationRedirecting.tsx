@@ -1,6 +1,10 @@
 import { Loader } from "lucide-react";
+import {useEffect} from "react";
 
 function AuthenticationRedirecting() {
+    useEffect(() => {
+        document.title = "Authenticating";
+    }, []);
    return (
       <main className="grid min-h-screen place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
          <div className="flex flex-col items-center">

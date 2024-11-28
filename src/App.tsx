@@ -16,7 +16,7 @@ import VerifyEmail from './pages/auth/VerifyEmail';
 const HomePageLayout = lazy(() => import('./layouts/homepage/HomePageLayout'));
 const HomePage = lazy(() => import('./pages/home/HomePage'));
 const BookShow = lazy(() => import('./pages/books/BookShow'));
-const BookBrowse = lazy(() => import('./pages/browse/BookBrowse'));
+const UserRequests = lazy(() => import("@/pages/user/UserRequests.tsx"));
 const AccountSettings = lazy(() => import('./pages/user/AccountSettings'));
 const NotificationsPage = lazy(() => import("@/pages/user/NotificationsPage.tsx"));
 const Shelves = lazy(() => import('./pages/user/Shelves.tsx'));
@@ -32,6 +32,7 @@ const NewReleases = lazy(() => import("@/pages/discover/NewReleases.tsx"));
 const PopularBooks = lazy(() => import("@/pages/discover/PopularBooks.tsx"));
 const BrowseGenreIndex = lazy(() => import("@/pages/browse/BrowseGenreIndex.tsx"));
 const GenresLayout = lazy(() => import("@/layouts/genre/GenresLayout.tsx"));
+
 
 
 
@@ -54,12 +55,6 @@ export default function App() {
             } />
          </Route>
          <Route element={<CommonLayout />} >
-            <Route path="/browse/tag/:tagName" element={
-               <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
-                  <BookBrowse />
-               </Suspense>
-            } />
-
             <Route path="/browse/genres" element={
                <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
                   <GenresLayout />
@@ -102,6 +97,11 @@ export default function App() {
             <Route path="/notifications" element={
                <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
                   <NotificationsPage />
+               </Suspense>
+            } />
+            <Route path="/requests" element={
+               <Suspense fallback={<LoadingBlock className='h-[60vh] w-full' />}>
+                  <UserRequests />
                </Suspense>
             } />
          </Route>

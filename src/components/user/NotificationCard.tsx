@@ -18,6 +18,7 @@ export default function NotificationItem({notification}: { notification: Notific
     const [isRead, setIsRead] = useState(initialIsRead)
     const [isAnimating, setIsAnimating] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
+    const sentTime = (new Date().getTime() - new Date(timestamp).getTime()) < THRESHOLD_FOR_PASSED_TIME ? calculatePassTime(timestamp) : new Date(timestamp).toLocaleString()
     const handleToggleReadStatus = async () => {
         toggleReadStatus({
             id,
@@ -27,6 +28,10 @@ export default function NotificationItem({notification}: { notification: Notific
                 queryClient.invalidateQueries({
                     queryKey: ['unread-notifications', user?.sub],
                 })
+                queryClient.invalidateQueries({
+                    queryKey: ['notifications', user?.sub]
+                })
+
                 setIsRead(!isRead)
                 setIsAnimating(true)
                 setTimeout(() => setIsAnimating(false), 1000)
@@ -43,6 +48,10 @@ export default function NotificationItem({notification}: { notification: Notific
                 queryClient.invalidateQueries({
                     queryKey: ['unread-notifications', user?.sub],
                 })
+                queryClient.invalidateQueries({
+                    queryKey: ['notifications', user?.sub]
+                })
+
             }
         })
     }
@@ -66,7 +75,7 @@ export default function NotificationItem({notification}: { notification: Notific
                         {title}
                     </h2>
                     <p className="text-sm text-muted-foreground mt-1">
-                        {(new Date().getTime() - new Date(timestamp).getTime()) < THRESHOLD_FOR_PASSED_TIME ? calculatePassTime(timestamp) : new Date(timestamp).toLocaleDateString()}
+                        {sentTime}
                     </p>
                 </div>
                 <Button

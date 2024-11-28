@@ -31,7 +31,7 @@ export default function Shelves() {
         }
     }, []);
     useEffect(() => {
-        document.title = "Shelves - Windear library";
+        document.title = "My Shelves";
 
     }, []);
     const {
@@ -168,7 +168,7 @@ export default function Shelves() {
 
                                                                />
                                                                <div>
-                                                                   <h5>AddedDate: {new Date(book.addedDate).toLocaleDateString()}</h5>
+                                                                   <h5>Added at: {new Date(book.addedDate).toLocaleDateString()}</h5>
                                                                    <ShelfAction customClass="!mt-1 w-full " book={book}/>
                                                                    {/* <GetBook /> */}
                                                                </div>

@@ -19,6 +19,5 @@ export function useCountBookIn30Days() {
          return data;
       },
       enabled: !!user,
-      staleTime: 1000 * 60 * 5, // 1 minute
    });
 }

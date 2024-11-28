@@ -17,12 +17,13 @@ export interface BorrowingRequestResponse {
     authorName: string;
     borrowDate: number|null;
     borrowTime: number;
-    returnDate: number|null;
+    returnDate: string|number|null;
     status: BorrowingRequestStatus;
 }
 export enum BorrowingRequestStatus {
     DECLINED = "DECLINE",
     ACCEPTED = "ACCEPT",
     PENDING = "PENDING",
-    SUBSCRIBED = "SUBSCRIBE"
+    SUBSCRIBED = "SUBSCRIBE",
+    RETURNED = "RETURNED"
 }
