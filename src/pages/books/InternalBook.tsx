@@ -29,7 +29,7 @@ export default function InternalBook({bookId}: { bookId: string }) {
         return <BookNotFound/>;
     }
     const book: InternalBookType = data?.internalBook || {}
-    const genres = data?.genres ? data?.genres?.split(",").map((genre: string) => genre[0].toLowerCase() + genre.slice(1)) : [];
+    const genres = data?.genres ? data?.genres?.split(",") : [];
     const shelfBook: BookInShelfPayload = {
         id: bookId || "",
         title: book?.title || "",
@@ -92,7 +92,7 @@ export default function InternalBook({bookId}: { bookId: string }) {
 
                     {
                         isLoading ? <Skeleton className="w-full h-24 my-4"/> :
-                            <Genres genres={genres.map((genre: string) => genre)}/>
+                            <Genres genres={genres}/>
                     }
 
                     {

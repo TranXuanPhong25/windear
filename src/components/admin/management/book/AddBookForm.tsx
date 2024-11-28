@@ -95,7 +95,7 @@ export default function AddBookForm() {
             setEditingBookImageUrl(editingBookData.internalBook.imageUrl);
             if (editingBookData.genres) {
                 setTags(editingBookData.genres.split(','));
-                setTagsIndices(editingBookData.genres.split(',').map((genre:string)=>genres.indexOf(genre)));
+                setTagsIndices(editingBookData.genres.split(',').map((genre: string) => genres.indexOf(genre)));
             } else {
                 setTags([]);
                 setTagsIndices([]);
@@ -122,6 +122,7 @@ export default function AddBookForm() {
         const fileUrl = `${import.meta.env.VITE_SUPABASE_BUCKET_URL}/${data.fullPath}`
         return {data: fileUrl, error: null};
     };
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
         let publicUrl = editingBookImageUrl || "";
         if (!editingBookImageUrl) {
@@ -144,7 +145,7 @@ export default function AddBookForm() {
             authorDescription: values.authorDescription || '',
         };
         const payload: AddBookPayload = {
-            genres: tagsIndices.map(tag=>tag+1).join(','),
+            genres: tagsIndices.map(tag => tag + 1).join(','),
             internalBook: book,
         };
         if (!editingBookImageUrl) {
@@ -155,8 +156,6 @@ export default function AddBookForm() {
                 bookId: editingBook
             });
         }
-        console.log(tags)
-        console.log(tagsIndices)
 
     }
 
@@ -182,12 +181,16 @@ export default function AddBookForm() {
         } else if (e.key === 'ArrowUp') {
             e.preventDefault();
             setSelectedSuggestionIndex((prevIndex) => (prevIndex - 1 + suggestGenres.length) % suggestGenres.length);
+        }else if(e.key==="Escape"){
+            setGenreQuery('');
+            setSuggestGenres([]);
         }
     };
 
     const handleRemoveTag = (tag: string) => {
         setTags(tags.filter(t => t !== tag));
-        setTagsIndices(tagsIndices.filter((tagIndex) => tags[tagIndex] !== tag));
+        setTagsIndices(tagsIndices.filter((tagIndex) => genres[tagIndex] !== tag));
+        console.log(tagsIndices.filter((tagIndex) => genres[tagIndex] !== tag))
     };
     const handleCancelEdit = () => {
         setEditingBook("")
@@ -209,6 +212,7 @@ export default function AddBookForm() {
         setSuggestGenres([]);
         setImage(null);
     }
+    console.log(tagsIndices)
     return (
         <>
             <h1 className="text-3xl font-bold mb-6">
@@ -402,7 +406,7 @@ export default function AddBookForm() {
                                             onChange={(e) => {
                                                 field.onChange(e);
                                                 setGenreQuery(e.target.value);
-                                                setSuggestGenres(genres.map((genre: string) => genre.toLowerCase()).filter((genre: string | string[]) => genre.includes(e.target.value.toLowerCase())));
+                                                setSuggestGenres(genres.filter((genre: string) => genre.toLowerCase().includes(e.target.value.toLowerCase())).slice(0,6));
                                             }}
                                             onKeyDown={handleKeyDown}
                                             autoComplete="off"
