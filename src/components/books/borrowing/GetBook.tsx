@@ -120,11 +120,14 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
                                 </Close>
                             ))
                         }
-                        <div className="flex items-center justify-center px-3">
-                            <Separator className={"flex-1"}/>
-                            <span className="mx-3 font-bold">OR</span>
-                            <Separator className={"flex-1"}/>
-                        </div>
+                        {
+                            affiliateLink.length > 0 &&
+                            <div className="flex items-center justify-center px-3">
+                                <Separator className={"flex-1"}/>
+                                <span className="mx-3 font-bold">OR</span>
+                                <Separator className={"flex-1"}/>
+                            </div>
+                        }
                         {
                             affiliateLink.map((item, index) => (
                                 <Link to={item.url} target="_blank" key={index}>
@@ -133,8 +136,7 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
                                     >
                                         <ShoppingCart className="!size-5 mr-2"/>
                                         <span className="text-ellipsis">
-
-                                        Buy on {item.name.length>10?item.name.slice(0, 10)+"...":item.name}
+                                        Buy on {item.name.length > 10 ? item.name.slice(0, 10) + "..." : item.name}
                                         </span>
                                     </Close>
                                 </Link>
