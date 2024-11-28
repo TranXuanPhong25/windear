@@ -71,7 +71,7 @@ export default function EditableReviewCard({
          </CardTitle>
          {
             !isEditing  ? (
-               <CardContent className="p-0">
+               <CardContent className="p-0 break-all">
                   <ExpandableParagraph text={newReviewContent || "No content"} />
                </CardContent>
             ) : (

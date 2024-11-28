@@ -44,8 +44,8 @@ export default function InternalBook({bookId}: { bookId: string }) {
     };
     return (
         <>
-            <div className="w-full dark:text-white md:flex mt-8 px-5 pb-10">
-                <div className="w-full min-[450px]:w-2/3 sm:w-1/2 md:w-[220px] flex flex-col items-center md:sticky top-24 h-fit  mx-auto">
+            <div className="w-full dark:text-white md:flex mt-8 md:px-5 pb-10">
+                <div className="w-full min-[450px]:w-2/3 sm:w-1/2 md:w-[220px] flex flex-col items-center md:sticky top-24 h-fit  mx-auto px-4 md:px-0">
                     {isLoading ? <Skeleton className="w-[220px] h-80"/>
                         : <img
                             className="w-full rounded-r-2xl rounded-l-sm dark:drop-shadow-[0_0_1em_#D2D9E11f] drop-shadow-[0_0_1.6em_#0000001f] h-fit "

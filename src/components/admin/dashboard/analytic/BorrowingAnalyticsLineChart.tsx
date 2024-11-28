@@ -1,7 +1,7 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import {TrendingUp} from "lucide-react"
+import {CartesianGrid, Line, LineChart, XAxis} from "recharts"
 
 import {
     Card,
@@ -17,14 +17,10 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
-]
+import {useGetBorrowedStats} from "@/hooks/admin/useGetBorrowedStats.ts";
+import {useGetReturnedStats} from "@/hooks/admin/useGetReturnedStats.ts";
+import LoadingBlock from "@/components/layout/LoadingBlock.tsx";
+
 
 const chartConfig = {
     desktop: {
@@ -38,7 +34,26 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function BorrowingAnalyticsLineChart() {
+    const {
+        data: borrowedStats,
+        isLoading: isLoadingBorrowedStats,
+        error: errorGetBorrowedStats
+    } = useGetBorrowedStats();
+    const {
+        data: returnedStats,
+        isLoading: isLoadingReturnedStats,
+        error: errorGetReturnedStats
+    } = useGetReturnedStats();
+    const chartData = borrowedStats && returnedStats && borrowedStats?.map((stat, index) => {
+        return {
+            borrowCount: stat.borrowCount,
+            returnCount: returnedStats[index].returnCount,
+            time: stat.time,
+        }
+    })
 
+    if (isLoadingBorrowedStats || isLoadingReturnedStats) return <LoadingBlock className="!bg-transparent h-[40vh]"/>
+    if (errorGetBorrowedStats || errorGetReturnedStats) return <div>Error: {errorGetBorrowedStats?.message || errorGetReturnedStats?.message}</div>
     return (
         <Card>
             <CardHeader>
@@ -55,7 +70,7 @@ export function BorrowingAnalyticsLineChart() {
                             right: 12,
                         }}
                     >
-                        <CartesianGrid vertical={false} />
+                        <CartesianGrid vertical={false}/>
                         <XAxis
                             dataKey="month"
                             tickLine={false}
@@ -63,7 +78,7 @@ export function BorrowingAnalyticsLineChart() {
                             tickMargin={8}
                             tickFormatter={(value) => value.slice(0, 3)}
                         />
-                        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                        <ChartTooltip cursor={false} content={<ChartTooltipContent/>}/>
                         <Line
                             dataKey="desktop"
                             type="monotone"
@@ -85,7 +100,7 @@ export function BorrowingAnalyticsLineChart() {
                 <div className="flex w-full items-start gap-2 text-sm">
                     <div className="grid gap-2">
                         <div className="flex items-center gap-2 font-medium leading-none">
-                            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+                            Trending up by 5.2% this month <TrendingUp className="h-4 w-4"/>
                         </div>
                         <div className="flex items-center gap-2 leading-none text-muted-foreground">
                             Showing total visitors for the last 6 months

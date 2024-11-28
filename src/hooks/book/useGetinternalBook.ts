@@ -9,6 +9,5 @@ export function useGetinternalBook(bookId:string) {
         return data||{};
       },
       enabled: !!bookId,
-      staleTime: 1000 * 60 * 60 * 10, // 10 hours
     });
 }
