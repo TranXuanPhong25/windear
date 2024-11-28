@@ -36,7 +36,6 @@ const formSchema = z.object({
     isbn13: z.string().min(13, 'ISBN13 is required').max(13, 'ISBN13 is required'),
     language: z.string().min(1, 'Language is required'),
     genres: z.string().optional(),
-    quantityAvailable: z.number().default(12),
 })
 
 export default function AddBookForm() {
@@ -68,7 +67,6 @@ export default function AddBookForm() {
             isbn10: '',
             isbn13: '',
             genres: '',
-            quantityAvailable: 12,
         },
     })
     useEffect(() => {
@@ -80,7 +78,6 @@ export default function AddBookForm() {
             window.removeEventListener('edit-book', handleEditBookEvent as EventListener);
         }
     }, []);
-
     useEffect(() => {
         if (editingBookData) {
             form.setValue('title', editingBookData.internalBook.title);
@@ -94,11 +91,11 @@ export default function AddBookForm() {
             form.setValue('isbn10', editingBookData.internalBook.isbn10 || "");
             form.setValue('isbn13', editingBookData.internalBook.isbn13);
             form.setValue('language', editingBookData.internalBook.language);
-            form.setValue('quantityAvailable', editingBookData.internalBook.quantityAvailable);
+
             setEditingBookImageUrl(editingBookData.internalBook.imageUrl);
             if (editingBookData.genres) {
-                setTags(editingBookData.genres.split(',').map((genre: string) => genres[parseInt(genre)]));
-                setTagsIndices(editingBookData.genres.split(','));
+                setTags(editingBookData.genres.split(','));
+                setTagsIndices(editingBookData.genres.split(',').map((genre:string)=>genres.indexOf(genre)));
             } else {
                 setTags([]);
                 setTagsIndices([]);
@@ -125,16 +122,19 @@ export default function AddBookForm() {
         const fileUrl = `${import.meta.env.VITE_SUPABASE_BUCKET_URL}/${data.fullPath}`
         return {data: fileUrl, error: null};
     };
-
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        const {data: publicUrl, error} = await uploadImageToSupabase(image as File);
-        if (error) {
-            toast({
-                title: "Error",
-                description: `${error.message}`,
-                className: "!bg-red-500 mb-4",
-            });
-            return;
+        let publicUrl = editingBookImageUrl || "";
+        if (!editingBookImageUrl) {
+            const {data, error} = await uploadImageToSupabase(image as File);
+            if (error) {
+                toast({
+                    title: "Error",
+                    description: `${error.message}`,
+                    className: "!bg-red-500 mb-4",
+                });
+                return;
+            }
+            publicUrl = data;
         }
         const book: PostBookPayload = {
             ...values,
@@ -142,10 +142,9 @@ export default function AddBookForm() {
             imageUrl: publicUrl,
             description: values.description || '',
             authorDescription: values.authorDescription || '',
-            quantityAvailable: 12,
         };
         const payload: AddBookPayload = {
-            genres: tagsIndices.join(','),
+            genres: tagsIndices.map(tag=>tag+1).join(','),
             internalBook: book,
         };
         if (!editingBookImageUrl) {
@@ -156,7 +155,8 @@ export default function AddBookForm() {
                 bookId: editingBook
             });
         }
-
+        console.log(tags)
+        console.log(tagsIndices)
 
     }
 
@@ -335,40 +335,26 @@ export default function AddBookForm() {
                                     )}
                                 />
                             </div>
-                            <div className="grid grid-cols-2 gap-6">
 
-                                <FormField
-                                    control={form.control}
-                                    name="quantityAvailable"
-                                    render={({field}) => (
-                                        <FormItem>
-                                            <FormLabel>Quantity</FormLabel>
-                                            <FormControl>
-                                                <Input type={"number"} {...field} defaultValue={12}/>
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="numPages"
-                                    render={({field}) => (
-                                        <FormItem>
-                                            <FormLabel>Num of pages</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    type="number"
-                                                    {...field}
-                                                    defaultValue={1}
-                                                    onChange={(e) => field.onChange(Number(e.target.value) || "")}
-                                                />
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
+
+                            <FormField
+                                control={form.control}
+                                name="numPages"
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormLabel>Num of pages</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="number"
+                                                {...field}
+                                                onChange={(e) => field.onChange(Number(e.target.value) || "")}
+                                            />
+                                        </FormControl>
+                                        <FormMessage/>
+                                    </FormItem>
+                                )}
+                            />
+
                         </div>
                     </div>
                     <div className="space-y-4">
@@ -491,7 +477,8 @@ export default function AddBookForm() {
                         />
                     </div>
                     <div className="flex justify-center">
-                        <Button type="submit" className={!isPending ? "!bg-blue-500 hover:!bg-blue-600 px-8" : " bg-gray-300 px-8"}
+                        <Button type="submit"
+                                className={!isPending ? "!bg-blue-500 hover:!bg-blue-600 px-8" : " bg-gray-300 px-8"}
                                 disabled={isPending}>{editingBook ? "Update" : "Add"} Book</Button>
                         {editingBook &&
                             <Button type="button" onClick={handleCancelEdit}
