@@ -27,7 +27,8 @@ function NotificationsPage(){
             {
                 isLoading ? <LoadingBlock className="!bg-transparent h-[40vh]"/> :
                     <div className="space-y-4 max-w-3xl mx-auto">
-                        {notifications.map((notification:Notification) => (
+                        {!notifications? <div>No notifications</div>
+                            :notifications.map((notification:Notification) => (
                             <NotificationCard
                                 key={notification.id}
                                 notification={notification}
