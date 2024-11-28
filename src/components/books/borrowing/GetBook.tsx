@@ -131,8 +131,11 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
                                     <Close
                                         className="flex items-center text-lg w-full justify-start hover:bg-gray-200 dark:hover:bg-gray-800/60 py-2 px-4 transition-colors  "
                                     >
-                                        <ShoppingCart className="h-5 w-5 mr-2"/>
-                                        Buy on {item.name.slice(0, 20)}
+                                        <ShoppingCart className="!size-5 mr-2"/>
+                                        <span className="text-ellipsis">
+
+                                        Buy on {item.name.length>10?item.name.slice(0, 10)+"...":item.name}
+                                        </span>
                                     </Close>
                                 </Link>
                             ))
