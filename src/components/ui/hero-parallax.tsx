@@ -19,7 +19,6 @@ const HeroParallax = ({
     const firstRow: PopularBookOnGoodreads[] = products && products.slice(0, 10);
     const secondRow: PopularBookOnGoodreads[] = products && products.slice(10, 20);
     const thirdRow: PopularBookOnGoodreads[] = products && products.slice(20, 30);
-    console.log(products);
     const ref = React.useRef(null);
     const {scrollYProgress} = useScroll({
         target: ref,
@@ -55,7 +54,7 @@ const HeroParallax = ({
     return (
         <div
             ref={ref}
-            className="h-[300vh] py-40 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+            className="h-[2640px] py-40 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
         >
             <Header/>
             <motion.div

@@ -7,7 +7,6 @@ export function useGetPopularBookOnGoodreads() {
         queryKey: ['popular-goodreads'],
         queryFn: async () => {
             const {data} = await axios.get(`${import.meta.env.VITE_BASE_API_URL}/external/list/popular`);
-            console.log(data.data.getPopularBookLists.edges);
             return data.data.getPopularBookLists.edges.map((edge: {
                 node: {
                 title: string;
