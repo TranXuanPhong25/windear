@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { usePostReview } from "@/hooks/book/usePostReview";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoadingBlock from "@/components/layout/LoadingBlock.tsx";
+import {useDeleteReview} from "@/hooks/user/useDeleteReview.ts";
+import {useQueryClient} from "@tanstack/react-query";
 interface EditableReviewCard {
    reviewId: number,
    bookId: number;
@@ -39,8 +41,10 @@ export default function EditableReviewCard({
    const [newReviewContent, setNewReviewContent] = useState(content);
    const [backupContent, setBackupContent] = useState(content);
    const [newRating, setNewRating] = useState(rating);
+   const queryClient = useQueryClient();
    const { mutate: putReview, isPending: isPutting } = usePostReview("PUT", newReviewContent || "", bookId, reviewId, newRating);
    const { mutate: postReview, isPending: isPosting } = usePostReview("POST", newReviewContent || "", bookId, reviewId, newRating);
+   const {mutate: deleteReview, } = useDeleteReview();
    const date = new Date(createAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
    const handleCancel = () => {
       setNewReviewContent(backupContent);
@@ -55,6 +59,19 @@ export default function EditableReviewCard({
          setIsEditing(true);
       }
    }, [isNewReview, content])
+   const handleDelete = () => {
+      deleteReview(reviewId,{
+         onSuccess: () => {
+            queryClient.invalidateQueries({
+               queryKey: ['user', user?.sub, 'book', bookId]
+            })
+            queryClient.invalidateQueries({
+               queryKey: ['windearReview', bookId]
+            })
+            onCancel()
+         }
+      });
+   }
    return (
       <Card className="mb-4 dark:bg-gray-800 border-0 shadow-none border-b dark:border-gray-400 p-4">
          <CardTitle className="flex justify-between items-center ">
@@ -107,6 +124,9 @@ export default function EditableReviewCard({
                   Cancel
                </Button>
             )}
+            <Button className="ml-2 !bg-red-500 !text-white" onClick={handleDelete}>
+               Delete
+            </Button>
             <div className="flex items-center justify-between mt-2 ml-auto w-">
                <p className="text-gray-500 dark:text-gray-400">{date}</p>
             </div>
