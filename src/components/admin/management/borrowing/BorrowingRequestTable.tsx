@@ -117,10 +117,10 @@ const columns: ColumnDef<BorrowingRequest>[] = [
         },
         cell: ({row}) => {
             return row.getValue("borrowDate") ? <div className="flex flex-col ">
-                    <span>{new Date(row.getValue("requestDate")).toDateString()}</span>
-                    <span>{new Date(row.getValue("requestDate")).toLocaleTimeString()}</span>
+                    <span>{new Date(row.getValue("borrowDate")).toDateString()}</span>
+                    <span>{new Date(row.getValue("borrowDate")).toLocaleTimeString()}</span>
                 </div>
-                : <span className="text-red-500">Not Accepted yet</span>
+                : <span className="text-red-400">Not Accepted yet</span>
         }
     },
     {
@@ -158,8 +158,8 @@ const columns: ColumnDef<BorrowingRequest>[] = [
             const text = isOverDue ? "Overdue" : "Not return yet";
             return <span className={`bg-${isOverDue && "red"}-500 rounded-full`}>{
                 row.getValue("returnDate") ? <div className="flex flex-col ">
-                    <span>{new Date(row.getValue("requestDate")).toDateString()}</span>
-                    <span>{new Date(row.getValue("requestDate")).toLocaleTimeString()}</span>
+                    <span>{new Date(row.getValue("returnDate")).toDateString()}</span>
+                    <span>{new Date(row.getValue("returnDate")).toLocaleTimeString()}</span>
                 </div> : <span className={isOverDue?"p-2  px-3":""}>
                     {text}
                 </span>

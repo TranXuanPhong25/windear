@@ -12,7 +12,7 @@ function BorrowingStatusBadge({ status}:{status: BorrowingRequestStatus}) {
         return <span className="!text-yellow-400 "><CircleEllipsis className="md:size-9"/></span>
     }
     if(status === BorrowingRequestStatus.SUBSCRIBED){
-        return <span className="text-blue-500 "><Bell className="md:size-9"/></span>
+        return <span className="text-blue-400 "><Bell className="md:size-9"/></span>
     }
     if(status === BorrowingRequestStatus.RETURNED){
         return <span className="text-green-500 "><BookCheck className="md:size-9"/></span>

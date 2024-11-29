@@ -16,27 +16,14 @@ import {
 } from "@/components/ui/chart"
 import {useGetAddBookAnalytics} from "@/hooks/admin/useGetAddBookAnalytics.ts";
 import LoadingBlock from "@/components/layout/LoadingBlock.tsx";
+import CustomTick from "@/components/admin/dashboard/analytic/CustomTick.tsx";
 
-function CustomTick({x, y, payload}:{x?:number, y?:number, payload?: { value:never }}) {
-    return (
-        <g transform={`translate(${x},${y})`}>
-            <text
-                x={0}
-                y={0}
-                dy={16}
-                textAnchor="end"
-                fill="hsl(var(--custom-tick-color))"
-                transform="rotate(-35)"
-            >
-                {payload?.value}
-            </text>
-        </g>
-    );
-}
+
 const chartConfig = {
     count:{
         label:"Count"
     },
+    //too lazy to remove this
     desktop: {
         label: "Desktop",
         color: "hsl(var(--chart-2))",
@@ -78,10 +65,7 @@ export function AddBookLineChart() {
                             tickLine={true}
                             axisLine={false}
                             tickMargin={8}
-                            tickFormatter={(value) => new Date(value).toLocaleDateString("en-US", {
-                                month: "short",
-                                day: "numeric",
-                            })}
+
                             tick={<CustomTick/>}
                         />
                         <ChartTooltip

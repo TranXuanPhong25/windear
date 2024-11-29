@@ -103,20 +103,51 @@ export function calculateLastLoginTime(lastLogin: string | number): string {
 }
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
+const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
+export function boundInMonthData(data: AnalyticStat[]) {
+    if(new Date(data[data.length-1].time).getTime() < new Date().getTime() && new Date(data[data.length-1].time).getDay()<new Date().getDay() ) {
+        data.push(
+            {
+                value: "0",
+                time: new Date().toDateString()
+            }
+        )
+    }
+
+    if (new Date(data[0].time).getTime() + ONE_MONTH > new Date(data[data.length - 1].time).getTime()) {
+        data.unshift(
+            {
+                value: "0",
+                time: new Date(new Date(data[data.length - 1].time).getTime() - ONE_MONTH).toDateString()
+            }
+        )
+
+    }
+
+
+    return data;
+}
 export function fillAnalyticArray(data: AnalyticStat[]) {
     const filledData: AnalyticStat[] = [];
     for (let i = 0; i < data.length - 1; i++) {
         let diff = new Date(data[i + 1].time).getTime() - new Date(data[i].time).getTime();
-        filledData.push(data[i]);
+        filledData.push({
+            value: data[i].value,
+            time:  new Date(data[i].time).toDateString().slice(0,-4)
+        });
+
         while (diff > ONE_DAY) {
             diff -= ONE_DAY;
             filledData.push({
                 value: "0",
-                time: new Date(new Date(data[i + 1].time).getTime() - diff).toISOString().slice(0, 10),
+                time: new Date(new Date(data[i + 1].time).getTime() - diff).toDateString().slice(0,-4)
             });
         }
     }
-    filledData.push(data[data.length - 1]);
+    filledData.push({
+        value: data[data.length - 1].value,
+        time: new Date(data[data.length - 1].time).toDateString().slice(0,-4)
+    });
     return filledData;
 }
