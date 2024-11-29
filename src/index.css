@@ -31,7 +31,8 @@ html {
         --chart-3: 197 37% 24%;
         --chart-4: 43 74% 66%;
         --chart-5: 27 87% 67%;
-        --custom-tick-color: 0 0% 0%;
+        --custom-tick-color: #222;
+        --custom-line-user-color: 273 67% 39%;
     }
     .dark {
         --sidebar-background: 215 19% 35%;
@@ -47,7 +48,9 @@ html {
         --chart-3: 30 80% 55%;
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
-        --custom-tick-color: 0 0% 100%;
+        --custom-tick-color: #eee;
+        --custom-line-user-color:269, 97%, 85%;
+
     }
 
 }

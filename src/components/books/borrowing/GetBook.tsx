@@ -155,18 +155,18 @@ export default function GetBook({customClass = "w-full", affiliateLink = [], aut
                             userRequest ? (
 
                                     userRequest.status === BorrowingRequestStatus.PENDING ? <>
-                                        <h1 className="dark:text-white">
-                                                <span>
-                                                    Your request is pending.
-                                                </span>
-                                            <br/>
-                                            <span>
-                                                    Please wait for librarian to approve.
-                                                </span>
-                                            <Link to="/requests">
-                                                <Button className="w-full mt-4">View request</Button>
-                                            </Link>
-                                        </h1>
+                                        <div className="dark:text-white w-full flex-col flex">
+                                            <h1>Your request has been sent to our librarian. Please pick up the book or else your request will be reject after 3 days.</h1>
+                                            <LocationCard
+                                                title="Library and Digital Knowledge Center"
+                                                address="Dich Vong Hau, Cau Giay, Hanoi"
+                                            />
+                                            <DialogDescription className="mx-20 mt-3">
+                                                <Button onClick={closeThis} className="w-full">
+                                                    Ok, I got it
+                                                </Button>
+                                            </DialogDescription>
+                                        </div>
                                     </> : <AlreadyBorrowingScreen onClose={closeThis}/>
                                 )
                                 : availableCopy ? <>

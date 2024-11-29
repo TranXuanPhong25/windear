@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
 import {
@@ -17,34 +16,29 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
-]
+import {useGetUserLoginStats} from "@/hooks/admin/useGetUserLoginStats.ts";
+import LoadingBlock from "@/components/layout/LoadingBlock.tsx";
 
 const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "hsl(var(--chart-1))",
-    },
-    mobile: {
-        label: "Mobile",
-        color: "hsl(var(--chart-2))",
+
+    value: {
+        label: "Count",
+        color: "hsl(var(--custom-line-user-color))",
     },
 } satisfies ChartConfig
+const ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
 
 export function UserLoginAnalyticsAreaChart() {
+    const { data: chartData ,isLoading,error} = useGetUserLoginStats()
+    if (isLoading) return <LoadingBlock className="!bg-transparent h-[40vh]"/>
+    if (error) return <div>Error: {error.message}</div>
     return (
-        <Card>
+        <Card className="w-full 1/2 dark:bg-slate-700 shadow-lg">
             <CardHeader>
-                <CardTitle>Area Chart - Gradient</CardTitle>
-                <CardDescription>
-                    Showing total visitors for the last 6 months
-                </CardDescription>
+                <CardHeader>
+                    <CardTitle>Daily user active</CardTitle>
+                    <CardDescription>{new Date(new Date().getTime() - ONE_MONTH).toDateString()} - {new Date().toDateString()}</CardDescription>
+                </CardHeader>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
@@ -58,43 +52,33 @@ export function UserLoginAnalyticsAreaChart() {
                     >
                         <CartesianGrid vertical={false} />
                         <XAxis
-                            dataKey="month"
+                            dataKey="time"
                             tickLine={false}
                             axisLine={false}
                             tickMargin={8}
-                            tickFormatter={(value) => value.slice(0, 3)}
+                            tick={{ fill: "var(--custom-tick-color)" }}
+
                         />
-                        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dashed"/>} />
                         <defs>
-                            <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+                            <linearGradient id="fillValue" x1="0" y1="0" x2="0" y2="1">
                                 <stop
                                     offset="5%"
-                                    stopColor="var(--color-desktop)"
-                                    stopOpacity={0.8}
+                                    stopColor="var(--color-value)"
+                                    stopOpacity={1}
                                 />
                                 <stop
                                     offset="95%"
-                                    stopColor="var(--color-desktop)"
-                                    stopOpacity={0.1}
+                                    stopColor="var(--color-value)"
+                                    stopOpacity={0.5}
                                 />
                             </linearGradient>
-                            <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                                <stop
-                                    offset="5%"
-                                    stopColor="var(--color-mobile)"
-                                    stopOpacity={0.8}
-                                />
-                                <stop
-                                    offset="95%"
-                                    stopColor="var(--color-mobile)"
-                                    stopOpacity={0.1}
-                                />
-                            </linearGradient>
+
                         </defs>
                         <Area
-                            dataKey="mobile"
-                            type="natural"
-                            fill="url(#fillMobile)"
+                            dataKey="value"
+                            type="linear"
+                            fill="url(#fillValue)"
                             fillOpacity={0.4}
                             stroke="var(--color-mobile)"
                             stackId="a"
@@ -104,14 +88,7 @@ export function UserLoginAnalyticsAreaChart() {
             </CardContent>
             <CardFooter>
                 <div className="flex w-full items-start gap-2 text-sm">
-                    <div className="grid gap-2">
-                        <div className="flex items-center gap-2 font-medium leading-none">
-                            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                        </div>
-                        <div className="flex items-center gap-2 leading-none text-muted-foreground">
-                            January - June 2024
-                        </div>
-                    </div>
+
                 </div>
             </CardFooter>
         </Card>

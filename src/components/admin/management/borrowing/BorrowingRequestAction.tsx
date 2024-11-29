@@ -13,7 +13,7 @@ import {useDeclineBorrowingRequest} from "@/hooks/admin/useDeclineBorrowingReque
 import {useAcceptBorrowingRequest} from "@/hooks/admin/useAcceptBorrowingRequest.ts";
 import {useReturnBook} from "@/hooks/admin/useReturnBook.ts";
 
-function BorrowingRequestAction({loanId}: { loanId: BookLoanId }) {
+function BorrowingRequestAction({loanId, hideReject}: { loanId: BookLoanId , hideReject?: boolean }) {
     const {mutate: declineRequest} = useDeclineBorrowingRequest();
     const {mutate: acceptRequest} = useAcceptBorrowingRequest();
     const {mutate: returnBook} = useReturnBook();
@@ -38,25 +38,28 @@ function BorrowingRequestAction({loanId}: { loanId: BookLoanId }) {
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
-                    className="flex items-center gap-1 "
-                    onClick={handleReturn}
-                >
-                    <BookCheck className="size-4"/>
-                    <span>Mark as return</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
                     className="flex items-center gap-1 hover:!bg-green-500  hover:!text-white"
                     onClick={handleAccept}>
                     <Check className="size-4"/>
                     <span>Accept</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                    className="flex items-center gap-1 hover:!bg-red-400 hover:!text-white"
-                    onClick={handleDecline}
+                    className="flex items-center gap-1 "
+                    onClick={handleReturn}
                 >
-                    <X className="size-4"/>
-                    <span>Decline</span>
+                    <BookCheck className="size-4"/>
+                    <span>Mark as return</span>
                 </DropdownMenuItem>
+                {
+                    !hideReject &&  <DropdownMenuItem
+                        className="flex items-center gap-1 hover:!bg-red-400 hover:!text-white"
+                        onClick={handleDecline}
+                    >
+                        <X className="size-4"/>
+                        <span>Decline</span>
+                    </DropdownMenuItem>
+                }
+
 
             </DropdownMenuContent>
         </DropdownMenu>

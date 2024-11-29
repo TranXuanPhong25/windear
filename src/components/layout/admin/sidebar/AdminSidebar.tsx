@@ -98,7 +98,7 @@ export default function AdminSidebar() {
             <SidebarHeader className="mt-3 flex flex-row items-center mb-4">
                <Link to="/" className="ml-1 ">
                   <div className="size-9 ">
-                     <img src="/react.svg" alt="icon" className=" w-full h-full" />
+                     <img src="/thesis_7293014.png" alt="icon" className=" w-full h-full" />
                   </div>
                </Link>
                <h1 className="truncate text-xl font-extrabold ">

@@ -218,7 +218,7 @@ const columns: ColumnDef<User>[] = [
                         </DropdownMenuItem>
                      )
                   }
-                  <DropdownMenuItem>Edit user</DropdownMenuItem>
+                  <DropdownMenuItem>Block(Decorator)</DropdownMenuItem>
                </DropdownMenuContent>
             </DropdownMenu>
          )

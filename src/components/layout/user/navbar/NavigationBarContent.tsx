@@ -59,10 +59,10 @@ export default function NavigationBarContent() {
                             <Link to="/" className="flex items-center">
                                 <img
                                     className="h-8 w-8"
-                                    src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
+                                    src="/thesis_7293014.png"
                                     alt="Windear Logo"
                                 />
-                                <span className="ml-1 dark:text-white hidden md:block">Windear</span>
+                                <span className="ml-1 !text-purple-400 hidden md:block ">Windear</span>
 
                             </Link>
                         </div>

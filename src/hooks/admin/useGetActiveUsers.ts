@@ -4,7 +4,7 @@ import axios from 'axios';
 export function useGetActiveUsers() {
    const {user,getAccessTokenSilently} = useAuth0();
    return useQuery({
-      queryKey: ['stats', 'active-users'],
+      queryKey: ['stats', 'active-userss'],
       queryFn: async () => {
          const token = await getAccessTokenSilently();
 

@@ -1,29 +1,22 @@
 import * as React from "react"
+import {useEffect} from "react"
 import {
     ColumnDef,
     ColumnFiltersState,
-    SortingState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
+    SortingState,
     useReactTable,
 } from "@tanstack/react-table"
 import {ArrowUpDown} from 'lucide-react';
 
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
-import {useEffect} from "react"
 import LoadingBlock from "@/components/layout/LoadingBlock"
 import {BorrowingRequest, BorrowingRequestStatus} from "@/models/BorrowingRequest.ts";
 import {handlePlural} from "@/lib/utils.ts";
@@ -205,7 +198,8 @@ const columns: ColumnDef<BorrowingRequest>[] = [
                 bookId: row.original.bookId,
                 requestDate: row.original.requestDate,
             };
-            return <BorrowingRequestAction loanId={loanId}/>
+            console.log(row.original.status)
+            return <BorrowingRequestAction loanId={loanId} hideReject={row.original.status===BorrowingRequestStatus.ACCEPTED}/>
         },
     },
 
