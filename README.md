@@ -1,3 +1,14 @@
+# Disclaim
+This project references the UI of Hardcover, Goodreads, and Universe.io.
+The component that i use: shadcn/ui, magicui, aceternity, react-quill.
+
+
+
+
+
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
