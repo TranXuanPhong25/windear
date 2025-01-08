@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { getQuotes } from "@/lib/quotes";
+// import { getQuotes } from "@/lib/quotes";
 import { Quote } from "@/models/Quote";
 export function useQuote(inview: boolean) {
    return useQuery({
       queryKey: [],
       queryFn: async () => {
-         const quoteApiUrl = `https://api.api-ninjas.com/v1/quotes?category=${getQuotes()}`;
+         const quoteApiUrl = `https://api.api-ninjas.com/v1/quotes`;
 
          const responseData = await axios(quoteApiUrl, {
             method: 'GET',
