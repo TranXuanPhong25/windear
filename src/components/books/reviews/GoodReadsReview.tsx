@@ -29,7 +29,7 @@ export default function GoodReadsReviews({ workId }: { workId: string }) {
                         isAuthor={review.node.creator.isAuthor}
                         content={review.node.text}
                         userImageUrl={review.node.creator.imageUrlSquare}
-                        tags={review.node.shelving.taggings.map((tagging) => tagging.tag.name)}
+                        tags={review.node.shelving?review.node.shelving.taggings.map((tagging) => tagging.tag.name):[]}
 
 
                      />
